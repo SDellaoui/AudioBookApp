@@ -11,7 +11,8 @@ public class ContentController : MonoBehaviour {
 
 		for (int i = 0; i < 10; i++) {
 			GameObject item = Instantiate (itemPrefab) as GameObject;
-			item.transform.parent = contentPanel.transform;
+			item.transform.SetParent(contentPanel.transform, false);
+			//item.transform.parent = contentPanel.transform;
 		}
 
 	}
