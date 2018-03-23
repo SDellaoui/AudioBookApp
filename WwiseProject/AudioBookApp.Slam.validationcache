@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ValidationCache Version="1" SchemaVersion="85">
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Attenuations\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Audio Devices\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\AudioBookApp.wproj" DateLow="1521799890" DateHigh="0"/>
 	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\AudioBookApp\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
 	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\AudioBookApp\Attenuations\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
 	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\AudioBookApp\Audio Devices\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
@@ -25,4 +29,26 @@
 	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\AudioBookApp\Switches\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
 	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\AudioBookApp\Triggers\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
 	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\AudioBookApp\Virtual Acoustics\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Control Surface Sessions\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Conversion Settings\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Conversion Settings\Factory Conversion Settings.wwu" DateLow="1520004826" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Dynamic Dialogue\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Effects\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Effects\Factory Effects.wwu" DateLow="1520004826" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Events\CORE.wwu" DateLow="1521799752" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Events\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Game Parameters\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Interactive Music Hierarchy\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Mixing Sessions\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Modulators\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Presets\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Queries\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Queries\Factory Queries.wwu" DateLow="1520004826" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\SoundBanks\Default Work Unit.wwu" DateLow="1521799765" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Soundcaster Sessions\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\States\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Switches\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Triggers\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
+	<ValidationCacheItem File="F:\Unity\Projects\AudioBookApp\WwiseProject\Virtual Acoustics\Default Work Unit.wwu" DateLow="1521799716" DateHigh="0"/>
 </ValidationCache>
