@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224085067551182022}
   - component: {fileID: 222750856351310066}
   - component: {fileID: 114845994338604712}
+  - component: {fileID: 114490024928051638}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -38,6 +39,8 @@ GameObject:
   - component: {fileID: 224907015636750518}
   - component: {fileID: 222686222497367342}
   - component: {fileID: 114164255017107608}
+  - component: {fileID: 114218152966489168}
+  - component: {fileID: 114830115947613098}
   m_Layer: 5
   m_Name: CharacterText_Left
   m_TagString: Untagged
@@ -89,6 +92,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114218152966489168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1187476111083252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!114 &114317226116032976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,6 +132,41 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114490024928051638
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122871606802490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
+--- !u!114 &114830115947613098
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1187476111083252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 10
+    m_Right: 10
+    m_Top: 10
+    m_Bottom: 10
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
 --- !u!114 &114845994338604712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,18 +188,28 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_MinSize: 26
+    m_MaxSize: 26
     m_Alignment: 0
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 'Et olim licet otiosae sint tribus pacataeque centuriae et nulla suffragiorum
+    certamina set Pompiliani redierit securitas temporis, per omnes tamen quotquot
+    sunt partes terrarum, ut domina suscipitur et regina et ubique patrum reverenda
+    cum auctoritate canities populique Romani nomen circumspectum et verecundum.
+
+
+    Alii summum decus in carruchis solito altioribus et ambitioso vestium cultu ponentes
+    sudant sub ponderibus lacernarum, quas in collis insertas cingulis ipsis adnectunt
+    nimia subtegminum tenuitate perflabiles, expandentes eas crebris agitationibus
+    maximeque sinistra, ut longiores fimbriae tunicaeque perspicue luceant varietate
+    liciorum effigiatae in species animalium multiformes.'
 --- !u!222 &222686222497367342
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -180,10 +241,10 @@ RectTransform:
   m_Father: {fileID: 224907015636750518}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 113.7, y: -0.000013351326}
-  m_SizeDelta: {x: 510.5, y: 157.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 485.2, y: 0}
+  m_SizeDelta: {x: 611.7, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224353772343170678
 RectTransform:
@@ -198,10 +259,10 @@ RectTransform:
   m_Father: {fileID: 224907015636750518}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -261, y: 0.000019073}
-  m_SizeDelta: {x: 184.1, y: 157.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224907015636750518
 RectTransform:
@@ -220,6 +281,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 258.1}
+  m_AnchoredPosition: {x: 400, y: 0}
+  m_SizeDelta: {x: 800, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
