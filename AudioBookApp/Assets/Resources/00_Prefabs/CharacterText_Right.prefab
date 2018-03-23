@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114086364814103226}
   - component: {fileID: 114102625229711504}
   - component: {fileID: 114390576786454620}
+  - component: {fileID: 225985261325517268}
   m_Layer: 5
   m_Name: CharacterText_Right
   m_TagString: Untagged
@@ -124,7 +125,7 @@ MonoBehaviour:
   m_ChildAlignment: 2
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
 --- !u!114 &114405577568392948
@@ -261,8 +262,8 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 400, y: 0}
   m_SizeDelta: {x: 800, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -284,3 +285,14 @@ RectTransform:
   m_AnchoredPosition: {x: 503.1, y: 0}
   m_SizeDelta: {x: 573.8, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &225985261325517268
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1293860259243162}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

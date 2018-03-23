@@ -213,13 +213,43 @@ Prefab:
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000012581606
+      value: -0.000020529194
       objectReference: {fileID: 0}
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114613898003851638, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+        type: 2}
+      propertyPath: displayFadeinTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114379405201245556, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+        type: 2}
+      propertyPath: m_VerticalScrollbar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 224309816162102012, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0.000061035
+      objectReference: {fileID: 0}
+    - target: {fileID: 224309816162102012, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224309816162102012, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114613898003851638, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+        type: 2}
+      propertyPath: contentViewPort
+      value: 
+      objectReference: {fileID: 1138384704}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d9e5b94136d74d4ba211dd65b48c451, type: 2}
   m_IsPrefabParent: 0
@@ -285,6 +315,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1138384704 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1649575154831422, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+    type: 2}
+  m_PrefabInternal: {fileID: 22238556}
 --- !u!1 &1746416927
 GameObject:
   m_ObjectHideFlags: 0
