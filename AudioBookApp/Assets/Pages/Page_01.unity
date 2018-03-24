@@ -213,7 +213,7 @@ Prefab:
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000020529194
+      value: 0.000010665078
       objectReference: {fileID: 0}
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
@@ -250,6 +250,21 @@ Prefab:
       propertyPath: contentViewPort
       value: 
       objectReference: {fileID: 1138384704}
+    - target: {fileID: 224681237971478888, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.000000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 224681237971478888, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224681237971478888, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d9e5b94136d74d4ba211dd65b48c451, type: 2}
   m_IsPrefabParent: 0
