@@ -102,6 +102,7 @@ public class EposNode{
     private void OnClickRenameNode()
     {
         Event e = Event.current;
+		PopupWindow.Show(rect,new EposRenamePopup(this));
         Debug.Log("Rename node");
     }
 

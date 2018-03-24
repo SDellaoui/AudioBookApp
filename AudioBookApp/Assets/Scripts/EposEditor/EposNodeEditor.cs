@@ -19,11 +19,16 @@ public class EposNodeEditor : EditorWindow {
     private Vector2 offset;
     private Vector2 drag;
 
+
+	//private Vector2 windowSize;
+
+
     [MenuItem("Window/Node Based Editor")]
     private static void OpenWindow()
     {
         EposNodeEditor window = GetWindow<EposNodeEditor>();
         window.titleContent = new GUIContent("Epos Editor");
+		//windowSize = window.minSize;
     }
 
     private void OnEnable()
