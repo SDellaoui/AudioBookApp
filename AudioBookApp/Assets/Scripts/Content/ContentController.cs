@@ -15,62 +15,101 @@ public class ContentController : MonoBehaviour {
     public GameObject contentViewPort;
     public float displayFadeinTime;
 
-    private bool characterText_Left = true;
+    
     private ScrollRect contentScrollRect;
+	private bool characterText_Left = true;
+
+	//booleans for preventing display spam
+	private bool m_isDisplayingNewCharacterDialog = false;
+	private bool m_isCoroutineDisplayRunning = false;
+	private bool m_isCoroutineScrollRunning = false;
+
     // Use this for initialization
     void Awake()
     {
+		//get content scroll rect component
         contentScrollRect = contentViewPort.GetComponent<ScrollRect>();
     }
 	void Start () {
+		
         if (displayFadeinTime == 0f)
             displayFadeinTime += 0.01f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		//Allow Adding dialog only once at a time
+		if(!m_isCoroutineScrollRunning && !m_isCoroutineDisplayRunning && m_isDisplayingNewCharacterDialog)
+			m_isDisplayingNewCharacterDialog = false;
 	}
 
     public void DisplayNewCharacterDialog()
     {
+		//prevent multiple display
+		if(m_isDisplayingNewCharacterDialog)
+			return;
+		
+		// alternate between left and right display
         CharacterTextItem itemToSelect;
         itemToSelect = (characterText_Left) ? CharacterTextItem.CharacterText_Left : CharacterTextItem.CharacterText_Right;
+
+		//get item prefab
         GameObject item = Instantiate(Resources.Load("00_Prefabs/" + itemToSelect.ToString(), typeof(GameObject))) as GameObject;
         item.transform.SetParent(contentPanel.transform, false);
+		//ForceMode rebuild content height
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentPanel.GetComponent<RectTransform>());
+
+		//Use coroutine for fade display
         StartCoroutine("DisplayCharacterDialog", item);
+
+		//avoid multiple adding
+		m_isDisplayingNewCharacterDialog = true;
+
+		//switch for the next dialog display
         characterText_Left = !characterText_Left;
     }
+
+
     IEnumerator DisplayCharacterDialog(GameObject item)
     {
+		m_isCoroutineDisplayRunning = true;
+
         CanvasGroup itemCanvasGroup = item.GetComponent<CanvasGroup>();
         float elapsedTime = 0f;
         float scrollPosition = contentScrollRect.verticalNormalizedPosition;
+
         while (itemCanvasGroup.alpha < 1)
         {
             elapsedTime += Time.deltaTime;
             yield return new WaitForSeconds(0.01f);
             float alpha = Mathf.Lerp(0f, 1f, elapsedTime/displayFadeinTime);
             itemCanvasGroup.alpha = (float)System.Math.Round(alpha, 2);
-            float scrollValue = Mathf.Lerp(scrollPosition, 0, elapsedTime / displayFadeinTime);
-            contentScrollRect.verticalNormalizedPosition = scrollValue;
+
+			if(itemCanvasGroup.alpha > 0.5f)
+				StartCoroutine("ScrollToBottom");
+
         }
-        StartCoroutine("ScrollToBottom");
-        yield return null;
+		StopCoroutine("DisplayCharacterDialog");
+		m_isCoroutineDisplayRunning = false;
+		yield return null; 
     }
+
     IEnumerator ScrollToBottom()
     {
+		m_isCoroutineScrollRunning = true;
         float elapsedTime = 0f;
-        float scrollPosition = contentScrollRect.verticalNormalizedPosition;
-        while (scrollPosition > 0)
+		float scrollPosition = contentScrollRect.verticalNormalizedPosition;
+		float scrollValue = 1f;
+		while (scrollValue > 0)
         {
             elapsedTime += Time.deltaTime;
-            yield return new WaitForSeconds(0.05f);
-            float scrollValue = Mathf.Lerp(scrollPosition, 0, elapsedTime / (displayFadeinTime*4));
-            contentScrollRect.verticalNormalizedPosition = scrollValue;
+            yield return new WaitForSeconds(0.01f);
+            scrollValue = Mathf.Lerp(scrollPosition, 0, elapsedTime / displayFadeinTime);
+			contentScrollRect.verticalNormalizedPosition = scrollValue;
+			//contentScrollRect.verticalScrollbar.value = scrollValue;
         }
-        Debug.Log("Fini");
-        yield return null;
+		StopCoroutine("ScrollToBottom");
+		m_isCoroutineScrollRunning = false;
+		yield return null;
     }
 }
