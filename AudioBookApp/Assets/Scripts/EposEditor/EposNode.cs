@@ -31,6 +31,8 @@ public class EposNode{
         defaultNodeStyle = nodeStyle;
         selectedNodeStyle = selectedStyle;
         OnRemoveNode = OnClickRemoveNode;
+
+        //title = "Dialog Node";
     }
 
     public void Drag(Vector2 delta)
@@ -45,7 +47,7 @@ public class EposNode{
         GUI.Box(rect, title, style);
         GUI.skin.label.alignment = TextAnchor.UpperCenter;
         Rect label = new Rect(rect.x, rect.y-14, rectWidth, rectHeight);
-        GUI.Label(label, "Coucou");
+        GUI.Label(label, title);
     }
 
     public bool ProcessEvents(Event e)
@@ -102,8 +104,9 @@ public class EposNode{
     private void OnClickRenameNode()
     {
         Event e = Event.current;
-		PopupWindow.Show(rect,new EposRenamePopup(this));
-        Debug.Log("Rename node");
+        //PopupWindow.Show(rect,new EposPopup(this,EposPopupType.Rename));
+        EposPopup popup = new EposPopup(this, EposPopupType.Rename);
+        popup.ShowUtility();
     }
 
     private void OnClickRemoveNode()
