@@ -5,9 +5,12 @@ using UnityEditor;
 
 public class EposNodeEditor : EditorWindow {
 
+    private EposBeginEndNode beginNode;
+    private EposBeginEndNode endNode;
     private List<EposNode> nodes;
     private List<EposConnection> connections;
 
+    private GUIStyle beginEndStyle;
     private GUIStyle nodeStyle;
     private GUIStyle selectedNodeStyle;
     private GUIStyle inPointStyle;
@@ -19,16 +22,18 @@ public class EposNodeEditor : EditorWindow {
     private Vector2 offset;
     private Vector2 drag;
 
-
-	//private Vector2 windowSize;
+    //private Vector2 windowSize;
 
 
     [MenuItem("Window/Node Based Editor")]
     private static void OpenWindow()
     {
         EposNodeEditor window = GetWindow<EposNodeEditor>();
+        window = GetWindow<EposNodeEditor>();
         window.titleContent = new GUIContent("Epos Editor");
-		//windowSize = window.minSize;
+        //windowSize = window.minSize;
+        window.autoRepaintOnSceneChange = true;
+        
     }
 
     private void OnEnable()
@@ -36,6 +41,10 @@ public class EposNodeEditor : EditorWindow {
         nodeStyle = new GUIStyle();
         nodeStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1.png") as Texture2D;
         nodeStyle.border = new RectOffset(12, 12, 12, 12);
+
+        beginEndStyle = new GUIStyle();
+        beginEndStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1.png") as Texture2D;
+        beginEndStyle.border = new RectOffset(25, 25, 25, 25);
 
         selectedNodeStyle = new GUIStyle();
         selectedNodeStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1 on.png") as Texture2D;
@@ -58,6 +67,7 @@ public class EposNodeEditor : EditorWindow {
         DrawGrid(100, 0.4f, Color.gray);
 
         DrawNodes();
+        DrawBeginEndNodes();
         DrawConnections();
 
         DrawConnectionLine(Event.current);
@@ -95,13 +105,25 @@ public class EposNodeEditor : EditorWindow {
 
     private void DrawNodes()
     {
-        if(nodes != null)
+        if (nodes != null)
         {
-            for(int i=0; i< nodes.Count; i++)
+            for (int i = 0; i < nodes.Count; i++)
             {
                 nodes[i].Draw();
             }
         }
+    }
+
+    private void DrawBeginEndNodes()
+    {
+        EposNodeEditor window = GetWindow<EposNodeEditor>();
+        if (beginNode == null && endNode == null)
+        {
+            beginNode = new EposBeginEndNode(new Vector2(10,10), 50, 50, EposNodeType.Begin, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
+            endNode = new EposBeginEndNode(new Vector2(window.position.width -60, window.position.height - 60), 50, 50, EposNodeType.End, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
+        }
+        beginNode.Draw();
+        endNode.Draw();
     }
 
     private void DrawConnections()
@@ -195,6 +217,16 @@ public class EposNodeEditor : EditorWindow {
                 }
             }
         }
+
+        if(beginNode != null || endNode != null)
+        {
+            bool guiChanged_begin = beginNode.ProcessEvents(e);
+            bool guiChanged_end = endNode.ProcessEvents(e);
+            if (guiChanged_begin || guiChanged_end)
+            {
+                GUI.changed = true;
+            }
+        }
     }
 
 
@@ -212,7 +244,7 @@ public class EposNodeEditor : EditorWindow {
             nodes = new List<EposNode>();
         }
 
-        nodes.Add(new EposNode(mousePosition, 200, 50, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
+        nodes.Add(new EposNode(mousePosition, 200, 100, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
     }
 
     private void OnClickInPoint(EposConnectionPoint inPoint)
