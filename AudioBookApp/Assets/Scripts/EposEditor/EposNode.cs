@@ -32,7 +32,7 @@ public class EposNode{
         selectedNodeStyle = selectedStyle;
         OnRemoveNode = OnClickRemoveNode;
 
-        //title = "Dialog Node";
+        title = "Dialog Node";
     }
 
     public void Drag(Vector2 delta)
@@ -44,7 +44,7 @@ public class EposNode{
     {
         inPoint.Draw();
         outPoint.Draw();
-        GUI.Box(rect, title, style);
+        GUI.Box(rect, "", style);
         GUI.skin.label.alignment = TextAnchor.UpperCenter;
         Rect label = new Rect(rect.x, rect.y-14, rectWidth, rectHeight);
         GUI.Label(label, title);
