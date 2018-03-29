@@ -1,21 +1,15 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
-public enum EposNodeType {
-    Begin,
-    Node,
-    End
-};
-
-public class EposNode{
+public class EposBeginEndNode{
 
     public Rect rect;
     public float rectWidth;
     public float rectHeight;
-    public string title;
     public bool isDragged;
     public bool isSelected;
+
 
     public EposConnectionPoint inPoint;
     public EposConnectionPoint outPoint;
@@ -24,21 +18,28 @@ public class EposNode{
     public GUIStyle defaultNodeStyle;
     public GUIStyle selectedNodeStyle;
 
-    public Action<EposNode> OnRemoveNode;
+    public EposNodeType nodeType;
 
-    public EposNode(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, Action<EposNode> OnClickRemoveNode)
+    public EposBeginEndNode(Vector2 position, float width, float height, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint)
     {
         rect = new Rect(position.x, position.y, width, height);
         rectHeight = height;
         rectWidth = width;
         style = nodeStyle;
-        inPoint = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
-        outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, outPointStyle, OnClickOutPoint);
+        if (_nodeType == EposNodeType.End)
+        {
+            inPoint = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
+            outPoint = null;
+        }
+        else
+        {
+            inPoint = null;
+            outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, outPointStyle, OnClickOutPoint);
+        }
+       
         defaultNodeStyle = nodeStyle;
         selectedNodeStyle = selectedStyle;
-        OnRemoveNode = OnClickRemoveNode;
-
-        title = "Dialog Node";
+        nodeType = _nodeType;
     }
 
     public void Drag(Vector2 delta)
@@ -48,12 +49,22 @@ public class EposNode{
 
     public void Draw()
     {
-        inPoint.Draw();
-        outPoint.Draw();
+        
         GUI.Box(rect, "", style);
         GUI.skin.label.alignment = TextAnchor.UpperCenter;
-        Rect label = new Rect(rect.x, rect.y-14, rectWidth, rectHeight);
-        GUI.Label(label, title);
+        Rect label = new Rect(rect.x, rect.y - 14, rectWidth, rectHeight);
+        switch (nodeType)
+        {
+            case EposNodeType.Begin:
+                outPoint.Draw(nodeType);
+                GUI.Label(label, "BEGIN");
+                break;
+            case EposNodeType.End:
+                inPoint.Draw(nodeType);
+                GUI.Label(label, "END");
+                break;
+        }
+        
     }
 
     public bool ProcessEvents(Event e)
@@ -79,7 +90,7 @@ public class EposNode{
                 }
                 if (e.button == 1 && isSelected && rect.Contains(e.mousePosition))
                 {
-                    ProcessContextMenu();
+                    //ProcessContextMenu();
                     e.Use();
                 }
                 break;
@@ -87,7 +98,6 @@ public class EposNode{
             case EventType.MouseUp:
                 isDragged = false;
                 break;
-
             case EventType.MouseDrag:
                 if (e.button == 0 && isDragged)
                 {
@@ -98,27 +108,5 @@ public class EposNode{
                 break;
         }
         return false;
-    }
-    private void ProcessContextMenu()
-    {
-        GenericMenu genericMenu = new GenericMenu();
-        genericMenu.AddItem(new GUIContent("Rename"), false, OnClickRenameNode);
-        genericMenu.AddItem(new GUIContent("Remove"), false, OnClickRemoveNode);
-        genericMenu.ShowAsContext();
-    }
-        
-    private void OnClickRenameNode()
-    {
-        Event e = Event.current;
-        EposPopup popup = new EposPopup(this, EposPopupType.Rename);
-        popup.ShowUtility();
-    }
-
-    private void OnClickRemoveNode()
-    {
-        if (OnRemoveNode != null)
-        {
-            OnRemoveNode(this);
-        }
     }
 }

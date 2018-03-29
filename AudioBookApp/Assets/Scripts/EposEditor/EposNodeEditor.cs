@@ -22,6 +22,8 @@ public class EposNodeEditor : EditorWindow {
     private Vector2 offset;
     private Vector2 drag;
 
+    private bool isDrawing = false;
+
     //private Vector2 windowSize;
 
 
@@ -139,6 +141,15 @@ public class EposNodeEditor : EditorWindow {
 
     private void DrawConnectionLine(Event e)
     {
+        if(e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape)
+        {
+            if ((selectedInPoint != null && selectedOutPoint == null)
+                || (selectedOutPoint != null && selectedInPoint == null))
+            {
+                selectedInPoint = null;
+                selectedOutPoint = null;
+            }
+        }
         if (selectedInPoint != null && selectedOutPoint == null)
         {
             Handles.DrawBezier(
@@ -150,7 +161,6 @@ public class EposNodeEditor : EditorWindow {
                 null,
                 2f
             );
-
             GUI.changed = true;
         }
 
@@ -165,7 +175,6 @@ public class EposNodeEditor : EditorWindow {
                 null,
                 2f
             );
-
             GUI.changed = true;
         }
     }
@@ -200,7 +209,8 @@ public class EposNodeEditor : EditorWindow {
                 nodes[i].Drag(delta);
             }
         }
-
+        beginNode.Drag(delta);
+        endNode.Drag(delta);
         GUI.changed = true;
     }
     private void ProcessNodeEvents(Event e)
@@ -250,16 +260,25 @@ public class EposNodeEditor : EditorWindow {
     private void OnClickInPoint(EposConnectionPoint inPoint)
     {
         selectedInPoint = inPoint;
+        Debug.Log("Selected In point : " + selectedInPoint.GetNodeConnected());
 
         if (selectedOutPoint != null)
         {
-            if (selectedOutPoint.node != selectedInPoint.node)
+            if (selectedOutPoint.GetNodeConnected() == "EposBeginEndNode" && selectedInPoint.GetNodeConnected() == "EposBeginEndNode")
             {
-                CreateConnection();
+                if ((selectedOutPoint.beginEndNode != selectedInPoint.beginEndNode))
+                {
+                    CreateConnection();
+                }
                 ClearConnectionSelection();
             }
             else
             {
+                if ((selectedInPoint.GetNodeConnected() == "EposBeginEndNode" && selectedOutPoint.GetNodeConnected() == "EposNode")
+                    || selectedOutPoint.node != selectedInPoint.node)
+                {
+                    CreateConnection();
+                }
                 ClearConnectionSelection();
             }
         }
@@ -268,16 +287,28 @@ public class EposNodeEditor : EditorWindow {
     private void OnClickOutPoint(EposConnectionPoint outPoint)
     {
         selectedOutPoint = outPoint;
+        Debug.Log("Selected Out point : " + selectedOutPoint.GetNodeConnected());
 
         if (selectedInPoint != null)
         {
-            if (selectedOutPoint.node != selectedInPoint.node)
+            Debug.Log(selectedInPoint.node);
+            Debug.Log(selectedOutPoint.node);
+
+            if (selectedOutPoint.GetNodeConnected() == "EposBeginEndNode" && selectedInPoint.GetNodeConnected() == "EposBeginEndNode")
             {
-                CreateConnection();
+                if((selectedOutPoint.beginEndNode != selectedInPoint.beginEndNode))
+                {
+                    CreateConnection();
+                }
                 ClearConnectionSelection();
             }
             else
             {
+                Debug.Log(selectedInPoint.GetNodeConnected());
+                if ((selectedOutPoint.GetNodeConnected() == "EposBeginEndNode" && selectedInPoint.GetNodeConnected() == "EposNode")
+                    || (selectedOutPoint.node != selectedInPoint.node))
+                    CreateConnection();
+
                 ClearConnectionSelection();
             }
         }
@@ -294,7 +325,7 @@ public class EposNodeEditor : EditorWindow {
         {
             connections = new List<EposConnection>();
         }
-
+        Debug.Log("Create connection between : "+ selectedInPoint.GetNodeConnected()+" and "+ selectedOutPoint.GetNodeConnected());
         connections.Add(new EposConnection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
     }
 

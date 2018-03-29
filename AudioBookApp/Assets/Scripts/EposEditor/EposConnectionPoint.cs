@@ -92,4 +92,8 @@ public class EposConnectionPoint
             }
         }
     }
+    public string GetNodeConnected()
+    {
+        return (beginEndNode == null) ? node.GetType().ToString() : beginEndNode.GetType().ToString();
+    }
 }
