@@ -11,8 +11,8 @@ public class EposBeginEndNode{
     public bool isSelected;
 
 
-    public EposConnectionPoint inPoint;
-    public EposConnectionPoint outPoint;
+    public EposConnectionPoint inPoint = null;
+    public EposConnectionPoint outPoint = null;
 
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
@@ -26,16 +26,11 @@ public class EposBeginEndNode{
         rectHeight = height;
         rectWidth = width;
         style = nodeStyle;
+
         if (_nodeType == EposNodeType.End)
-        {
             inPoint = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
-            outPoint = null;
-        }
         else
-        {
-            inPoint = null;
             outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, outPointStyle, OnClickOutPoint);
-        }
        
         defaultNodeStyle = nodeStyle;
         selectedNodeStyle = selectedStyle;

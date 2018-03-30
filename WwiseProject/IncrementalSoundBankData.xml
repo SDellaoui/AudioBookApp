@@ -4,12 +4,13 @@
 		<Banks>
 			<Language ID="393239870">
 				<File Name="CORE" Hash="4215872483" Timestamp="1521800127"/>
-				<File Name="Init" Hash="1185841044" Timestamp="1521800127"/>
+				<File Name="DEBUG" Hash="388126439" Timestamp="1522392519"/>
+				<File Name="Init" Hash="516309307" Timestamp="1522392519"/>
 			</Language>
 		</Banks>
 		<XMLInfo>
 			<Language ID="-1">
-				<File Name="" Hash="3442248021" Timestamp="1521800127"/>
+				<File Name="" Hash="2645574150" Timestamp="1522392519"/>
 			</Language>
 		</XMLInfo>
 	</Platform>
@@ -17,12 +18,13 @@
 		<Banks>
 			<Language ID="393239870">
 				<File Name="CORE" Hash="4215872483" Timestamp="1521800127"/>
-				<File Name="Init" Hash="3453921065" Timestamp="1521800127"/>
+				<File Name="DEBUG" Hash="388126439" Timestamp="1522392519"/>
+				<File Name="Init" Hash="217331802" Timestamp="1522392519"/>
 			</Language>
 		</Banks>
 		<XMLInfo>
 			<Language ID="-1">
-				<File Name="" Hash="3432831081" Timestamp="1521800127"/>
+				<File Name="" Hash="2918153746" Timestamp="1522392519"/>
 			</Language>
 		</XMLInfo>
 	</Platform>
@@ -30,12 +32,13 @@
 		<Banks>
 			<Language ID="393239870">
 				<File Name="CORE" Hash="4215872483" Timestamp="1521800127"/>
-				<File Name="Init" Hash="968685883" Timestamp="1521800127"/>
+				<File Name="DEBUG" Hash="388126439" Timestamp="1522392519"/>
+				<File Name="Init" Hash="1537307328" Timestamp="1522392519"/>
 			</Language>
 		</Banks>
 		<XMLInfo>
 			<Language ID="-1">
-				<File Name="" Hash="3590013483" Timestamp="1521800127"/>
+				<File Name="" Hash="693021232" Timestamp="1522392519"/>
 			</Language>
 		</XMLInfo>
 	</Platform>
@@ -43,12 +46,13 @@
 		<Banks>
 			<Language ID="393239870">
 				<File Name="CORE" Hash="4215872483" Timestamp="1521800127"/>
-				<File Name="Init" Hash="1257703913" Timestamp="1521800127"/>
+				<File Name="DEBUG" Hash="388126439" Timestamp="1522392519"/>
+				<File Name="Init" Hash="1189764018" Timestamp="1522392519"/>
 			</Language>
 		</Banks>
 		<XMLInfo>
 			<Language ID="-1">
-				<File Name="" Hash="3139499823" Timestamp="1521800127"/>
+				<File Name="" Hash="3695061644" Timestamp="1522392519"/>
 			</Language>
 		</XMLInfo>
 	</Platform>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{5AF306F3-2F76-4625-A6A9-84950A2F33BC}" SchemaVersion="85">
+	<AudioObjects>
+		<WorkUnit Name="Debug" ID="{5AF306F3-2F76-4625-A6A9-84950A2F33BC}" PersistMode="Standalone">
+			<ChildrenList>
+				<ActorMixer Name="EditorNode" ID="{59B83FED-DBF7-4903-89B7-6D9566C1D881}" ShortID="507905092">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EF318F2E-B305-4A9E-A53E-946F7A4BD75D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B62B3DD5-3D2A-4DDD-A012-10C1A3C0E2CC}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="Ping_In" ID="{DE9DC8DA-469E-4B80-99C5-0F10A1CCD114}" ShortID="676205544">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EF318F2E-B305-4A9E-A53E-946F7A4BD75D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B62B3DD5-3D2A-4DDD-A012-10C1A3C0E2CC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="Wwise Sine" ID="{63A494B5-54E0-4105-A379-F06028F8AE93}" ShortID="545949699" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+									<PropertyList>
+										<Property Name="SineFrequency" Type="Real32" Value="880"/>
+									</PropertyList>
+									<Language>SFX</Language>
+								</SourcePlugin>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Wwise Sine" ID="{63A494B5-54E0-4105-A379-F06028F8AE93}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Ping_Out" ID="{CCEDF1CF-1E8F-442B-A458-4A6C75A56300}" ShortID="701455892">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EF318F2E-B305-4A9E-A53E-946F7A4BD75D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B62B3DD5-3D2A-4DDD-A012-10C1A3C0E2CC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="Wwise Sine" ID="{9713827B-6C06-419B-83B9-F499CA2DC9C1}" ShortID="811650995" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+									<PropertyList>
+										<Property Name="SineFrequency" Type="Real32" Value="880"/>
+									</PropertyList>
+									<Language>SFX</Language>
+								</SourcePlugin>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Wwise Sine" ID="{9713827B-6C06-419B-83B9-F499CA2DC9C1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Node_Play" ID="{E4AB2998-FF58-4DF1-B968-ABF75B4F1E8E}" ShortID="346851410">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EF318F2E-B305-4A9E-A53E-946F7A4BD75D}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{B62B3DD5-3D2A-4DDD-A012-10C1A3C0E2CC}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="rayman_node_play" ID="{1A136EF9-D30E-4B7B-99FC-CC4DB864CAE4}" ShortID="560900308">
+									<Language>SFX</Language>
+									<AudioFile>rayman_node_play.wav</AudioFile>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="rayman_node_play" ID="{1A136EF9-D30E-4B7B-99FC-CC4DB864CAE4}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

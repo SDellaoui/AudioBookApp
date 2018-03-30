@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Content\ContentController.cs" />
+     <Compile Include="Assets\Scripts\EposEditor\EposBeginEndNode.cs" />
+     <Compile Include="Assets\Scripts\EposEditor\EposBeginNode.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposConnection.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposConnectionPoint.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposInspector.cs" />

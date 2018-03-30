@@ -11,10 +11,18 @@
 
 namespace AK
 {
+    namespace EVENTS
+    {
+        static const AkUniqueID PLAY_NODE_PLAY = 1048862391U;
+        static const AkUniqueID PLAY_PING_IN = 2412765392U;
+        static const AkUniqueID PLAY_PING_OUT = 457391415U;
+    } // namespace EVENTS
+
     namespace BANKS
     {
         static const AkUniqueID INIT = 1355168291U;
         static const AkUniqueID CORE = 3787826988U;
+        static const AkUniqueID DEBUG = 1031089514U;
     } // namespace BANKS
 
     namespace BUSSES

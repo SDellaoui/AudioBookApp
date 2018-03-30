@@ -11,6 +11,22 @@
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
+		<SoundBank Id="1031089514" Language="SFX">
+			<ObjectPath>\SoundBanks\DEBUG\DEBUG</ObjectPath>
+			<ShortName>DEBUG</ShortName>
+			<Path>DEBUG.bnk</Path>
+			<IncludedEvents>
+				<Event Id="1048862391" Name="Play_Node_Play" ObjectPath="\Events\Debug\NodeEditor\Play_Node_Play"/>
+				<Event Id="2412765392" Name="Play_Ping_In" ObjectPath="\Events\Debug\NodeEditor\Play_Ping_In"/>
+				<Event Id="457391415" Name="Play_Ping_Out" ObjectPath="\Events\Debug\NodeEditor\Play_Ping_Out"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="560900308" Language="SFX">
+					<ShortName>rayman_node_play.wav</ShortName>
+					<Path>SFX\rayman_node_play_1C9C67B2.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
 		<SoundBank Id="1355168291" Language="SFX">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>

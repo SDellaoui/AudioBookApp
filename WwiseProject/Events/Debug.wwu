@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{09A917AA-200D-48E1-A845-7373AA30CE43}" SchemaVersion="85">
+	<Events>
+		<WorkUnit Name="Debug" ID="{09A917AA-200D-48E1-A845-7373AA30CE43}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="NodeEditor" ID="{69C364F2-BC81-4476-8089-EC0DF48CE888}" ShortID="41841797">
+					<ChildrenList>
+						<Event Name="Play_Ping_Out" ID="{02FC97F7-9F05-4989-A71A-4711FD112729}">
+							<ChildrenList>
+								<Action Name="" ID="{9D5F76B4-F108-426F-8D1C-8127EDB740DA}" ShortID="920021058">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Ping_Out" ID="{CCEDF1CF-1E8F-442B-A458-4A6C75A56300}" WorkUnitID="{5AF306F3-2F76-4625-A6A9-84950A2F33BC}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Ping_In" ID="{7E545C67-5614-42DA-8FF5-EB1FC5254560}">
+							<ChildrenList>
+								<Action Name="" ID="{545C9F08-2825-4EC4-8891-B7529DD013FF}" ShortID="275550176">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Ping_In" ID="{DE9DC8DA-469E-4B80-99C5-0F10A1CCD114}" WorkUnitID="{5AF306F3-2F76-4625-A6A9-84950A2F33BC}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Play_Node_Play" ID="{9D9D5123-80BC-498E-B415-20A8FCACF731}">
+							<ChildrenList>
+								<Action Name="" ID="{476B29D5-6422-409D-9782-3D308EDC6045}" ShortID="856557654">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Node_Play" ID="{E4AB2998-FF58-4DF1-B968-ABF75B4F1E8E}" WorkUnitID="{5AF306F3-2F76-4625-A6A9-84950A2F33BC}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

@@ -3,6 +3,8 @@
 	<UserProjectSettingsInfo>
 		<UserProjectSettings Name="" ID="{92A2BE1D-A13F-48A5-AFD1-9C6781F04FA7}">
 			<PropertyList>
+				<Property Name="AudioFilesImporter\Path" Type="string" Value="C:\Users\Slimane Dellaoui\Desktop"/>
+				<Property Name="Event Action List\{9D9D5123-80BC-498E-B415-20A8FCACF731}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="EventView\FilterMode1" Type="int32" Value="2"/>
 				<Property Name="ExternalSourcesInputPath" Type="string">
 					<ValueList>

@@ -11,11 +11,14 @@ public enum EposNodeType {
 public class EposNode{
 
     public Rect rect;
+    public Rect wwiseTextFieldRect;
     public float rectWidth;
     public float rectHeight;
     public string title;
+    public string wwiseEvent;
     public bool isDragged;
     public bool isSelected;
+    public bool isEditingWwiseEvent;
 
     public EposConnectionPoint inPoint;
     public EposConnectionPoint outPoint;
@@ -39,6 +42,7 @@ public class EposNode{
         OnRemoveNode = OnClickRemoveNode;
 
         title = "Dialog Node";
+        wwiseEvent = "";
     }
 
     public void Drag(Vector2 delta)
@@ -53,7 +57,19 @@ public class EposNode{
         GUI.Box(rect, "", style);
         GUI.skin.label.alignment = TextAnchor.UpperCenter;
         Rect label = new Rect(rect.x, rect.y-14, rectWidth, rectHeight);
+        wwiseTextFieldRect = new Rect(rect.x + 15, rect.y + 15, rectWidth - 27, 20);
         GUI.Label(label, title);
+        if (isEditingWwiseEvent)
+        {
+            EditorGUIUtility.editingTextField = true;
+            wwiseEvent = GUI.TextField(wwiseTextFieldRect, wwiseEvent, 25);
+        }
+        else
+        {
+            EditorGUIUtility.editingTextField = false;
+            GUI.TextField(wwiseTextFieldRect, wwiseEvent, 25);
+        }
+        
     }
 
     public bool ProcessEvents(Event e)
@@ -76,6 +92,7 @@ public class EposNode{
                         isSelected = false;
                         style = defaultNodeStyle;
                     }
+                    isEditingWwiseEvent = (wwiseTextFieldRect.Contains(e.mousePosition)) ? true: false;
                 }
                 if (e.button == 1 && isSelected && rect.Contains(e.mousePosition))
                 {
