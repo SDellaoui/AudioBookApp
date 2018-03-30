@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <EposNodeContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <EposNodes>
-    <EposNode id="0" nodeType="Begin" posX="333" posY="247" />
-    <EposNode id="1" nodeType="End" posX="738" posY="298" />
-    <EposNode id="2" nodeType="Node" posX="513" posY="98" />
+    <EposNode uuid="00000000-0000-0000-0000-000000000000" nodeType="Begin" posX="310" posY="122">
+      <ConnectedNodes />
+    </EposNode>
+    <EposNode uuid="00000000-0000-0000-0000-000000000000" nodeType="End" posX="942" posY="433">
+      <ConnectedNodes />
+    </EposNode>
+    <EposNode uuid="00000000-0000-0000-0000-000000000000" nodeType="Node" posX="558" posY="270">
+      <ConnectedNodes />
+    </EposNode>
   </EposNodes>
 </EposNodeContainer>

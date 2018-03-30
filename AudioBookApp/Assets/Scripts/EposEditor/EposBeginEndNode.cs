@@ -4,6 +4,8 @@ using UnityEditor;
 
 public class EposBeginEndNode{
 
+    public Guid uuid;
+
     public Rect rect;
     public float rectWidth;
     public float rectHeight;
@@ -19,8 +21,9 @@ public class EposBeginEndNode{
 
     public EposNodeType nodeType;
 
-    public EposBeginEndNode(Vector2 position, float width, float height, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint)
+    public EposBeginEndNode(Guid uuid, Vector2 position, float width, float height, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint)
     {
+        this.uuid = uuid;
         rect = new Rect(position.x, position.y, width, height);
         rectHeight = height;
         rectWidth = width;
@@ -30,7 +33,7 @@ public class EposBeginEndNode{
             inPoint = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
         else
             outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, outPointStyle, OnClickOutPoint);
-       
+
         defaultNodeStyle = nodeStyle;
         selectedNodeStyle = selectedStyle;
         nodeType = _nodeType;

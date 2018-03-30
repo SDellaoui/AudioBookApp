@@ -10,6 +10,8 @@ public enum EposNodeType {
 
 public class EposNode{
 
+    public Guid uuid;
+
     public Rect rect;
     public Rect wwiseTextFieldRect;
     public float rectWidth;
@@ -29,8 +31,10 @@ public class EposNode{
 
     public Action<EposNode> OnRemoveNode;
 
-    public EposNode(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, Action<EposNode> OnClickRemoveNode)
+    public EposNode(Guid uuid, Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, Action<EposNode> OnClickRemoveNode)
     {
+        this.uuid = uuid;
+
         rect = new Rect(position.x, position.y, width, height);
         rectHeight = height;
         rectWidth = width;
@@ -43,6 +47,7 @@ public class EposNode{
 
         title = "Dialog Node";
         wwiseEvent = "";
+
     }
 
     public void Drag(Vector2 delta)
