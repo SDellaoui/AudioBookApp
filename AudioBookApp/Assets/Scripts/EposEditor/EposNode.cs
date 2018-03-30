@@ -59,17 +59,7 @@ public class EposNode{
         Rect label = new Rect(rect.x, rect.y-14, rectWidth, rectHeight);
         wwiseTextFieldRect = new Rect(rect.x + 15, rect.y + 15, rectWidth - 27, 20);
         GUI.Label(label, title);
-        if (isEditingWwiseEvent)
-        {
-            EditorGUIUtility.editingTextField = true;
-            wwiseEvent = GUI.TextField(wwiseTextFieldRect, wwiseEvent, 25);
-        }
-        else
-        {
-            EditorGUIUtility.editingTextField = false;
-            GUI.TextField(wwiseTextFieldRect, wwiseEvent, 25);
-        }
-        
+		wwiseEvent = EditorGUI.TextField (wwiseTextFieldRect, "", wwiseEvent);
     }
 
     public bool ProcessEvents(Event e)
@@ -85,14 +75,16 @@ public class EposNode{
                         GUI.changed = true;
                         isSelected = true;
                         style = selectedNodeStyle;
+						isEditingWwiseEvent = true;
                     }
                     else
                     {
                         GUI.changed = true;
                         isSelected = false;
                         style = defaultNodeStyle;
+						isEditingWwiseEvent = false;
                     }
-                    isEditingWwiseEvent = (wwiseTextFieldRect.Contains(e.mousePosition)) ? true: false;
+                    //isEditingWwiseEvent = (wwiseTextFieldRect.Contains(e.mousePosition)) ? true: false;
                 }
                 if (e.button == 1 && isSelected && rect.Contains(e.mousePosition))
                 {
@@ -101,8 +93,8 @@ public class EposNode{
                 }
                 break;
 
-            case EventType.MouseUp:
-                isDragged = false;
+			case EventType.MouseUp:
+				isDragged = false;
                 break;
 
             case EventType.MouseDrag:

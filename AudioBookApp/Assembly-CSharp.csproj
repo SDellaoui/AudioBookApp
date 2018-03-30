@@ -52,13 +52,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Content\ContentController.cs" />
-<<<<<<< Updated upstream
      <Compile Include="Assets\Scripts\EposEditor\EposBeginEndNode.cs" />
-=======
->>>>>>> Stashed changes
      <Compile Include="Assets\Scripts\EposEditor\EposBeginNode.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposConnection.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposConnectionPoint.cs" />
+     <Compile Include="Assets\Scripts\EposEditor\EposEventManager.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposInspector.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposNode.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposNodeEditor.cs" />

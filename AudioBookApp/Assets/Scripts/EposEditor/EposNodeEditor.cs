@@ -359,4 +359,15 @@ public class EposNodeEditor : EditorWindow {
 
         nodes.Remove(node);
     }
+
+
+	//*******************************************
+	public EposBeginEndNode GetBeginNode()
+	{
+		return beginNode;
+	}
+	public EposBeginEndNode GetEndNode()
+	{
+		return endNode;
+	}
 }
