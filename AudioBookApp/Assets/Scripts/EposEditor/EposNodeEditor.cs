@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 
@@ -68,6 +69,8 @@ public class EposNodeEditor : EditorWindow {
         DrawGrid(20, 0.2f, Color.gray);
         DrawGrid(100, 0.4f, Color.gray);
 
+        DrawInterface();
+
         DrawNodes();
         DrawBeginEndNodes();
         DrawConnections();
@@ -105,6 +108,18 @@ public class EposNodeEditor : EditorWindow {
         Handles.EndGUI();
     }
 
+    private void DrawInterface()
+    {
+        if (GUILayout.Button("Save", GUILayout.Width(50)))
+        {
+            SaveNodeTree();
+        }
+        if (GUILayout.Button("Load", GUILayout.Width(50)))
+        {
+            LoadNodeTree();
+        }
+    }
+
     private void DrawNodes()
     {
         if (nodes != null)
@@ -119,10 +134,13 @@ public class EposNodeEditor : EditorWindow {
     private void DrawBeginEndNodes()
     {
         EposNodeEditor window = GetWindow<EposNodeEditor>();
-        if (beginNode == null && endNode == null)
+        if (beginNode == null)
         {
-            beginNode = new EposBeginEndNode(new Vector2(10,10), 50, 50, EposNodeType.Begin, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
-            endNode = new EposBeginEndNode(new Vector2(window.position.width -60, window.position.height - 60), 50, 50, EposNodeType.End, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
+            beginNode = new EposBeginEndNode(new Vector2(60,10), 50, 50, EposNodeType.Begin, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
+        }
+        if (endNode == null)
+        {
+            endNode = new EposBeginEndNode(new Vector2(window.position.width - 60, window.position.height - 60), 50, 50, EposNodeType.End, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
         }
         beginNode.Draw();
         endNode.Draw();
@@ -358,6 +376,73 @@ public class EposNodeEditor : EditorWindow {
         }
 
         nodes.Remove(node);
+    }
+
+    //------------ Save Node tree ----------------
+
+    private void SaveNodeTree()
+    {
+        string path = "Assets/test_nodetree.xml";
+        int id = 0;
+        EposXmlNodeContainer nodeXMLContainer = new EposXmlNodeContainer();
+        EposXMLNode beginXMLNode = new EposXMLNode
+        {
+            id = id,
+            nodeType = beginNode.nodeType.ToString(),
+            posX = beginNode.rect.position.x,
+            posY = beginNode.rect.position.y
+        };
+        nodeXMLContainer.eposXMLNodes.Add(beginXMLNode);
+        id++;
+        EposXMLNode endXMLNode = new EposXMLNode
+        {
+            id = id,
+            nodeType = endNode.nodeType.ToString(),
+            posX = endNode.rect.position.x,
+            posY = endNode.rect.position.y
+        };
+        id++;
+        nodeXMLContainer.eposXMLNodes.Add(endXMLNode);
+        foreach (EposNode node in nodes)
+        {
+            EposXMLNode XMLNode = new EposXMLNode
+            {
+                id = id,
+                nodeType = "Node",
+                posX = node.rect.position.x,
+                posY = node.rect.position.y
+            };
+            nodeXMLContainer.eposXMLNodes.Add(XMLNode);
+            id++;
+        }
+        
+
+
+        //Save xml file
+        nodeXMLContainer.Save(path);
+    }
+
+    private void LoadNodeTree()
+    {
+        EposXmlNodeContainer nodeXmlContainer = EposXmlNodeContainer.Load(Path.Combine(Application.dataPath, "test_nodetree.xml"));
+        foreach(EposXMLNode xmlNode in nodeXmlContainer.eposXMLNodes)
+        {
+            switch(xmlNode.nodeType)
+            {
+                case "Begin":
+                    beginNode = new EposBeginEndNode(new Vector2(xmlNode.posX, xmlNode.posY), 50, 50, EposNodeType.Begin, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
+                    break;
+                case "End":
+                    endNode = new EposBeginEndNode(new Vector2(xmlNode.posX, xmlNode.posY), 50, 50, EposNodeType.End, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
+                    break;
+                case "Node":
+                    nodes.Clear();
+                    nodes.Add(new EposNode(new Vector2(xmlNode.posX, xmlNode.posY), 200, 100, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 

@@ -10,7 +10,6 @@ public class EposBeginEndNode{
     public bool isDragged;
     public bool isSelected;
 
-
     public EposConnectionPoint inPoint = null;
     public EposConnectionPoint outPoint = null;
 

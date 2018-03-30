@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<EposNodeContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EposNodes>
+    <EposNode id="0" nodeType="Begin" posX="333" posY="247" />
+    <EposNode id="1" nodeType="End" posX="738" posY="298" />
+    <EposNode id="2" nodeType="Node" posX="513" posY="98" />
+  </EposNodes>
+</EposNodeContainer>
