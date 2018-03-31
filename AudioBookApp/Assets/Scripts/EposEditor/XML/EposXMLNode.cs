@@ -8,6 +8,9 @@ public class EposXMLNode
     [XmlAttribute("uuid")]
     public Guid uuid;
 
+    [XmlAttribute("title")]
+    public string title;
+
     [XmlAttribute("nodeType")]
     public EposNodeType nodeType;
 

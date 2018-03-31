@@ -117,6 +117,10 @@ public class EposNodeEditor : EditorWindow {
         {
             LoadNodeTree();
         }
+        if (GUILayout.Button("Reset", GUILayout.Width(50)))
+        {
+            ResetWindow();
+        }
     }
 
     private void DrawNodes()
@@ -351,12 +355,38 @@ public class EposNodeEditor : EditorWindow {
 
             connectionsToRemove = null;
         }
-
+        //remove node from other nodes
+        for(int i=0; i<nodes.Count; i++)
+        {
+            if (node.uuid == nodes[i].uuid)
+                continue;
+            for (int j=0; j<nodes[i].inNodes.Count; j++)
+            {
+                if(node.uuid == nodes[i].inNodes[j])
+                {
+                    nodes[i].inNodes.RemoveAt(j);
+                }
+            }
+            for (int j = 0; j < nodes[i].outNodes.Count; j++)
+            {
+                if (node.uuid == nodes[i].outNodes[j])
+                {
+                    nodes[i].outNodes.RemoveAt(j);
+                }
+            }
+        }
         nodes.Remove(node);
+        // remove node connection entry
     }
 
-    //TODO
-    //Remove Connections on remove node
+    //------------ Reset Window ------------------
+
+    private void ResetWindow()
+    {
+        nodes = null;
+        connections = null;
+        GUI.changed = true;
+    }
 
     //------------ Save Node tree ----------------
 
@@ -372,6 +402,7 @@ public class EposNodeEditor : EditorWindow {
                 EposXMLNode XMLNode = new EposXMLNode
                 {
                     uuid = node.uuid,
+                    title = node.title,
                     nodeType = node.nodeType,
                     posX = node.rect.position.x,
                     posY = node.rect.position.y,
