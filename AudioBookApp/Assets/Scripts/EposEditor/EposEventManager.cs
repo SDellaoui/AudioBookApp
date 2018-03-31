@@ -5,7 +5,6 @@ using UnityEngine;
 public class EposEventManager : MonoBehaviour {
 
 	EposNodeEditor _nodeEditor;
-	EposBeginEndNode beginNode, endNode;
 
 	private static EposEventManager _instance;
 	public static EposEventManager Instance
@@ -38,7 +37,5 @@ public class EposEventManager : MonoBehaviour {
 	void StartEpos()
 	{
 		_nodeEditor = UnityEditor.EditorWindow.GetWindow<EposNodeEditor> ();
-		beginNode = _nodeEditor.GetBeginNode ();
-		Debug.Log (beginNode);
 	}
 }

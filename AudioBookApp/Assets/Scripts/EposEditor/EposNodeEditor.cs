@@ -7,8 +7,6 @@ using UnityEditor;
 
 public class EposNodeEditor : EditorWindow {
 
-    private EposBeginEndNode beginNode;
-    private EposBeginEndNode endNode;
     private List<EposNode> nodes;
     private List<EposConnection> connections;
 
@@ -72,8 +70,8 @@ public class EposNodeEditor : EditorWindow {
 
         DrawInterface();
 
-        DrawNodes();
         DrawBeginEndNodes();
+        DrawNodes();
         DrawConnections();
 
         DrawConnectionLine(Event.current);
@@ -134,17 +132,13 @@ public class EposNodeEditor : EditorWindow {
 
     private void DrawBeginEndNodes()
     {
-        EposNodeEditor window = GetWindow<EposNodeEditor>();
-        if (beginNode == null)
+        if (nodes == null)
         {
-            beginNode = new EposBeginEndNode(new Guid(),new Vector2(60,10), 50, 50, EposNodeType.Begin, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
+            nodes = new List<EposNode>();
+            nodes.Add(new EposNode(Guid.NewGuid(), new Vector2(60, 60), EposNodeType.Begin, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint));
+            nodes.Add(new EposNode(Guid.NewGuid(), new Vector2(this.position.width - 60, this.position.height - 60), EposNodeType.End, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint));
         }
-        if (endNode == null)
-        {
-            endNode = new EposBeginEndNode(new Guid(), new Vector2(window.position.width - 60, window.position.height - 60), 50, 50, EposNodeType.End, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
-        }
-        beginNode.Draw();
-        endNode.Draw();
+        
     }
 
     private void DrawConnections()
@@ -228,8 +222,6 @@ public class EposNodeEditor : EditorWindow {
                 nodes[i].Drag(delta);
             }
         }
-        beginNode.Drag(delta);
-        endNode.Drag(delta);
         GUI.changed = true;
     }
     private void ProcessNodeEvents(Event e)
@@ -247,15 +239,6 @@ public class EposNodeEditor : EditorWindow {
             }
         }
 
-        if(beginNode != null || endNode != null)
-        {
-            bool guiChanged_begin = beginNode.ProcessEvents(e);
-            bool guiChanged_end = endNode.ProcessEvents(e);
-            if (guiChanged_begin || guiChanged_end)
-            {
-                GUI.changed = true;
-            }
-        }
     }
 
 
@@ -272,8 +255,7 @@ public class EposNodeEditor : EditorWindow {
         {
             nodes = new List<EposNode>();
         }
-
-        nodes.Add(new EposNode(new Guid(),mousePosition, 200, 100, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
+        nodes.Add(new EposNode(Guid.NewGuid(), mousePosition, EposNodeType.Node, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
     }
 
     private void OnClickInPoint(EposConnectionPoint inPoint)
@@ -283,23 +265,11 @@ public class EposNodeEditor : EditorWindow {
 
         if (selectedOutPoint != null)
         {
-            if (selectedOutPoint.GetNodeConnected() == "EposBeginEndNode" && selectedInPoint.GetNodeConnected() == "EposBeginEndNode")
+            if ((selectedOutPoint.node != selectedInPoint.node))
             {
-                if ((selectedOutPoint.beginEndNode != selectedInPoint.beginEndNode))
-                {
-                    CreateConnection();
-                }
-                ClearConnectionSelection();
+                CreateConnection();
             }
-            else
-            {
-                if ((selectedInPoint.GetNodeConnected() == "EposBeginEndNode" && selectedOutPoint.GetNodeConnected() == "EposNode")
-                    || selectedOutPoint.node != selectedInPoint.node)
-                {
-                    CreateConnection();
-                }
-                ClearConnectionSelection();
-            }
+            ClearConnectionSelection();
         }
     }
 
@@ -312,24 +282,11 @@ public class EposNodeEditor : EditorWindow {
         {
             Debug.Log(selectedInPoint.node);
             Debug.Log(selectedOutPoint.node);
-
-            if (selectedOutPoint.GetNodeConnected() == "EposBeginEndNode" && selectedInPoint.GetNodeConnected() == "EposBeginEndNode")
+            if ((selectedOutPoint.node != selectedInPoint.node))
             {
-                if((selectedOutPoint.beginEndNode != selectedInPoint.beginEndNode))
-                {
-                    CreateConnection();
-                }
-                ClearConnectionSelection();
+                CreateConnection();
             }
-            else
-            {
-                Debug.Log(selectedInPoint.GetNodeConnected());
-                if ((selectedOutPoint.GetNodeConnected() == "EposBeginEndNode" && selectedInPoint.GetNodeConnected() == "EposNode")
-                    || (selectedOutPoint.node != selectedInPoint.node))
-                    CreateConnection();
-
-                ClearConnectionSelection();
-            }
+            ClearConnectionSelection();
         }
     }
 
@@ -385,22 +342,7 @@ public class EposNodeEditor : EditorWindow {
     {
         string path = "Assets/test_nodetree.xml";
         EposXmlNodeContainer nodeXMLContainer = new EposXmlNodeContainer();
-        EposXMLNode beginXMLNode = new EposXMLNode
-        {
-            uuid = beginNode.uuid,
-            nodeType = beginNode.nodeType.ToString(),
-            posX = beginNode.rect.position.x,
-            posY = beginNode.rect.position.y
-        };
-        nodeXMLContainer.eposXMLNodes.Add(beginXMLNode);
-        EposXMLNode endXMLNode = new EposXMLNode
-        {
-            uuid = endNode.uuid,
-            nodeType = endNode.nodeType.ToString(),
-            posX = endNode.rect.position.x,
-            posY = endNode.rect.position.y
-        };
-        nodeXMLContainer.eposXMLNodes.Add(endXMLNode);
+
         if (nodes != null)
         {
             foreach (EposNode node in nodes)
@@ -408,7 +350,7 @@ public class EposNodeEditor : EditorWindow {
                 EposXMLNode XMLNode = new EposXMLNode
                 {
                     uuid = node.uuid,
-                    nodeType = "Node",
+                    nodeType = node.nodeType,
                     posX = node.rect.position.x,
                     posY = node.rect.position.y
                 };
@@ -429,29 +371,16 @@ public class EposNodeEditor : EditorWindow {
         {
             switch(xmlNode.nodeType)
             {
-                case "Begin":
-                    beginNode = new EposBeginEndNode(xmlNode.uuid,new Vector2(xmlNode.posX, xmlNode.posY), 50, 50, EposNodeType.Begin, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
+                case EposNodeType.Begin:
+                case EposNodeType.End:
+                    nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint));
                     break;
-                case "End":
-                    endNode = new EposBeginEndNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), 50, 50, EposNodeType.End, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint);
-                    break;
-                case "Node":
-                    nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), 200, 100, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
+                case EposNodeType.Node:
+                    nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
                     break;
                 default:
                     break;
             }
         }
     }
-
-
-	//*******************************************
-	public EposBeginEndNode GetBeginNode()
-	{
-		return beginNode;
-	}
-	public EposBeginEndNode GetEndNode()
-	{
-		return endNode;
-	}
 }

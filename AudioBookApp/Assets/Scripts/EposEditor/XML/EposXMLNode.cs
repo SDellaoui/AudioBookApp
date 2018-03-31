@@ -9,7 +9,7 @@ public class EposXMLNode
     public Guid uuid;
 
     [XmlAttribute("nodeType")]
-    public string nodeType;
+    public EposNodeType nodeType;
 
     [XmlAttribute("posX")]
     public float posX;
@@ -18,6 +18,9 @@ public class EposXMLNode
     public float posY;
 
 
-    [XmlArray("ConnectedNodes"), XmlArrayItem("Node")]
-    public List<int> nodes = new List<int>();
+    [XmlArray("ConnectedNodesInput"), XmlArrayItem("Node_In")]
+    public List<int> in_nodes = new List<int>();
+
+    [XmlArray("ConnectedNodesOutput"), XmlArrayItem("Node_Out")]
+    public List<int> out_nodes = new List<int>();
 }

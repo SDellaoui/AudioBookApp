@@ -31,21 +31,43 @@ public class EposNode{
 
     public Action<EposNode> OnRemoveNode;
 
-    public EposNode(Guid uuid, Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, Action<EposNode> OnClickRemoveNode)
+    public EposNodeType nodeType;
+
+    public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, Action<EposNode> OnClickRemoveNode = null)
     {
         this.uuid = uuid;
+        this.nodeType = _nodeType;
+        switch (_nodeType)
+        {
+            case EposNodeType.Begin:
+                outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, outPointStyle, OnClickOutPoint);
+                rectWidth = rectHeight = 50;
+                title = "BEGIN";
+                break;
+            case EposNodeType.End:
+                inPoint = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
+                rectWidth = rectHeight = 50;
+                title = "END";
+                break;
+            case EposNodeType.Node:
+                inPoint = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
+                outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, outPointStyle, OnClickOutPoint);
+                rectWidth = 200;
+                rectHeight = 100;
+                title = "Dialog Node";
+                OnRemoveNode = OnClickRemoveNode;
+                break;
+            default:
+                break;
+        }
 
-        rect = new Rect(position.x, position.y, width, height);
-        rectHeight = height;
-        rectWidth = width;
+        rect = new Rect(position.x, position.y, this.rectWidth, this.rectHeight);
+        //rectHeight = height;
+        //rectWidth = width;
         style = nodeStyle;
-        inPoint = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
-        outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, outPointStyle, OnClickOutPoint);
+        
         defaultNodeStyle = nodeStyle;
         selectedNodeStyle = selectedStyle;
-        OnRemoveNode = OnClickRemoveNode;
-
-        title = "Dialog Node";
         wwiseEvent = "";
 
     }
@@ -57,14 +79,30 @@ public class EposNode{
 
     public void Draw()
     {
-        inPoint.Draw();
-        outPoint.Draw();
+        
+
         GUI.Box(rect, "", style);
         GUI.skin.label.alignment = TextAnchor.UpperCenter;
         Rect label = new Rect(rect.x, rect.y-14, rectWidth, rectHeight);
-        wwiseTextFieldRect = new Rect(rect.x + 15, rect.y + 15, rectWidth - 27, 20);
         GUI.Label(label, title);
-		wwiseEvent = EditorGUI.TextField (wwiseTextFieldRect, "", wwiseEvent);
+        switch (nodeType)
+        {
+            case EposNodeType.Begin:
+                outPoint.Draw();
+                break;
+            case EposNodeType.End:
+                inPoint.Draw();
+                break;
+            case EposNodeType.Node:
+                wwiseTextFieldRect = new Rect(rect.x + 15, rect.y + 15, rectWidth - 27, 20);
+                
+                wwiseEvent = EditorGUI.TextField(wwiseTextFieldRect, "", wwiseEvent);
+                inPoint.Draw();
+                outPoint.Draw();
+                break;
+            default:
+                break;
+        }
     }
 
     public bool ProcessEvents(Event e)
@@ -89,11 +127,14 @@ public class EposNode{
                         style = defaultNodeStyle;
 						isEditingWwiseEvent = false;
                     }
-                    //isEditingWwiseEvent = (wwiseTextFieldRect.Contains(e.mousePosition)) ? true: false;
                 }
                 if (e.button == 1 && isSelected && rect.Contains(e.mousePosition))
                 {
-                    ProcessContextMenu();
+                    if (nodeType == EposNodeType.Node)
+                    {
+                        ProcessContextMenu();
+                        
+                    }
                     e.Use();
                 }
                 break;
@@ -130,7 +171,7 @@ public class EposNode{
 
     private void OnClickRemoveNode()
     {
-        if (OnRemoveNode != null)
+        if (OnRemoveNode != null && nodeType == EposNodeType.Node)
         {
             OnRemoveNode(this);
         }
