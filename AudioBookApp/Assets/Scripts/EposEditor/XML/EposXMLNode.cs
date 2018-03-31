@@ -19,8 +19,8 @@ public class EposXMLNode
 
 
     [XmlArray("ConnectedNodesInput"), XmlArrayItem("Node_In")]
-    public List<int> in_nodes = new List<int>();
+    public List<Guid> in_nodes = new List<Guid>();
 
     [XmlArray("ConnectedNodesOutput"), XmlArrayItem("Node_Out")]
-    public List<int> out_nodes = new List<int>();
+    public List<Guid> out_nodes = new List<Guid>();
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,6 +26,10 @@ public class EposNode{
     public EposConnectionPoint inPoint;
     public EposConnectionPoint outPoint;
 
+    public List<Guid> inNodes;
+    public List<Guid> outNodes;
+
+
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
     public GUIStyle selectedNodeStyle;
@@ -33,9 +38,13 @@ public class EposNode{
 
     public EposNodeType nodeType;
 
-    public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, Action<EposNode> OnClickRemoveNode = null)
+    public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint,List<Guid> in_nodes = null, List<Guid> out_nodes = null, Action<EposNode> OnClickRemoveNode = null)
     {
         this.uuid = uuid;
+
+        this.inNodes = in_nodes;
+        this.outNodes = out_nodes;
+
         this.nodeType = _nodeType;
         switch (_nodeType)
         {
@@ -154,6 +163,30 @@ public class EposNode{
         }
         return false;
     }
+
+    public void AddConnectedNode(short in_out,Guid nodeUUID)
+    {
+        switch (in_out)
+        {
+            case 0:
+                if(inNodes == null)
+                {
+                    inNodes = new List<Guid>();
+                }
+                inNodes.Add(nodeUUID);
+                break;
+            case 1:
+                if (outNodes == null)
+                {
+                    outNodes = new List<Guid>();
+                }
+                outNodes.Add(nodeUUID);
+                break;
+            default:
+                break;
+        }
+    }
+
     private void ProcessContextMenu()
     {
         GenericMenu genericMenu = new GenericMenu();

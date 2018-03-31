@@ -49,33 +49,6 @@ public class EposConnectionPoint
     }
     public void Draw(EposNodeType nodeType)
     {
-        /*
-        rect.y = beginEndNode.rect.y + (beginEndNode.rect.height * 0.5f) - rect.height * 0.5f;
-
-        switch (nodeType)
-        {
-            case EposNodeType.End:
-                rect.x = beginEndNode.rect.x - rect.width + 8f;
-                break;
-
-            case EposNodeType.Begin:
-                rect.x = beginEndNode.rect.x + beginEndNode.rect.width - 8f;
-                break;
-            case EposNodeType.Node:
-                switch (type)
-                {
-                    case ConnectionPointType.In:
-                        rect.x = node.rect.x - rect.width + 8f;
-                        break;
-
-                    case ConnectionPointType.Out:
-                        rect.x = node.rect.x + node.rect.width - 8f;
-                        break;
-                }
-                break;
-        }
-        */
-
         switch (type)
         {
             case ConnectionPointType.In:
@@ -95,8 +68,8 @@ public class EposConnectionPoint
             }
         }
     }
-    public string GetNodeConnected()
+    public EposNode GetNodeConnected()
     {
-        return node.GetType().ToString();
+        return node;
     }
 }
