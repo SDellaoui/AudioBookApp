@@ -222,12 +222,7 @@ public class EposNode{
         else if (EposNodeType.End == nodeType)
             this.wwiseEvent = "Play_Ping_In";
         EposEventManager.Instance.PostEvent(uuid, wwiseEvent);
-        /*
-        if (nodeType == EposNodeType.Node)
-        {
-            EposEventManager.Instance.PostEvent(uuid, wwiseEvent);
-        }
-        */
+
         if (!isQueued && nodeType != EposNodeType.End)
         {
             End();
@@ -250,7 +245,7 @@ public class EposNode{
 
     public void PlaySound()
     {
-        if (wwiseEvent == "")
+        if (wwiseEvent == "" || nodeType != EposNodeType.Node)
             return;
         if (isQueued)
             AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener, (uint)0x0009, WwiseCallback, this);

@@ -69,8 +69,8 @@ MonoBehaviour:
     PhysicalPath: Events\CORE.wwu
     List: []
   - Guid: '{09A917AA-200D-48E1-A845-7373AA30CE43}'
-    m_lastTimePart2: -1999268343
-    m_lastTimePsrt1: -132460858
+    m_lastTimePart2: -1999267856
+    m_lastTimePsrt1: 296127278
     ParentPhysicalPath: 
     PhysicalPath: Events\Debug.wwu
     List:
@@ -116,17 +116,80 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - Guid: b107c34201b16f47b9d50e88ca75e96e
+      ID: 1652515810
+      Name: Play_Pretre_01
+      Path: Debug\Pretre\Play_Pretre_01
+      PathAndIcons:
+      - ElementName: Debug
+        ObjectType: 12
+      - ElementName: Pretre
+        ObjectType: 4
+      - ElementName: Play_Pretre_01
+        ObjectType: 3
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - Guid: cfdcdacea3a7834a986e33163c27194c
+      ID: 1652515809
+      Name: Play_Pretre_02
+      Path: Debug\Pretre\Play_Pretre_02
+      PathAndIcons:
+      - ElementName: Debug
+        ObjectType: 12
+      - ElementName: Pretre
+        ObjectType: 4
+      - ElementName: Play_Pretre_02
+        ObjectType: 3
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - Guid: db98f3541bf21e46bccff91feb4ab4f1
+      ID: 1652515808
+      Name: Play_Pretre_03
+      Path: Debug\Pretre\Play_Pretre_03
+      PathAndIcons:
+      - ElementName: Debug
+        ObjectType: 12
+      - ElementName: Pretre
+        ObjectType: 4
+      - ElementName: Play_Pretre_03
+        ObjectType: 3
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - Guid: 3fee67a41a6c8c418f59cfaf93036fa9
+      ID: 1652515815
+      Name: Play_Pretre_04
+      Path: Debug\Pretre\Play_Pretre_04
+      PathAndIcons:
+      - ElementName: Debug
+        ObjectType: 12
+      - ElementName: Pretre
+        ObjectType: 4
+      - ElementName: Play_Pretre_04
+        ObjectType: 3
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
   - Guid: '{EE1F2D1C-9AE9-41FE-9049-E309BCFEC5A3}'
-    m_lastTimePart2: -1999268343
-    m_lastTimePsrt1: -132500971
+    m_lastTimePart2: -1999267857
+    m_lastTimePsrt1: -595464686
     ParentPhysicalPath: 
     PhysicalPath: Events\Default Work Unit.wwu
+    List: []
+  - Guid: '{59B003D6-B8F2-4E83-8FDC-C290B6987BE9}'
+    m_lastTimePart2: -1999267856
+    m_lastTimePsrt1: 296167391
+    ParentPhysicalPath: 
+    PhysicalPath: Events\VO.wwu
     List: []
   ExpandedItems:
   - /AudioBookApp
   - /AudioBookApp/Events
   - /AudioBookApp/Events/Debug
   - /AudioBookApp/Events/Debug/NodeEditor
+  - /AudioBookApp/Events/Debug/Pretre
   - /AudioBookApp/SoundBanks
   language: English(US)
   lowerPoolSize: 2048

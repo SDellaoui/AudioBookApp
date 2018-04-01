@@ -11,19 +11,39 @@
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="1031089514" Language="SFX">
+		<SoundBank Id="1031089514" Language="English(US)">
 			<ObjectPath>\SoundBanks\DEBUG\DEBUG</ObjectPath>
 			<ShortName>DEBUG</ShortName>
-			<Path>DEBUG.bnk</Path>
+			<Path>English(US)\DEBUG.bnk</Path>
 			<IncludedEvents>
 				<Event Id="1048862391" Name="Play_Node_Play" ObjectPath="\Events\Debug\NodeEditor\Play_Node_Play"/>
 				<Event Id="2412765392" Name="Play_Ping_In" ObjectPath="\Events\Debug\NodeEditor\Play_Ping_In"/>
 				<Event Id="457391415" Name="Play_Ping_Out" ObjectPath="\Events\Debug\NodeEditor\Play_Ping_Out"/>
+				<Event Id="1652515810" Name="Play_Pretre_01" ObjectPath="\Events\Debug\Pretre\Play_Pretre_01"/>
+				<Event Id="1652515809" Name="Play_Pretre_02" ObjectPath="\Events\Debug\Pretre\Play_Pretre_02"/>
+				<Event Id="1652515808" Name="Play_Pretre_03" ObjectPath="\Events\Debug\Pretre\Play_Pretre_03"/>
+				<Event Id="1652515815" Name="Play_Pretre_04" ObjectPath="\Events\Debug\Pretre\Play_Pretre_04"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
+				<File Id="35408015" Language="English(US)">
+					<ShortName>VO\Pretre\Pretre_01.wav</ShortName>
+					<Path>Voices\English(US)\VO\Pretre\Pretre_01_BD409A6F.wem</Path>
+				</File>
+				<File Id="332290583" Language="English(US)">
+					<ShortName>VO\Pretre\Pretre_04.wav</ShortName>
+					<Path>Voices\English(US)\VO\Pretre\Pretre_04_1C9C67B2.wem</Path>
+				</File>
+				<File Id="349357637" Language="English(US)">
+					<ShortName>VO\Pretre\Pretre_02.wav</ShortName>
+					<Path>Voices\English(US)\VO\Pretre\Pretre_02_1C9C67B2.wem</Path>
+				</File>
 				<File Id="560900308" Language="SFX">
 					<ShortName>rayman_node_play.wav</ShortName>
 					<Path>SFX\rayman_node_play_1C9C67B2.wem</Path>
+				</File>
+				<File Id="966378934" Language="English(US)">
+					<ShortName>VO\Pretre\Pretre_03.wav</ShortName>
+					<Path>Voices\English(US)\VO\Pretre\Pretre_03_1C9C67B2.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>

@@ -7,10 +7,13 @@
 				<File Name="DEBUG" Hash="995658304" Timestamp="1522599581"/>
 				<File Name="Init" Hash="516309307" Timestamp="1522392519"/>
 			</Language>
+			<Language ID="684519430">
+				<File Name="DEBUG" Hash="142705599" Timestamp="1522601176"/>
+			</Language>
 		</Banks>
 		<XMLInfo>
 			<Language ID="-1">
-				<File Name="" Hash="2645574150" Timestamp="1522599581"/>
+				<File Name="" Hash="3711820371" Timestamp="1522601176"/>
 			</Language>
 		</XMLInfo>
 	</Platform>
@@ -21,10 +24,13 @@
 				<File Name="DEBUG" Hash="995658304" Timestamp="1522599581"/>
 				<File Name="Init" Hash="217331802" Timestamp="1522392519"/>
 			</Language>
+			<Language ID="684519430">
+				<File Name="DEBUG" Hash="142705599" Timestamp="1522601176"/>
+			</Language>
 		</Banks>
 		<XMLInfo>
 			<Language ID="-1">
-				<File Name="" Hash="2918153746" Timestamp="1522599581"/>
+				<File Name="" Hash="4257795127" Timestamp="1522601176"/>
 			</Language>
 		</XMLInfo>
 	</Platform>
@@ -35,10 +41,13 @@
 				<File Name="DEBUG" Hash="995658304" Timestamp="1522599581"/>
 				<File Name="Init" Hash="1537307328" Timestamp="1522392519"/>
 			</Language>
+			<Language ID="684519430">
+				<File Name="DEBUG" Hash="142705599" Timestamp="1522601176"/>
+			</Language>
 		</Banks>
 		<XMLInfo>
 			<Language ID="-1">
-				<File Name="" Hash="693021232" Timestamp="1522599581"/>
+				<File Name="" Hash="1517524585" Timestamp="1522601176"/>
 			</Language>
 		</XMLInfo>
 	</Platform>
@@ -49,10 +58,13 @@
 				<File Name="DEBUG" Hash="995658304" Timestamp="1522599581"/>
 				<File Name="Init" Hash="1189764018" Timestamp="1522392519"/>
 			</Language>
+			<Language ID="684519430">
+				<File Name="DEBUG" Hash="142705599" Timestamp="1522601176"/>
+			</Language>
 		</Banks>
 		<XMLInfo>
 			<Language ID="-1">
-				<File Name="" Hash="3695061644" Timestamp="1522599581"/>
+				<File Name="" Hash="3561256381" Timestamp="1522601176"/>
 			</Language>
 		</XMLInfo>
 	</Platform>
