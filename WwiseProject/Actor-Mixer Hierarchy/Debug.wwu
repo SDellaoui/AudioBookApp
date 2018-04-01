@@ -4,6 +4,13 @@
 		<WorkUnit Name="Debug" ID="{5AF306F3-2F76-4625-A6A9-84950A2F33BC}" PersistMode="Standalone">
 			<ChildrenList>
 				<ActorMixer Name="EditorNode" ID="{59B83FED-DBF7-4903-89B7-6D9566C1D881}" ShortID="507905092">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-6</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{EF318F2E-B305-4A9E-A53E-946F7A4BD75D}"/>

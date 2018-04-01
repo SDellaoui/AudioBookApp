@@ -213,7 +213,7 @@ Prefab:
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00007470514
+      value: -0.000019785402
       objectReference: {fileID: 0}
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
@@ -264,6 +264,10 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535742987021260, guid: 6d9e5b94136d74d4ba211dd65b48c451, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d9e5b94136d74d4ba211dd65b48c451, type: 2}
@@ -321,6 +325,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listener: {fileID: 1909683930}
+  dialogCanvas: {fileID: 339366160}
+--- !u!1 &339366160 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1387675728713042, guid: 6d9e5b94136d74d4ba211dd65b48c451,
+    type: 2}
+  m_PrefabInternal: {fileID: 22238556}
 --- !u!1 &346152902
 GameObject:
   m_ObjectHideFlags: 0

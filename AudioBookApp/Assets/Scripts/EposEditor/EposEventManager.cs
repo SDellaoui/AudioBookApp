@@ -11,6 +11,8 @@ public class EposEventManager : MonoBehaviour {
 	private static EposEventManager _instance;
 
     public GameObject listener;
+    public GameObject dialogCanvas;
+
     public static EposEventManager Instance
 	{
 		get {

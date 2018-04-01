@@ -253,13 +253,18 @@ public class EposNode{
         if (wwiseEvent == "")
             return;
         if (isQueued)
-            AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener, (uint)0x0001, WwiseCallback, this);
+            AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener, (uint)0x0009, WwiseCallback, this);
         else
             AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener);
+        EposEventManager.Instance.dialogCanvas.GetComponent<ContentController>().DisplayNewCharacterDialog("bla bla je mets du texte");
     }
 
     void WwiseCallback(object in_cookie, AkCallbackType in_type, object in_info)
     {
+        if(in_type == AkCallbackType.AK_Duration)
+        {
+            //Debug.Log("Event Started");
+        }
         if (in_type == AkCallbackType.AK_EndOfEvent)
         {
             Debug.Log("[WWISE] reached end of event : " + wwiseEvent);

@@ -43,7 +43,7 @@ public class ContentController : MonoBehaviour {
 			m_isDisplayingNewCharacterDialog = false;
 	}
 
-    public void DisplayNewCharacterDialog()
+    public void DisplayNewCharacterDialog(string text)
     {
 		//prevent multiple display
 		if(m_isDisplayingNewCharacterDialog)
@@ -55,6 +55,7 @@ public class ContentController : MonoBehaviour {
 
 		//get item prefab
         GameObject item = Instantiate(Resources.Load("00_Prefabs/" + itemToSelect.ToString(), typeof(GameObject))) as GameObject;
+        item.transform.Find("Text").GetComponent<Text>().text = text;
         item.transform.SetParent(contentPanel.transform, false);
 		//ForceMode rebuild content height
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentPanel.GetComponent<RectTransform>());
