@@ -24,9 +24,6 @@
 							</ReferenceList>
 							<ChildrenList>
 								<SourcePlugin Name="Wwise Sine" ID="{63A494B5-54E0-4105-A379-F06028F8AE93}" ShortID="545949699" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
-									<PropertyList>
-										<Property Name="SineFrequency" Type="Real32" Value="880"/>
-									</PropertyList>
 									<Language>SFX</Language>
 								</SourcePlugin>
 							</ChildrenList>

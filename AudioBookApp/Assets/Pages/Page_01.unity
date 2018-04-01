@@ -213,7 +213,7 @@ Prefab:
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000037461723
+      value: -0.00007470514
       objectReference: {fileID: 0}
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
@@ -320,6 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36226ed696f68e4cb1f2a5e0ecf0325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listener: {fileID: 1909683930}
 --- !u!1 &346152902
 GameObject:
   m_ObjectHideFlags: 0

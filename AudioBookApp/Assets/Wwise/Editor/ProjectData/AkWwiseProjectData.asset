@@ -122,7 +122,12 @@ MonoBehaviour:
     ParentPhysicalPath: 
     PhysicalPath: Events\Default Work Unit.wwu
     List: []
-  ExpandedItems: []
+  ExpandedItems:
+  - /AudioBookApp
+  - /AudioBookApp/Events
+  - /AudioBookApp/Events/Debug
+  - /AudioBookApp/Events/Debug/NodeEditor
+  - /AudioBookApp/SoundBanks
   language: English(US)
   lowerPoolSize: 2048
   m_lastPopulateTimePart2: 0

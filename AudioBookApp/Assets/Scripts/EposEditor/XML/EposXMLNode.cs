@@ -23,6 +23,8 @@ public class EposXMLNode
     [XmlAttribute("dispatchOnEnd")]
     public bool isQueued;
 
+    [XmlAttribute("wwiseEvent")]
+    public string wwiseEvent;
 
     [XmlArray("ConnectedNodesInput"), XmlArrayItem("Node_In")]
     public List<Guid> in_nodes = new List<Guid>();

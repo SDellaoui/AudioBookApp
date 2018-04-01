@@ -259,7 +259,7 @@ public class EposNodeEditor : EditorWindow {
         {
             nodes = new List<EposNode>();
         }
-        nodes.Add(new EposNode(Guid.NewGuid(), mousePosition, EposNodeType.Node, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,null,null, OnClickRemoveNode));
+        nodes.Add(new EposNode(Guid.NewGuid(), mousePosition, EposNodeType.Node, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode, null,null));
     }
 
     private void OnClickInPoint(EposConnectionPoint inPoint)
@@ -406,6 +406,7 @@ public class EposNodeEditor : EditorWindow {
                     nodeType = node.nodeType,
                     posX = node.rect.position.x,
                     posY = node.rect.position.y,
+                    wwiseEvent = node.wwiseEvent,
                     isQueued = node.isQueued,
                     in_nodes = node.inNodes,
                     out_nodes = node.outNodes
@@ -429,10 +430,10 @@ public class EposNodeEditor : EditorWindow {
             {
                 case EposNodeType.Begin:
                 case EposNodeType.End:
-                    nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,xmlNode.in_nodes,xmlNode.out_nodes));
+                    nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,"",false,null,xmlNode.in_nodes,xmlNode.out_nodes));
                     break;
                 case EposNodeType.Node:
-                    nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, xmlNode.in_nodes, xmlNode.out_nodes, OnClickRemoveNode, xmlNode.isQueued));
+                    nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,xmlNode.wwiseEvent,xmlNode.isQueued, OnClickRemoveNode, xmlNode.in_nodes, xmlNode.out_nodes));
                     break;
                 default:
                     break;

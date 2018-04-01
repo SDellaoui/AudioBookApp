@@ -4,6 +4,8 @@
 		<UserProjectSettings Name="" ID="{92A2BE1D-A13F-48A5-AFD1-9C6781F04FA7}">
 			<PropertyList>
 				<Property Name="AudioFilesImporter\Path" Type="string" Value="C:\Users\Slimane Dellaoui\Desktop"/>
+				<Property Name="Event Action List\{02FC97F7-9F05-4989-A71A-4711FD112729}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{7E545C67-5614-42DA-8FF5-EB1FC5254560}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{9D9D5123-80BC-498E-B415-20A8FCACF731}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="EventView\FilterMode1" Type="int32" Value="2"/>
 				<Property Name="ExternalSourcesInputPath" Type="string">
@@ -27,7 +29,7 @@
 				<Property Name="General\SourceControlPluginID" Type="string" Value="{C403A906-0C19-4ED5-808E-748707065301}"/>
 				<Property Name="GenerateSoundBanks\x64_SelectedLanguages" Type="string" Value=""/>
 				<Property Name="GenerateSoundBanks\x64_SelectedPlatforms" Type="string" Value=""/>
-				<Property Name="GenerateSoundBanks\x64_SelectedSoundBanks" Type="string" Value="wlZn49hV7U2DQ2DgrQ9qCXp/HxFx+41EoZc8RkuF7gM="/>
+				<Property Name="GenerateSoundBanks\x64_SelectedSoundBanks" Type="string" Value="en8fEXH7jUShlzxGS4XuA8JWZ+PYVe1Ng0Ng4K0Pagk="/>
 				<Property Name="HardwareController\CurrentSession" Type="string" Value="{00000000-0000-0000-0000-000000000000}"/>
 				<Property Name="MeterView\LastObject1" Type="string" Value="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"/>
 				<Property Name="MeterView\MeterMode1" Type="int32" Value="1"/>

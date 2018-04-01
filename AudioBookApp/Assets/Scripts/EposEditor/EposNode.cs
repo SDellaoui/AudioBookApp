@@ -39,7 +39,7 @@ public class EposNode{
 
     public EposNodeType nodeType;
 
-    public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, List<Guid> in_nodes = null, List<Guid> out_nodes = null, Action<EposNode> OnClickRemoveNode = null, bool isQueued = false)
+    public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, string wwiseEvent = "", bool isQueued = false, Action<EposNode> OnClickRemoveNode = null, List<Guid> in_nodes = null, List<Guid> out_nodes = null)
     {
         this.uuid = uuid;
         this.isQueued = isQueued;
@@ -78,7 +78,7 @@ public class EposNode{
         
         defaultNodeStyle = nodeStyle;
         selectedNodeStyle = selectedStyle;
-        wwiseEvent = "";
+        this.wwiseEvent = wwiseEvent;
 
     }
 
@@ -217,10 +217,17 @@ public class EposNode{
     public void Start()
     {
         Debug.Log("Receiving Input on node " + uuid);
-        if(nodeType == EposNodeType.Node)
+        if (EposNodeType.Begin == nodeType)
+            this.wwiseEvent = "Play_Ping_Out";
+        else if (EposNodeType.End == nodeType)
+            this.wwiseEvent = "Play_Ping_In";
+        EposEventManager.Instance.PostEvent(uuid, wwiseEvent);
+        /*
+        if (nodeType == EposNodeType.Node)
         {
-            EposEventManager.Instance.PostEvent(uuid, uuid.ToString());
+            EposEventManager.Instance.PostEvent(uuid, wwiseEvent);
         }
+        */
         if (!isQueued && nodeType != EposNodeType.End)
         {
             End();
@@ -229,7 +236,7 @@ public class EposNode{
     public void End()
     {
         Debug.Log("Sending Output from node " + uuid);
-
+        
         foreach (Guid nextNode in outNodes)
         {
             EposNode outNode = EposNodeReader.Instance.GetNodeFromUUID(nextNode);
@@ -237,6 +244,26 @@ public class EposNode{
             {
                 outNode.Start();
             }
+        }
+        EposEventManager.Instance.StopEventCoroutine(this);
+    }
+
+    public void PlaySound()
+    {
+        if (wwiseEvent == "")
+            return;
+        if (isQueued)
+            AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener, (uint)0x0001, WwiseCallback, this);
+        else
+            AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener);
+    }
+
+    void WwiseCallback(object in_cookie, AkCallbackType in_type, object in_info)
+    {
+        if (in_type == AkCallbackType.AK_EndOfEvent)
+        {
+            Debug.Log("[WWISE] reached end of event : " + wwiseEvent);
+            End();
         }
     }
 }
