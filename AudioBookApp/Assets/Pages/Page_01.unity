@@ -88,6 +88,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -109,6 +110,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    debug:
+      m_Flags: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1001 &22238556
 Prefab:
@@ -210,7 +213,7 @@ Prefab:
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000041751347
+      value: -0.0000037461723
       objectReference: {fileID: 0}
     - target: {fileID: 224712175442751664, guid: 6d9e5b94136d74d4ba211dd65b48c451,
         type: 2}
@@ -274,6 +277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 128021749}
   - component: {fileID: 128021748}
+  - component: {fileID: 128021750}
   m_Layer: 0
   m_Name: NodeEditorManager
   m_TagString: Untagged
@@ -289,7 +293,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 128021747}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c36226ed696f68e4cb1f2a5e0ecf0325, type: 3}
+  m_Script: {fileID: 11500000, guid: a3665dfe7bea23449b15aa73fcf4c4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &128021749
@@ -305,6 +309,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &128021750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 128021747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c36226ed696f68e4cb1f2a5e0ecf0325, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &346152902
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,11 +563,11 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!4 &1909683934
 Transform:
   m_ObjectHideFlags: 0

@@ -12,13 +12,14 @@ public enum EposNodeType {
 public class EposNode{
 
     public Guid uuid;
-
     public Rect rect;
     public Rect wwiseTextFieldRect;
     public float rectWidth;
     public float rectHeight;
     public string title;
     public string wwiseEvent;
+
+    public bool isQueued;
     public bool isDragged;
     public bool isSelected;
     public bool isEditingWwiseEvent;
@@ -38,10 +39,10 @@ public class EposNode{
 
     public EposNodeType nodeType;
 
-    public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint,List<Guid> in_nodes = null, List<Guid> out_nodes = null, Action<EposNode> OnClickRemoveNode = null)
+    public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, List<Guid> in_nodes = null, List<Guid> out_nodes = null, Action<EposNode> OnClickRemoveNode = null, bool isQueued = false)
     {
         this.uuid = uuid;
-
+        this.isQueued = isQueued;
         this.inNodes = in_nodes;
         this.outNodes = out_nodes;
 
@@ -88,8 +89,8 @@ public class EposNode{
 
     public void Draw()
     {
-        
 
+        GUI.depth = 0;
         GUI.Box(rect, "", style);
         GUI.skin.label.alignment = TextAnchor.UpperCenter;
         Rect label = new Rect(rect.x, rect.y-14, rectWidth, rectHeight);
@@ -103,11 +104,14 @@ public class EposNode{
                 inPoint.Draw();
                 break;
             case EposNodeType.Node:
-                wwiseTextFieldRect = new Rect(rect.x + 15, rect.y + 15, rectWidth - 27, 20);
-                
-                wwiseEvent = EditorGUI.TextField(wwiseTextFieldRect, "", wwiseEvent);
                 inPoint.Draw();
                 outPoint.Draw();
+
+                GUI.depth = 1;
+                wwiseTextFieldRect = new Rect(rect.x + 15, rect.y + 15, rectWidth - 27, 20);
+                wwiseEvent = EditorGUI.TextField(wwiseTextFieldRect, "", wwiseEvent);
+                GUI.depth = 2;
+                isQueued = EditorGUI.ToggleLeft(new Rect(wwiseTextFieldRect.x, wwiseTextFieldRect.y + 30, wwiseTextFieldRect.width, 15), " Dispatch on end", isQueued, GUIStyle.none);
                 break;
             default:
                 break;
@@ -207,6 +211,32 @@ public class EposNode{
         if (OnRemoveNode != null && nodeType == EposNodeType.Node)
         {
             OnRemoveNode(this);
+        }
+    }
+
+    public void Start()
+    {
+        Debug.Log("Receiving Input on node " + uuid);
+        if(nodeType == EposNodeType.Node)
+        {
+            EposEventManager.Instance.PostEvent(uuid, uuid.ToString());
+        }
+        if (!isQueued && nodeType != EposNodeType.End)
+        {
+            End();
+        }
+    }
+    public void End()
+    {
+        Debug.Log("Sending Output from node " + uuid);
+
+        foreach (Guid nextNode in outNodes)
+        {
+            EposNode outNode = EposNodeReader.Instance.GetNodeFromUUID(nextNode);
+            if (outNode != null)
+            {
+                outNode.Start();
+            }
         }
     }
 }

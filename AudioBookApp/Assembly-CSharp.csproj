@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\EposEditor\EposInspector.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposNode.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposNodeEditor.cs" />
+     <Compile Include="Assets\Scripts\EposEditor\EposNodeReader.cs" />
      <Compile Include="Assets\Scripts\EposEditor\EposPopup.cs" />
      <Compile Include="Assets\Scripts\EposEditor\XML\EposXMLNode.cs" />
      <Compile Include="Assets\Scripts\EposEditor\XML\EposXMLNodeContainer.cs" />

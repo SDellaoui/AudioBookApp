@@ -20,6 +20,9 @@ public class EposXMLNode
     [XmlAttribute("posY")]
     public float posY;
 
+    [XmlAttribute("dispatchOnEnd")]
+    public bool isQueued;
+
 
     [XmlArray("ConnectedNodesInput"), XmlArrayItem("Node_In")]
     public List<Guid> in_nodes = new List<Guid>();
