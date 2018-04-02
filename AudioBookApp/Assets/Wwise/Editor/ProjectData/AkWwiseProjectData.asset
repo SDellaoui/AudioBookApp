@@ -69,8 +69,8 @@ MonoBehaviour:
     PhysicalPath: Events\CORE.wwu
     List: []
   - Guid: '{09A917AA-200D-48E1-A845-7373AA30CE43}'
-    m_lastTimePart2: -1999267856
-    m_lastTimePsrt1: 296127278
+    m_lastTimePart2: -1999267669
+    m_lastTimePsrt1: 697972638
     ParentPhysicalPath: 
     PhysicalPath: Events\Debug.wwu
     List:
@@ -117,57 +117,57 @@ MonoBehaviour:
       maxDuration: 0
       minDuration: 0
     - Guid: b107c34201b16f47b9d50e88ca75e96e
-      ID: 1652515810
-      Name: Play_Pretre_01
-      Path: Debug\Pretre\Play_Pretre_01
+      ID: 1427984739
+      Name: Play_VO_Test_Dialog_Pretre_0
+      Path: Debug\Pretre\Play_VO_Test_Dialog_Pretre_0
       PathAndIcons:
       - ElementName: Debug
         ObjectType: 12
       - ElementName: Pretre
         ObjectType: 4
-      - ElementName: Play_Pretre_01
+      - ElementName: Play_VO_Test_Dialog_Pretre_0
         ObjectType: 3
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
     - Guid: cfdcdacea3a7834a986e33163c27194c
-      ID: 1652515809
-      Name: Play_Pretre_02
-      Path: Debug\Pretre\Play_Pretre_02
+      ID: 1427984738
+      Name: Play_VO_Test_Dialog_Pretre_1
+      Path: Debug\Pretre\Play_VO_Test_Dialog_Pretre_1
       PathAndIcons:
       - ElementName: Debug
         ObjectType: 12
       - ElementName: Pretre
         ObjectType: 4
-      - ElementName: Play_Pretre_02
+      - ElementName: Play_VO_Test_Dialog_Pretre_1
         ObjectType: 3
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
     - Guid: db98f3541bf21e46bccff91feb4ab4f1
-      ID: 1652515808
-      Name: Play_Pretre_03
-      Path: Debug\Pretre\Play_Pretre_03
+      ID: 1427984737
+      Name: Play_VO_Test_Dialog_Pretre_2
+      Path: Debug\Pretre\Play_VO_Test_Dialog_Pretre_2
       PathAndIcons:
       - ElementName: Debug
         ObjectType: 12
       - ElementName: Pretre
         ObjectType: 4
-      - ElementName: Play_Pretre_03
+      - ElementName: Play_VO_Test_Dialog_Pretre_2
         ObjectType: 3
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
     - Guid: 3fee67a41a6c8c418f59cfaf93036fa9
-      ID: 1652515815
-      Name: Play_Pretre_04
-      Path: Debug\Pretre\Play_Pretre_04
+      ID: 1427984736
+      Name: Play_VO_Test_Dialog_Pretre_3
+      Path: Debug\Pretre\Play_VO_Test_Dialog_Pretre_3
       PathAndIcons:
       - ElementName: Debug
         ObjectType: 12
       - ElementName: Pretre
         ObjectType: 4
-      - ElementName: Play_Pretre_04
+      - ElementName: Play_VO_Test_Dialog_Pretre_3
         ObjectType: 3
       maxAttenuation: 0
       maxDuration: 0
