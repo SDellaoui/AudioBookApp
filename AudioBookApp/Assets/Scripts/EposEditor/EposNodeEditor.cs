@@ -85,6 +85,8 @@ public class EposNodeEditor : EditorWindow {
 
         DrawConnectionLine(Event.current);
 
+        
+
         ProcessNodeEvents(Event.current);
         ProcessEvents(Event.current);
 
@@ -294,7 +296,7 @@ public class EposNodeEditor : EditorWindow {
     private void OnClickInPoint(EposConnectionPoint inPoint)
     {
         selectedInPoint = inPoint;
-        Debug.Log("Selected In point : " + selectedInPoint.GetNodeConnected());
+        //Debug.Log("Selected In point : " + selectedInPoint.GetNodeConnected());
 
         if (selectedOutPoint != null)
         {
@@ -312,8 +314,8 @@ public class EposNodeEditor : EditorWindow {
 
         if (selectedInPoint != null)
         {
-            Debug.Log(selectedInPoint.node);
-            Debug.Log(selectedOutPoint.node);
+            //Debug.Log(selectedInPoint.node);
+            //Debug.Log(selectedOutPoint.node);
             if ((selectedOutPoint.node != selectedInPoint.node))
             {
                 CreateConnection();
@@ -324,6 +326,23 @@ public class EposNodeEditor : EditorWindow {
 
     private void OnClickRemoveConnection(EposConnection connection)
     {
+        bool inNodeFound = false;
+        bool outNodeFound = false;
+        for (int i=0; i<nodes.Count; i++)
+        {
+            if(nodes[i].uuid == connection.inPoint.node.uuid)
+            {
+                nodes[i].RemoveConnectedNode(0, connection.outPoint.node.uuid);
+                inNodeFound = true;
+            }
+            if (nodes[i].uuid == connection.outPoint.node.uuid)
+            {
+                nodes[i].RemoveConnectedNode(1, connection.inPoint.node.uuid);
+                outNodeFound = true;
+            }
+            if (inNodeFound && outNodeFound)
+                break;
+        }
         connections.Remove(connection);
     }
 
@@ -333,7 +352,7 @@ public class EposNodeEditor : EditorWindow {
         {
             connections = new List<EposConnection>();
         }
-        Debug.Log("Create connection between : in_"+ selectedInPoint.GetNodeConnected().title+" and  out "+ selectedOutPoint.GetNodeConnected().title);
+        //Debug.Log("Create connection between : in_"+ selectedInPoint.GetNodeConnected().title+" and  out "+ selectedOutPoint.GetNodeConnected().title);
         EposNode selectedInNode = selectedInPoint.GetNodeConnected();
         EposNode selectedOutNode = selectedOutPoint.GetNodeConnected();
 

@@ -211,6 +211,35 @@ public class EposNode{
                 break;
         }
     }
+    public void RemoveConnectedNode(short in_out,Guid nodeUUID)
+    {
+        switch(in_out)
+        {
+            case 0:
+                for (int i = 0; i < inNodes.Count; i++)
+                {
+                    Debug.Log(inNodes[i]);
+                    if (inNodes[i] == nodeUUID)
+                    {
+                        inNodes.RemoveAt(i);
+                        break;
+                    }
+                }
+                break;
+            case 1:
+                for (int i = 0; i < outNodes.Count; i++)
+                {
+                    if (outNodes[i] == nodeUUID)
+                    {
+                        outNodes.RemoveAt(i);
+                        break;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
     private void ProcessContextMenu()
     {
