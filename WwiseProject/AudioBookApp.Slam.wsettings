@@ -5,6 +5,7 @@
 			<PropertyList>
 				<Property Name="AudioFilesImporter\Path" Type="string" Value="C:\Users\Slimane Dellaoui\Desktop"/>
 				<Property Name="Event Action List\{02FC97F7-9F05-4989-A71A-4711FD112729}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{42C307B1-B101-476F-B9D5-0E88CA75E96E}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{7E545C67-5614-42DA-8FF5-EB1FC5254560}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{9D9D5123-80BC-498E-B415-20A8FCACF731}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="EventView\FilterMode1" Type="int32" Value="2"/>
@@ -57,8 +58,8 @@
 				<Property Name="ProjectExplorer\x64_Expanded_1_1" Type="string" Value=""/>
 				<Property Name="ProjectExplorer\x64_Expanded_20_1" Type="string" Value=""/>
 				<Property Name="ProjectExplorer\x64_Expanded_21_1" Type="string" Value=""/>
-				<Property Name="ProjectExplorer\x64_Expanded_2_1" Type="string" Value="8wbzWnYvJUamqYSVCi8zvO0/uFn32wNJibdtlWbB2IEmhx5sxu21T4edxj/1N+ti"/>
-				<Property Name="ProjectExplorer\x64_Expanded_3_1" Type="string" Value="HC0f7uma/kGQSeMJvP7Fo/Jkw2mBvHZEgInsDfSM6IiqF6kJDSDhSKhFc3OqMM5D"/>
+				<Property Name="ProjectExplorer\x64_Expanded_2_1" Type="string" Value="8wbzWnYvJUamqYSVCi8zvO0/uFn32wNJibdtlWbB2IECvuY+utRJTJuAPwV70qJ87WNS6h/hr0yE840OhEjCIiaHHmzG7bVPh53GP/U362I="/>
+				<Property Name="ProjectExplorer\x64_Expanded_3_1" Type="string" Value="HC0f7uma/kGQSeMJvP7Fo/Jkw2mBvHZEgInsDfSM6IiqF6kJDSDhSKhFc3OqMM5D1gOwWfK4g06P3MKQtph76Q=="/>
 				<Property Name="ProjectExplorer\x64_Expanded_4_1" Type="string" Value=""/>
 				<Property Name="ProjectExplorer\x64_Expanded_5_1" Type="string" Value=""/>
 				<Property Name="ProjectExplorer\x64_Expanded_6_1" Type="string" Value="LHh7pITdc0C1dpVq++eBWLRY+w1GI8lDlk8WRQ7yi0M="/>
