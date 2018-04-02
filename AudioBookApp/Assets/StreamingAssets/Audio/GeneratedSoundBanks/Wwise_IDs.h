@@ -16,10 +16,10 @@ namespace AK
         static const AkUniqueID PLAY_NODE_PLAY = 1048862391U;
         static const AkUniqueID PLAY_PING_IN = 2412765392U;
         static const AkUniqueID PLAY_PING_OUT = 457391415U;
-        static const AkUniqueID PLAY_PRETRE_01 = 1652515810U;
-        static const AkUniqueID PLAY_PRETRE_02 = 1652515809U;
-        static const AkUniqueID PLAY_PRETRE_03 = 1652515808U;
-        static const AkUniqueID PLAY_PRETRE_04 = 1652515815U;
+        static const AkUniqueID PLAY_VO_TEST_DIALOG_PRETRE_0 = 1427984739U;
+        static const AkUniqueID PLAY_VO_TEST_DIALOG_PRETRE_1 = 1427984738U;
+        static const AkUniqueID PLAY_VO_TEST_DIALOG_PRETRE_2 = 1427984737U;
+        static const AkUniqueID PLAY_VO_TEST_DIALOG_PRETRE_3 = 1427984736U;
     } // namespace EVENTS
 
     namespace BANKS

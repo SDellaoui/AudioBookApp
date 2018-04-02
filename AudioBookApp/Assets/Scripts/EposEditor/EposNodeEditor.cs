@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEditor;
 
@@ -9,6 +10,11 @@ public class EposNodeEditor : EditorWindow {
 
     private List<EposNode> nodes;
     private List<EposConnection> connections;
+
+    private string dialogScriptPath;
+    private string[] dialogFileFilters = { "TSV sheets","tsv" };
+    private List<string[]> dialogs;
+    private string dialogFileName;
 
     private GUIStyle beginEndStyle;
     private GUIStyle nodeStyle;
@@ -61,6 +67,9 @@ public class EposNodeEditor : EditorWindow {
         outPointStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn right.png") as Texture2D;
         outPointStyle.active.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn right on.png") as Texture2D;
         outPointStyle.border = new RectOffset(4, 4, 12, 12);
+
+        dialogScriptPath = null;
+        dialogs = new List<string[]>();
     }
 
     private void OnGUI()
@@ -109,6 +118,7 @@ public class EposNodeEditor : EditorWindow {
 
     private void DrawInterface()
     {
+        GUI.depth = 100;
         if (GUILayout.Button("Save", GUILayout.Width(50)))
         {
             SaveNodeTree();
@@ -121,6 +131,22 @@ public class EposNodeEditor : EditorWindow {
         {
             ResetWindow();
         }
+
+        
+        Rect dialogNodeLoad = new Rect(60,2, 100, 18);
+        GUILayout.BeginArea(dialogNodeLoad);
+
+        if (GUILayout.Button("Load Dialog file"))
+        {
+            string path = EditorUtility.OpenFilePanelWithFilters("Overwrite with tsv", Path.GetFullPath(Application.dataPath + "/../../StoryData"),dialogFileFilters);
+            if (path.Length != 0)
+            {
+                ReadDialogFile(path);
+            }
+        }
+        GUILayout.EndArea();
+        Rect dialogNode = new Rect(dialogNodeLoad.xMax+10,4, 150,30);
+        EditorGUI.LabelField(dialogNode, dialogScriptPath, GUIStyle.none);
     }
 
     private void DrawNodes()
@@ -129,6 +155,7 @@ public class EposNodeEditor : EditorWindow {
         {
             for (int i = 0; i < nodes.Count; i++)
             {
+                nodes[i].SetDialogList(dialogFileName, dialogs);
                 nodes[i].Draw();
             }
         }
@@ -259,7 +286,9 @@ public class EposNodeEditor : EditorWindow {
         {
             nodes = new List<EposNode>();
         }
-        nodes.Add(new EposNode(Guid.NewGuid(), mousePosition, EposNodeType.Node, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode, null,null));
+        EposNode newNode = new EposNode(Guid.NewGuid(), mousePosition, EposNodeType.Node, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode, null,null);
+        //newNode.SetDialogList(dialogs);
+        nodes.Add(newNode);
     }
 
     private void OnClickInPoint(EposConnectionPoint inPoint)
@@ -385,6 +414,7 @@ public class EposNodeEditor : EditorWindow {
     {
         nodes = null;
         connections = null;
+        dialogScriptPath = null;
         GUI.changed = true;
     }
 
@@ -394,6 +424,8 @@ public class EposNodeEditor : EditorWindow {
     {
         string path = "Assets/test_nodetree.xml";
         EposXmlNodeContainer nodeXMLContainer = new EposXmlNodeContainer();
+
+        nodeXMLContainer.pathToDialogScript = dialogScriptPath;
 
         if (nodes != null)
         {
@@ -409,7 +441,8 @@ public class EposNodeEditor : EditorWindow {
                     wwiseEvent = node.wwiseEvent,
                     isQueued = node.isQueued,
                     in_nodes = node.inNodes,
-                    out_nodes = node.outNodes
+                    out_nodes = node.outNodes,
+                    dialogIndex = node.dialogIndex
                 };
                 nodeXMLContainer.eposXMLNodes.Add(XMLNode);
             }
@@ -424,6 +457,8 @@ public class EposNodeEditor : EditorWindow {
         nodes = new List<EposNode>();
         connections = new List<EposConnection>();
         EposXmlNodeContainer nodeXmlContainer = EposXmlNodeContainer.Load(Path.Combine(Application.dataPath, "test_nodetree.xml"));
+        dialogScriptPath = nodeXmlContainer.pathToDialogScript;
+        ReadDialogFile(dialogScriptPath);
         foreach(EposXMLNode xmlNode in nodeXmlContainer.eposXMLNodes)
         {
             switch(xmlNode.nodeType)
@@ -431,9 +466,12 @@ public class EposNodeEditor : EditorWindow {
                 case EposNodeType.Begin:
                 case EposNodeType.End:
                     nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,"",false,null,xmlNode.in_nodes,xmlNode.out_nodes));
+                    
                     break;
                 case EposNodeType.Node:
-                    nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,xmlNode.wwiseEvent,xmlNode.isQueued, OnClickRemoveNode, xmlNode.in_nodes, xmlNode.out_nodes));
+                    EposNode newNode = new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,xmlNode.wwiseEvent,xmlNode.isQueued, OnClickRemoveNode, xmlNode.in_nodes, xmlNode.out_nodes);
+                    newNode.SetDialogIndex(xmlNode.dialogIndex);                 
+                    nodes.Add(newNode);
                     break;
                 default:
                     break;
@@ -493,5 +531,44 @@ public class EposNodeEditor : EditorWindow {
     public List<EposNode> GetNodes()
     {
         return nodes;
+    }
+
+    //---------------- Script Dialog Management -------------------------
+
+    private void ReadDialogFile(string path)
+    {
+        dialogFileName = Path.GetFileNameWithoutExtension(path);
+        dialogScriptPath = path;
+        StreamReader theReader = new StreamReader(dialogScriptPath, Encoding.UTF8);
+        string line;
+        int index = 0;
+        using (theReader)
+        {
+            do
+            {
+                
+                line = theReader.ReadLine();
+                if (index == 0)
+                {
+                    index++;
+                    continue;
+                }
+                if (line != null)
+                {
+                    string[] split = line.Split('\t');
+                    dialogs.Add(split);
+
+                    index++;
+                }
+            }
+            while (line != null);
+            theReader.Close();
+            GetWindow<EposNodeEditor>().titleContent = new GUIContent("Epos Editor - "+dialogFileName);
+            GUI.changed = true;
+        }
+    }
+    public string ReadDialogLine(int index)
+    {
+        return dialogs[index][1];
     }
 }

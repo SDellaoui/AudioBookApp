@@ -1,10 +1,10 @@
 Event	ID	Name			Wwise Object Path	Notes
 	457391415	Play_Ping_Out			\Debug\NodeEditor\Play_Ping_Out	
 	1048862391	Play_Node_Play			\Debug\NodeEditor\Play_Node_Play	
-	1652515808	Play_Pretre_03			\Debug\Pretre\Play_Pretre_03	
-	1652515809	Play_Pretre_02			\Debug\Pretre\Play_Pretre_02	
-	1652515810	Play_Pretre_01			\Debug\Pretre\Play_Pretre_01	
-	1652515815	Play_Pretre_04			\Debug\Pretre\Play_Pretre_04	
+	1427984736	Play_VO_Test_Dialog_Pretre_3			\Debug\Pretre\Play_VO_Test_Dialog_Pretre_3	
+	1427984737	Play_VO_Test_Dialog_Pretre_2			\Debug\Pretre\Play_VO_Test_Dialog_Pretre_2	
+	1427984738	Play_VO_Test_Dialog_Pretre_1			\Debug\Pretre\Play_VO_Test_Dialog_Pretre_1	
+	1427984739	Play_VO_Test_Dialog_Pretre_0			\Debug\Pretre\Play_VO_Test_Dialog_Pretre_0	
 	2412765392	Play_Ping_In			\Debug\NodeEditor\Play_Ping_In	
 
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes

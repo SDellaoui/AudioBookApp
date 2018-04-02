@@ -6,6 +6,9 @@ using System.IO;
 [XmlRoot("EposNodeContainer")]
 public class EposXmlNodeContainer
 {
+    [XmlElement("DialogScript")]
+    public string pathToDialogScript;
+
     [XmlArray("EposNodes"), XmlArrayItem("EposNode")]
     public List<EposXMLNode> eposXMLNodes = new List<EposXMLNode>();
 

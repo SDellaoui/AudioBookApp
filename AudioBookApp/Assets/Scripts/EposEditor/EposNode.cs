@@ -39,6 +39,9 @@ public class EposNode{
 
     public EposNodeType nodeType;
 
+    public string[] dialogs;
+    public int dialogIndex;
+
     public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, string wwiseEvent = "", bool isQueued = false, Action<EposNode> OnClickRemoveNode = null, List<Guid> in_nodes = null, List<Guid> out_nodes = null)
     {
         this.uuid = uuid;
@@ -107,11 +110,29 @@ public class EposNode{
                 inPoint.Draw();
                 outPoint.Draw();
 
+                /*
                 GUI.depth = 1;
                 wwiseTextFieldRect = new Rect(rect.x + 15, rect.y + 15, rectWidth - 27, 20);
                 wwiseEvent = EditorGUI.TextField(wwiseTextFieldRect, "", wwiseEvent);
+                */
                 GUI.depth = 2;
-                isQueued = EditorGUI.ToggleLeft(new Rect(wwiseTextFieldRect.x, wwiseTextFieldRect.y + 30, wwiseTextFieldRect.width, 15), " Dispatch on end", isQueued, GUIStyle.none);
+                Rect dialogTitle = new Rect(rect.x + 14, rect.y + 15, rect.width - 27, 20);
+                GUI.skin.label.fontStyle = FontStyle.Bold;
+                GUI.Label(dialogTitle, "Dialog line");
+                Rect dialogArea = dialogTitle;
+                dialogArea.y += 25;
+                if (dialogs != null)
+                {
+                    Rect dialogNodeLoad = wwiseTextFieldRect;
+                    dialogNodeLoad.y = wwiseTextFieldRect.y + 50;
+                    GUILayout.BeginArea(dialogArea);
+
+                    dialogIndex = EditorGUILayout.Popup("",dialogIndex, dialogs, EditorStyles.popup);
+                    wwiseEvent = "Play_"+dialogs[dialogIndex];
+                    //dialogIndex = EditorGUILayout.Popup(dialogIndex, dialogs);
+                    GUILayout.EndArea();
+                }
+                isQueued = EditorGUI.ToggleLeft(new Rect(dialogArea.x, dialogArea.y + 20, 15, 15), " Dispatch on end", isQueued, GUIStyle.none);
                 break;
             default:
                 break;
@@ -214,6 +235,8 @@ public class EposNode{
         }
     }
 
+    //---------------------- Wwise Events ---------------------------------
+
     public void Start()
     {
         Debug.Log("Receiving Input on node " + uuid);
@@ -251,7 +274,7 @@ public class EposNode{
             AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener, (uint)0x0009, WwiseCallback, this);
         else
             AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener);
-        EposEventManager.Instance.dialogCanvas.GetComponent<ContentController>().DisplayNewCharacterDialog("bla bla je mets du texte");
+        EposEventManager.Instance.dialogCanvas.GetComponent<ContentController>().DisplayNewCharacterDialog(EposNodeReader.Instance.GetDialogLine(dialogIndex));
     }
 
     void WwiseCallback(object in_cookie, AkCallbackType in_type, object in_info)
@@ -264,6 +287,24 @@ public class EposNode{
         {
             Debug.Log("[WWISE] reached end of event : " + wwiseEvent);
             End();
+        }
+    }
+
+    //------------------- Dialog Dropdown list ----------------
+    public void SetDialogIndex(int index)
+    {
+        this.dialogIndex = index;
+        //wwiseEvent = "Play_" + dialogs[this.dialogIndex];
+        //Debug.Log(wwiseEvent);
+    }
+    public void SetDialogList(string dialogFileName, List<string[]> dialogs)
+    {
+        if (nodeType != EposNodeType.Node)
+            return;
+        this.dialogs = new string[dialogs.Count];
+        for(int i=0; i<dialogs.Count; i++)
+        {
+            this.dialogs[i] = "VO_"+dialogFileName+"_"+dialogs[i][0] + "_" + i;
         }
     }
 }

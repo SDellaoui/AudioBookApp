@@ -6,8 +6,10 @@
 				<Property Name="AudioFilesImporter\Path" Type="string" Value="C:\Users\Slimane Dellaoui\Desktop"/>
 				<Property Name="Event Action List\{02FC97F7-9F05-4989-A71A-4711FD112729}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{42C307B1-B101-476F-B9D5-0E88CA75E96E}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{54F398DB-F21B-461E-BCCF-F91FEB4AB4F1}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{7E545C67-5614-42DA-8FF5-EB1FC5254560}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{9D9D5123-80BC-498E-B415-20A8FCACF731}\x64_Expand States" Type="string" Value=""/>
+				<Property Name="Event Action List\{CEDADCCF-A7A3-4A83-986E-33163C27194C}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="EventView\FilterMode1" Type="int32" Value="2"/>
 				<Property Name="ExternalSourcesInputPath" Type="string">
 					<ValueList>

@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <EposNodeContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DialogScript>F:/Unity/Projects/AudioBookApp/StoryData/Test_Dialog.tsv</DialogScript>
   <EposNodes>
-    <EposNode uuid="8cc2a60d-58ef-4a09-a0e8-552e90b0a610" title="BEGIN" nodeType="Begin" posX="60" posY="60" dispatchOnEnd="false" wwiseEvent="">
+    <EposNode uuid="90042287-1828-43a2-bd13-6e13c9e6d46e" title="BEGIN" nodeType="Begin" posX="60" posY="60" dispatchOnEnd="false" dialogIndex="0" wwiseEvent="">
       <ConnectedNodesOutput>
-        <Node_Out>07512fc5-5164-42a7-8168-eb12466a6a06</Node_Out>
+        <Node_Out>46ee6971-f6bb-4a2e-b885-a360a2be0194</Node_Out>
       </ConnectedNodesOutput>
     </EposNode>
-    <EposNode uuid="c0db97d2-54bb-4917-b26b-4637a40643fd" title="END" nodeType="End" posX="1076" posY="534" dispatchOnEnd="false" wwiseEvent="">
+    <EposNode uuid="08a054e2-0368-4ab7-9317-e0de3a238d7a" title="END" nodeType="End" posX="948" posY="336" dispatchOnEnd="false" dialogIndex="0" wwiseEvent="">
       <ConnectedNodesInput>
-        <Node_In>9e758cb3-8111-442c-ac63-23a8fba0114e</Node_In>
+        <Node_In>07c71a5d-0779-4bdd-a65d-259b78492b73</Node_In>
       </ConnectedNodesInput>
     </EposNode>
-    <EposNode uuid="07512fc5-5164-42a7-8168-eb12466a6a06" title="Dialog Node" nodeType="Node" posX="429" posY="171" dispatchOnEnd="true" wwiseEvent="Play_Pretre_01">
+    <EposNode uuid="46ee6971-f6bb-4a2e-b885-a360a2be0194" title="Dialog Node" nodeType="Node" posX="307" posY="186" dispatchOnEnd="true" dialogIndex="0" wwiseEvent="Play_VO_Test_Dialog_Pretre_0">
       <ConnectedNodesInput>
-        <Node_In>8cc2a60d-58ef-4a09-a0e8-552e90b0a610</Node_In>
+        <Node_In>90042287-1828-43a2-bd13-6e13c9e6d46e</Node_In>
       </ConnectedNodesInput>
       <ConnectedNodesOutput>
-        <Node_Out>9e758cb3-8111-442c-ac63-23a8fba0114e</Node_Out>
+        <Node_Out>07c71a5d-0779-4bdd-a65d-259b78492b73</Node_Out>
       </ConnectedNodesOutput>
     </EposNode>
-    <EposNode uuid="9e758cb3-8111-442c-ac63-23a8fba0114e" title="Dialog Node" nodeType="Node" posX="703" posY="188" dispatchOnEnd="true" wwiseEvent="Play_Pretre_02">
+    <EposNode uuid="07c71a5d-0779-4bdd-a65d-259b78492b73" title="Dialog Node" nodeType="Node" posX="596" posY="251" dispatchOnEnd="true" dialogIndex="1" wwiseEvent="Play_VO_Test_Dialog_Pretre_1">
       <ConnectedNodesInput>
-        <Node_In>07512fc5-5164-42a7-8168-eb12466a6a06</Node_In>
+        <Node_In>46ee6971-f6bb-4a2e-b885-a360a2be0194</Node_In>
       </ConnectedNodesInput>
       <ConnectedNodesOutput>
-        <Node_Out>c0db97d2-54bb-4917-b26b-4637a40643fd</Node_Out>
+        <Node_Out>08a054e2-0368-4ab7-9317-e0de3a238d7a</Node_Out>
       </ConnectedNodesOutput>
     </EposNode>
   </EposNodes>

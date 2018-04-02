@@ -19,10 +19,10 @@
 				<Event Id="1048862391" Name="Play_Node_Play" ObjectPath="\Events\Debug\NodeEditor\Play_Node_Play"/>
 				<Event Id="2412765392" Name="Play_Ping_In" ObjectPath="\Events\Debug\NodeEditor\Play_Ping_In"/>
 				<Event Id="457391415" Name="Play_Ping_Out" ObjectPath="\Events\Debug\NodeEditor\Play_Ping_Out"/>
-				<Event Id="1652515810" Name="Play_Pretre_01" ObjectPath="\Events\Debug\Pretre\Play_Pretre_01"/>
-				<Event Id="1652515809" Name="Play_Pretre_02" ObjectPath="\Events\Debug\Pretre\Play_Pretre_02"/>
-				<Event Id="1652515808" Name="Play_Pretre_03" ObjectPath="\Events\Debug\Pretre\Play_Pretre_03"/>
-				<Event Id="1652515815" Name="Play_Pretre_04" ObjectPath="\Events\Debug\Pretre\Play_Pretre_04"/>
+				<Event Id="1427984739" Name="Play_VO_Test_Dialog_Pretre_0" ObjectPath="\Events\Debug\Pretre\Play_VO_Test_Dialog_Pretre_0"/>
+				<Event Id="1427984738" Name="Play_VO_Test_Dialog_Pretre_1" ObjectPath="\Events\Debug\Pretre\Play_VO_Test_Dialog_Pretre_1"/>
+				<Event Id="1427984737" Name="Play_VO_Test_Dialog_Pretre_2" ObjectPath="\Events\Debug\Pretre\Play_VO_Test_Dialog_Pretre_2"/>
+				<Event Id="1427984736" Name="Play_VO_Test_Dialog_Pretre_3" ObjectPath="\Events\Debug\Pretre\Play_VO_Test_Dialog_Pretre_3"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="35408015" Language="English(US)">

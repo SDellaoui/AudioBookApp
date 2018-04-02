@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +8,8 @@ using UnityEngine;
 public class EposNodeReader : MonoBehaviour {
 
     private static EposNodeReader _instance;
+
+    private string storyDataPath;
 
     EposNodeEditor _nodeTree;
     List<EposNode> _nodes;
@@ -29,7 +33,27 @@ public class EposNodeReader : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
+        /*
+        this.storyDataPath = Application.dataPath + "/../../StoryData";
+        string fullStoryPath = Path.GetFullPath(Path.Combine(storyDataPath,"Test_Dialog.tsv"));
+        StreamReader theReader = new StreamReader(fullStoryPath, Encoding.UTF8);
+        string line;
+        using (theReader)
+        {
+            do
+            {
+                line = theReader.ReadLine();
+                if (line != null)
+                    Debug.Log(line);
+            }
+            while (line != null);
+            theReader.Close();
+            
+        }
+        */
         InitNodeTree();
+
+
     }
 	
 	// Update is called once per frame
@@ -43,6 +67,11 @@ public class EposNodeReader : MonoBehaviour {
         _nodeTree.LoadFile();
         _nodes = _nodeTree.GetNodes();
         EposEventManager.Instance.InitEventManager();
+        _nodeTree.Close();
+    }
+    public string GetDialogLine(int lineIndex)
+    {
+        return _nodeTree.ReadDialogLine(lineIndex);
     }
     public void BeginTree() { 
 

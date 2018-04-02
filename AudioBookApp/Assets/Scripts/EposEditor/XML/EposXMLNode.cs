@@ -23,6 +23,9 @@ public class EposXMLNode
     [XmlAttribute("dispatchOnEnd")]
     public bool isQueued;
 
+    [XmlAttribute("dialogIndex")]
+    public int dialogIndex;
+
     [XmlAttribute("wwiseEvent")]
     public string wwiseEvent;
 

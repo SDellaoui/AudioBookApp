@@ -51,7 +51,7 @@
 				</Folder>
 				<Folder Name="Pretre" ID="{CC6640DD-E0F6-4307-9071-986386001D1D}" ShortID="804684170">
 					<ChildrenList>
-						<Event Name="Play_Pretre_02" ID="{CEDADCCF-A7A3-4A83-986E-33163C27194C}">
+						<Event Name="Play_VO_Test_Dialog_Pretre_1" ID="{CEDADCCF-A7A3-4A83-986E-33163C27194C}">
 							<ChildrenList>
 								<Action Name="" ID="{E5793462-8DDC-4D05-911D-CBEC64F6DD48}" ShortID="1004995343">
 									<PropertyList>
@@ -65,7 +65,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_Pretre_03" ID="{54F398DB-F21B-461E-BCCF-F91FEB4AB4F1}">
+						<Event Name="Play_VO_Test_Dialog_Pretre_2" ID="{54F398DB-F21B-461E-BCCF-F91FEB4AB4F1}">
 							<ChildrenList>
 								<Action Name="" ID="{402B009F-2623-4D07-BCC1-ADCC6E2C7996}" ShortID="273291419">
 									<PropertyList>
@@ -79,7 +79,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_Pretre_04" ID="{A467EE3F-6C1A-418C-8F59-CFAF93036FA9}">
+						<Event Name="Play_VO_Test_Dialog_Pretre_3" ID="{A467EE3F-6C1A-418C-8F59-CFAF93036FA9}">
 							<ChildrenList>
 								<Action Name="" ID="{8A167ACA-0F65-410A-A4ED-FBEF1BBAD934}" ShortID="1043415820">
 									<PropertyList>
@@ -93,7 +93,7 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="Play_Pretre_01" ID="{42C307B1-B101-476F-B9D5-0E88CA75E96E}">
+						<Event Name="Play_VO_Test_Dialog_Pretre_0" ID="{42C307B1-B101-476F-B9D5-0E88CA75E96E}">
 							<ChildrenList>
 								<Action Name="" ID="{2D03008C-6EC3-448B-8ECB-C4266E5582A5}" ShortID="424737270">
 									<PropertyList>
