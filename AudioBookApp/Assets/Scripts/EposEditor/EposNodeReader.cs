@@ -33,25 +33,12 @@ public class EposNodeReader : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        /*
-        this.storyDataPath = Application.dataPath + "/../../StoryData";
-        string fullStoryPath = Path.GetFullPath(Path.Combine(storyDataPath,"Test_Dialog.tsv"));
-        StreamReader theReader = new StreamReader(fullStoryPath, Encoding.UTF8);
-        string line;
-        using (theReader)
-        {
-            do
-            {
-                line = theReader.ReadLine();
-                if (line != null)
-                    Debug.Log(line);
-            }
-            while (line != null);
-            theReader.Close();
-            
-        }
-        */
-        InitNodeTree();
+
+		_nodeTree = new EposNodeEditor ();
+		_nodeTree.LoadFile ();
+		_nodes = _nodeTree.GetNodes ();
+		Debug.Log (_nodes.Count);
+        //InitNodeTree();
 
 
     }
@@ -64,6 +51,7 @@ public class EposNodeReader : MonoBehaviour {
     void InitNodeTree()
     {
         _nodeTree = ScriptableObject.CreateInstance<EposNodeEditor>();
+
         _nodeTree.LoadFile();
         _nodes = _nodeTree.GetNodes();
         EposEventManager.Instance.InitEventManager();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -140,9 +141,19 @@ public class EposNodeEditor : EditorWindow {
 
         if (GUILayout.Button("Load Dialog file"))
         {
-            string path = EditorUtility.OpenFilePanelWithFilters("Overwrite with tsv", Path.GetFullPath(Application.dataPath + "/../../StoryData"),dialogFileFilters);
+			string folder = Application.dataPath + "/Resources/01_StoryData";
+            string path = EditorUtility.OpenFilePanelWithFilters("Overwrite with tsv", Path.GetFullPath(folder),dialogFileFilters);
             if (path.Length != 0)
             {
+				//Debug.Log (path);
+				string relativepath = "";
+				if (path.StartsWith(Application.dataPath)) {
+					relativepath =  path.Substring(Application.dataPath.Length);
+					relativepath = relativepath.Substring (1, relativepath.Length - 1);
+				}
+				//Debug.Log (Application.dataPath);
+				//Debug.Log (relativepath.Substring(1,relativepath.Length-1));
+				dialogScriptPath = relativepath;
                 ReadDialogFile(path);
             }
         }
@@ -477,7 +488,8 @@ public class EposNodeEditor : EditorWindow {
         connections = new List<EposConnection>();
         EposXmlNodeContainer nodeXmlContainer = EposXmlNodeContainer.Load(Path.Combine(Application.dataPath, "test_nodetree.xml"));
         dialogScriptPath = nodeXmlContainer.pathToDialogScript;
-        ReadDialogFile(dialogScriptPath);
+		Debug.Log (Path.Combine (Application.dataPath, dialogScriptPath));
+		ReadDialogFile(Path.Combine(Application.dataPath,dialogScriptPath));
         foreach(EposXMLNode xmlNode in nodeXmlContainer.eposXMLNodes)
         {
             switch(xmlNode.nodeType)
@@ -557,8 +569,7 @@ public class EposNodeEditor : EditorWindow {
     private void ReadDialogFile(string path)
     {
         dialogFileName = Path.GetFileNameWithoutExtension(path);
-        dialogScriptPath = path;
-        StreamReader theReader = new StreamReader(dialogScriptPath, Encoding.UTF8);
+        StreamReader theReader = new StreamReader(path, Encoding.UTF8);
         string line;
         int index = 0;
         using (theReader)
