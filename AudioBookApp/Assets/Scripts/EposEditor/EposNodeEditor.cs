@@ -488,7 +488,6 @@ public class EposNodeEditor : EditorWindow {
         connections = new List<EposConnection>();
         EposXmlNodeContainer nodeXmlContainer = EposXmlNodeContainer.Load(Path.Combine(Application.dataPath, "test_nodetree.xml"));
         dialogScriptPath = nodeXmlContainer.pathToDialogScript;
-		Debug.Log (Path.Combine (Application.dataPath, dialogScriptPath));
 		ReadDialogFile(Path.Combine(Application.dataPath,dialogScriptPath));
         foreach(EposXMLNode xmlNode in nodeXmlContainer.eposXMLNodes)
         {
@@ -509,7 +508,6 @@ public class EposNodeEditor : EditorWindow {
             }
         }
         LoadNodesConnections();
-
     }
 
     private void LoadNodesConnections()
@@ -601,4 +599,18 @@ public class EposNodeEditor : EditorWindow {
     {
         return dialogs[index][1];
     }
+}
+
+
+//TODO - move node functions to this class 
+public class EposData
+{
+	List<EposNode> nodes;
+	string dialogFileName;
+
+	public void TestStaticClass()
+	{
+		Debug.Log ("coucou");
+	}
+
 }

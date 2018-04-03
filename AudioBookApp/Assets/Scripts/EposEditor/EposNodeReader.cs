@@ -33,13 +33,9 @@ public class EposNodeReader : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-
-		_nodeTree = new EposNodeEditor ();
-		_nodeTree.LoadFile ();
-		_nodes = _nodeTree.GetNodes ();
-		Debug.Log (_nodes.Count);
-        //InitNodeTree();
-
+		EposData data = new EposData ();
+		data.TestStaticClass ();
+        InitNodeTree();
 
     }
 	
