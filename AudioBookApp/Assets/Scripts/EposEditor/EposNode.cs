@@ -263,7 +263,7 @@ public class EposNode{
             OnRemoveNode(this);
         }
     }
-
+	/*
     //---------------------- Wwise Events ---------------------------------
 
     public void Start()
@@ -318,7 +318,7 @@ public class EposNode{
             End();
         }
     }
-
+	*/
     //------------------- Dialog Dropdown list ----------------
     public void SetDialogIndex(int index)
     {
@@ -336,4 +336,99 @@ public class EposNode{
             this.dialogs[i] = "VO_"+dialogFileName+"_"+dialogs[i][0] + "_" + i;
         }
     }
+}
+
+
+public class EposNodeData
+{
+	private Guid m_uuid;
+	private string m_wwiseEvent;
+
+	private bool m_isQueued;
+
+	private List<Guid> m_inNodes;
+	private List<Guid> m_outNodes;
+
+	private EposNodeType m_nodeType;
+
+	private string[] m_dialogs;
+	private int m_dialogIndex;
+
+	public EposNodeData(Guid uuid, EposNodeType nodeType, int dialogIndex = 0, string wwiseEvent = "", bool isQueued = false, List<Guid> in_nodes = null, List<Guid> out_nodes = null)
+	{
+		this.m_uuid = uuid;
+		this.m_nodeType = nodeType;
+		this.m_wwiseEvent = wwiseEvent;
+		this.m_isQueued = isQueued;
+		this.m_inNodes = in_nodes;
+		this.m_outNodes = out_nodes;
+
+		this.m_dialogs = new string[0];
+		this.m_dialogIndex = dialogIndex;
+		this.m_wwiseEvent = wwiseEvent;
+	}
+
+	public Guid GetUUID()
+	{
+		return this.m_uuid;
+	}
+	public EposNodeType GetNodeType()
+	{
+		return this.m_nodeType;
+	}
+
+	//---------------------- Wwise Events ---------------------------------
+
+	public void Start()
+	{
+		Debug.Log("Receiving Input on node " + m_uuid);
+		if (EposNodeType.Begin == m_nodeType)
+			this.m_wwiseEvent = "Play_Ping_Out";
+		else if (EposNodeType.End == m_nodeType)
+			this.m_wwiseEvent = "Play_Ping_In";
+		EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
+
+		if (!m_isQueued && m_nodeType != EposNodeType.End)
+		{
+			End();
+		}
+	}
+	public void End()
+	{
+		Debug.Log("Sending Output from node " + m_uuid);
+
+		foreach (Guid nextNode in m_outNodes)
+		{
+			EposNodeData outNode = EposNodeReader.Instance.GetNodeFromUUID(nextNode);
+			if (outNode != null)
+			{
+				outNode.Start();
+			}
+		}
+		EposEventManager.Instance.StopEventCoroutine(this);
+	}
+
+	public void PlaySound()
+	{
+		if (m_wwiseEvent == "" || m_nodeType != EposNodeType.Node)
+			return;
+		if (m_isQueued)
+			AkSoundEngine.PostEvent(m_wwiseEvent, EposEventManager.Instance.listener, (uint)0x0009, WwiseCallback, this);
+		else
+			AkSoundEngine.PostEvent(m_wwiseEvent, EposEventManager.Instance.listener);
+		EposEventManager.Instance.dialogCanvas.GetComponent<ContentController>().DisplayNewCharacterDialog(EposNodeReader.Instance.GetDialogLine(m_dialogIndex));
+	}
+
+	void WwiseCallback(object in_cookie, AkCallbackType in_type, object in_info)
+	{
+		if(in_type == AkCallbackType.AK_Duration)
+		{
+
+		}
+		if (in_type == AkCallbackType.AK_EndOfEvent)
+		{
+			Debug.Log("[WWISE] reached end of event : " + m_wwiseEvent);
+			End();
+		}
+	}
 }

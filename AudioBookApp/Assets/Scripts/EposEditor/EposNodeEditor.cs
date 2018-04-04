@@ -605,12 +605,85 @@ public class EposNodeEditor : EditorWindow {
 //TODO - move node functions to this class 
 public class EposData
 {
-	List<EposNode> nodes;
-	string dialogFileName;
+	private List<EposNodeData> nodes;
+	private List<EposConnection> connections;
 
-	public void TestStaticClass()
+	private string nodePath;
+	private string dialogScriptPath;
+	private string[] dialogFileFilters = { "TSV sheets","tsv" };
+	private List<string[]> dialogs;
+	private string dialogFileName;
+
+	public EposData()
 	{
-		Debug.Log ("coucou");
-	}
+		nodes = new List<EposNodeData>();
+		connections = new List<EposConnection>();
+		dialogs = new List<string[]> ();
 
+
+	}
+	public void LoadNodeTree()
+	{
+		this.nodePath = Path.Combine (Application.dataPath, "test_nodetree.xml");
+
+		EposXmlNodeContainer nodeXmlContainer = EposXmlNodeContainer.Load(this.nodePath);
+		dialogScriptPath = nodeXmlContainer.pathToDialogScript;
+		ReadDialogFile (dialogScriptPath);
+
+		foreach(EposXMLNode xmlNode in nodeXmlContainer.eposXMLNodes)
+		{
+			switch(xmlNode.nodeType)
+			{
+			case EposNodeType.Begin:
+			case EposNodeType.End:
+				nodes.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType, xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued, xmlNode.in_nodes, xmlNode.out_nodes));
+				break;
+			case EposNodeType.Node:
+				nodes.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType, xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued, xmlNode.in_nodes, xmlNode.out_nodes));                
+				//nodes.Add(newNode);
+				break;
+			default:
+				break;
+			}
+		}
+
+	}
+	public void ReadDialogFile(string path)
+	{
+		
+		dialogFileName = Path.GetFileNameWithoutExtension(path);
+		StreamReader theReader = new StreamReader(Path.Combine(Application.dataPath,path), Encoding.UTF8);
+		string line;
+		int index = 0;
+		using (theReader)
+		{
+			do
+			{
+
+				line = theReader.ReadLine();
+				if (index == 0)
+				{
+					index++;
+					continue;
+				}
+				if (line != null)
+				{
+					string[] split = line.Split('\t');
+					dialogs.Add(split);
+
+					index++;
+				}
+			}
+			while (line != null);
+			theReader.Close();
+		}
+	}
+	public string ReadDialogLine(int index)
+	{
+		return dialogs[index][1];
+	}
+	public List<EposNodeData> GetNodes()
+	{
+		return this.nodes;
+	}
 }

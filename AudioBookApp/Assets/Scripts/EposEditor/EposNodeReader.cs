@@ -11,8 +11,10 @@ public class EposNodeReader : MonoBehaviour {
 
     private string storyDataPath;
 
-    EposNodeEditor _nodeTree;
-    List<EposNode> _nodes;
+    //EposNodeEditor _nodeTree;
+	EposData _nodeTree;
+    //List<EposNode> _nodes;
+	List<EposNodeData> _nodes;
 
     public static EposNodeReader Instance {
         get {
@@ -33,9 +35,11 @@ public class EposNodeReader : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-		EposData data = new EposData ();
-		data.TestStaticClass ();
-        InitNodeTree();
+		_nodeTree = new EposData ();
+		_nodeTree.LoadNodeTree ();
+		_nodes = _nodeTree.GetNodes ();
+		EposEventManager.Instance.InitEventManager();
+        //InitNodeTree();
 
     }
 	
@@ -43,7 +47,7 @@ public class EposNodeReader : MonoBehaviour {
 	void Update () {
 		
 	}
-
+	/*
     void InitNodeTree()
     {
         _nodeTree = ScriptableObject.CreateInstance<EposNodeEditor>();
@@ -53,15 +57,16 @@ public class EposNodeReader : MonoBehaviour {
         EposEventManager.Instance.InitEventManager();
         _nodeTree.Close();
     }
+	*/
     public string GetDialogLine(int lineIndex)
     {
         return _nodeTree.ReadDialogLine(lineIndex);
     }
     public void BeginTree() { 
 
-        foreach(EposNode node in _nodes)
+        foreach(EposNodeData node in _nodes)
         {
-            if(node.nodeType == EposNodeType.Begin)
+			if(node.GetNodeType() == EposNodeType.Begin)
             {
                 node.Start();
                 break;
@@ -74,19 +79,19 @@ public class EposNodeReader : MonoBehaviour {
         Debug.Log(node);
     }
 
-    public EposNode GetNodeFromUUID(Guid uuid)
+    public EposNodeData GetNodeFromUUID(Guid uuid)
     {
         if (_nodes != null)
         {
-            foreach (EposNode node in _nodes)
+            foreach (EposNodeData node in _nodes)
             {
-                if (node.uuid == uuid)
+				if (node.GetUUID() == uuid)
                     return node;
             }
         }
         return null;
     }
-    public List<EposNode> GetNodes()
+    public List<EposNodeData> GetNodes()
     {
         return _nodes;
     }

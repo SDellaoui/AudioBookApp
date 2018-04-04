@@ -38,10 +38,10 @@ public class EposEventManager : MonoBehaviour {
     {
         coroutinesUUID = new List<Guid>();
         coroutines = new List<IEnumerator>();
-        foreach (EposNode node in EposNodeReader.Instance.GetNodes())
+        foreach (EposNodeData node in EposNodeReader.Instance.GetNodes())
         {
-            coroutinesUUID.Add(node.uuid);
-            IEnumerator _event = PostEventCoroutine(node, node.uuid.ToString());
+			coroutinesUUID.Add(node.GetUUID());
+			IEnumerator _event = PostEventCoroutine(node, node.GetUUID().ToString());
             coroutines.Add(_event);
         }
         EposNodeReader.Instance.BeginTree();
@@ -61,16 +61,16 @@ public class EposEventManager : MonoBehaviour {
             }
         }
     }
-	IEnumerator PostEventCoroutine(EposNode node, string eventName)
+	IEnumerator PostEventCoroutine(EposNodeData node, string eventName)
     {
         node.PlaySound();
         yield return null;
     }
-    public void StopEventCoroutine(EposNode _node)
+    public void StopEventCoroutine(EposNodeData _node)
     {
         for (int i = 0; i < coroutinesUUID.Count; i++)
         {
-            if (coroutinesUUID[i] == _node.uuid)
+			if (coroutinesUUID[i] == _node.GetUUID())
             {
                 StopCoroutine(coroutines[i]);
                 break;
