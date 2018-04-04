@@ -66,7 +66,7 @@ public class EposNodeReader : MonoBehaviour {
 
         foreach(EposNodeData node in _nodes)
         {
-			if(node.GetNodeType() == EposNodeType.Begin)
+			if(node.m_nodeType == EposNodeType.Begin)
             {
                 node.Start();
                 break;
@@ -85,7 +85,7 @@ public class EposNodeReader : MonoBehaviour {
         {
             foreach (EposNodeData node in _nodes)
             {
-				if (node.GetUUID() == uuid)
+				if (node.m_uuid == uuid)
                     return node;
             }
         }

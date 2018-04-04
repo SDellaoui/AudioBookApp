@@ -11,25 +11,19 @@ public enum EposNodeType {
 
 public class EposNode{
 
-    public Guid uuid;
+    public EposNodeData nodeData;
+
     public Rect rect;
     public Rect wwiseTextFieldRect;
     public float rectWidth;
     public float rectHeight;
     public string title;
-    public string wwiseEvent;
-
-    public bool isQueued;
+    
     public bool isDragged;
     public bool isSelected;
-    public bool isEditingWwiseEvent;
 
     public EposConnectionPoint inPoint;
     public EposConnectionPoint outPoint;
-
-    public List<Guid> inNodes;
-    public List<Guid> outNodes;
-
 
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
@@ -37,19 +31,12 @@ public class EposNode{
 
     public Action<EposNode> OnRemoveNode;
 
-    public EposNodeType nodeType;
-
     public string[] dialogs;
-    public int dialogIndex;
 
     public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, GUIStyle inPointStyle, GUIStyle outPointStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, string wwiseEvent = "", bool isQueued = false, Action<EposNode> OnClickRemoveNode = null, List<Guid> in_nodes = null, List<Guid> out_nodes = null)
     {
-        this.uuid = uuid;
-        this.isQueued = isQueued;
-        this.inNodes = in_nodes;
-        this.outNodes = out_nodes;
+        this.nodeData = new EposNodeData(uuid, _nodeType, 0, wwiseEvent, isQueued, in_nodes, out_nodes);
 
-        this.nodeType = _nodeType;
         switch (_nodeType)
         {
             case EposNodeType.Begin:
@@ -75,13 +62,10 @@ public class EposNode{
         }
 
         rect = new Rect(position.x, position.y, this.rectWidth, this.rectHeight);
-        //rectHeight = height;
-        //rectWidth = width;
+
         style = nodeStyle;
-        
         defaultNodeStyle = nodeStyle;
         selectedNodeStyle = selectedStyle;
-        this.wwiseEvent = wwiseEvent;
 
     }
 
@@ -98,7 +82,7 @@ public class EposNode{
         GUI.skin.label.alignment = TextAnchor.UpperCenter;
         Rect label = new Rect(rect.x, rect.y-14, rectWidth, rectHeight);
         GUI.Label(label, title);
-        switch (nodeType)
+        switch (this.nodeData.m_nodeType)
         {
             case EposNodeType.Begin:
                 outPoint.Draw();
@@ -110,29 +94,23 @@ public class EposNode{
                 inPoint.Draw();
                 outPoint.Draw();
 
-                /*
-                GUI.depth = 1;
-                wwiseTextFieldRect = new Rect(rect.x + 15, rect.y + 15, rectWidth - 27, 20);
-                wwiseEvent = EditorGUI.TextField(wwiseTextFieldRect, "", wwiseEvent);
-                */
                 GUI.depth = 2;
                 Rect dialogTitle = new Rect(rect.x + 14, rect.y + 15, rect.width - 27, 20);
                 GUI.skin.label.fontStyle = FontStyle.Bold;
                 GUI.Label(dialogTitle, "Dialog line");
                 Rect dialogArea = dialogTitle;
                 dialogArea.y += 25;
+
                 if (dialogs != null)
                 {
                     Rect dialogNodeLoad = wwiseTextFieldRect;
                     dialogNodeLoad.y = wwiseTextFieldRect.y + 50;
                     GUILayout.BeginArea(dialogArea);
-
-                    dialogIndex = EditorGUILayout.Popup("",dialogIndex, dialogs, EditorStyles.popup);
-                    wwiseEvent = "Play_"+dialogs[dialogIndex];
-                    //dialogIndex = EditorGUILayout.Popup(dialogIndex, dialogs);
+                    this.nodeData.m_dialogIndex = EditorGUILayout.Popup("", this.nodeData.m_dialogIndex,dialogs, EditorStyles.popup);
+                    this.nodeData.m_wwiseEvent = "Play_"+ dialogs[this.nodeData.m_dialogIndex];
                     GUILayout.EndArea();
                 }
-                isQueued = EditorGUI.ToggleLeft(new Rect(dialogArea.x, dialogArea.y + 20, 15, 15), " Dispatch on end", isQueued, GUIStyle.none);
+                this.nodeData.m_isQueued = EditorGUI.ToggleLeft(new Rect(dialogArea.x, dialogArea.y + 20, 15, 15), " Dispatch on end", this.nodeData.m_isQueued, GUIStyle.none);
                 break;
             default:
                 break;
@@ -152,19 +130,17 @@ public class EposNode{
                         GUI.changed = true;
                         isSelected = true;
                         style = selectedNodeStyle;
-						isEditingWwiseEvent = true;
                     }
                     else
                     {
                         GUI.changed = true;
                         isSelected = false;
                         style = defaultNodeStyle;
-						isEditingWwiseEvent = false;
                     }
                 }
                 if (e.button == 1 && isSelected && rect.Contains(e.mousePosition))
                 {
-                    if (nodeType == EposNodeType.Node)
+                    if (this.nodeData.m_nodeType == EposNodeType.Node)
                     {
                         ProcessContextMenu();
                         
@@ -194,18 +170,18 @@ public class EposNode{
         switch (in_out)
         {
             case 0:
-                if(inNodes == null)
+                if(this.nodeData.m_inNodes == null)
                 {
-                    inNodes = new List<Guid>();
+                    this.nodeData.m_inNodes = new List<Guid>();
                 }
-                inNodes.Add(nodeUUID);
+                this.nodeData.m_inNodes.Add(nodeUUID);
                 break;
             case 1:
-                if (outNodes == null)
+                if (this.nodeData.m_outNodes == null)
                 {
-                    outNodes = new List<Guid>();
+                    this.nodeData.m_outNodes = new List<Guid>();
                 }
-                outNodes.Add(nodeUUID);
+                this.nodeData.m_outNodes.Add(nodeUUID);
                 break;
             default:
                 break;
@@ -216,22 +192,22 @@ public class EposNode{
         switch(in_out)
         {
             case 0:
-                for (int i = 0; i < inNodes.Count; i++)
+                for (int i = 0; i < this.nodeData.m_inNodes.Count; i++)
                 {
-                    Debug.Log(inNodes[i]);
-                    if (inNodes[i] == nodeUUID)
+                    Debug.Log(this.nodeData.m_inNodes[i]);
+                    if (this.nodeData.m_inNodes[i] == nodeUUID)
                     {
-                        inNodes.RemoveAt(i);
+                        this.nodeData.m_inNodes.RemoveAt(i);
                         break;
                     }
                 }
                 break;
             case 1:
-                for (int i = 0; i < outNodes.Count; i++)
+                for (int i = 0; i < this.nodeData.m_outNodes.Count; i++)
                 {
-                    if (outNodes[i] == nodeUUID)
+                    if (this.nodeData.m_outNodes[i] == nodeUUID)
                     {
-                        outNodes.RemoveAt(i);
+                        this.nodeData.m_outNodes.RemoveAt(i);
                         break;
                     }
                 }
@@ -258,77 +234,20 @@ public class EposNode{
 
     private void OnClickRemoveNode()
     {
-        if (OnRemoveNode != null && nodeType == EposNodeType.Node)
+        if (OnRemoveNode != null && this.nodeData.m_nodeType == EposNodeType.Node)
         {
             OnRemoveNode(this);
         }
     }
-	/*
-    //---------------------- Wwise Events ---------------------------------
 
-    public void Start()
-    {
-        Debug.Log("Receiving Input on node " + uuid);
-        if (EposNodeType.Begin == nodeType)
-            this.wwiseEvent = "Play_Ping_Out";
-        else if (EposNodeType.End == nodeType)
-            this.wwiseEvent = "Play_Ping_In";
-        EposEventManager.Instance.PostEvent(uuid, wwiseEvent);
-
-        if (!isQueued && nodeType != EposNodeType.End)
-        {
-            End();
-        }
-    }
-    public void End()
-    {
-        Debug.Log("Sending Output from node " + uuid);
-        
-        foreach (Guid nextNode in outNodes)
-        {
-            EposNode outNode = EposNodeReader.Instance.GetNodeFromUUID(nextNode);
-            if (outNode != null)
-            {
-                outNode.Start();
-            }
-        }
-        EposEventManager.Instance.StopEventCoroutine(this);
-    }
-
-    public void PlaySound()
-    {
-        if (wwiseEvent == "" || nodeType != EposNodeType.Node)
-            return;
-        if (isQueued)
-            AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener, (uint)0x0009, WwiseCallback, this);
-        else
-            AkSoundEngine.PostEvent(wwiseEvent, EposEventManager.Instance.listener);
-        EposEventManager.Instance.dialogCanvas.GetComponent<ContentController>().DisplayNewCharacterDialog(EposNodeReader.Instance.GetDialogLine(dialogIndex));
-    }
-
-    void WwiseCallback(object in_cookie, AkCallbackType in_type, object in_info)
-    {
-        if(in_type == AkCallbackType.AK_Duration)
-        {
-            //Debug.Log("Event Started");
-        }
-        if (in_type == AkCallbackType.AK_EndOfEvent)
-        {
-            Debug.Log("[WWISE] reached end of event : " + wwiseEvent);
-            End();
-        }
-    }
-	*/
     //------------------- Dialog Dropdown list ----------------
     public void SetDialogIndex(int index)
     {
-        this.dialogIndex = index;
-        //wwiseEvent = "Play_" + dialogs[this.dialogIndex];
-        //Debug.Log(wwiseEvent);
+        this.nodeData.m_dialogIndex = index;
     }
     public void SetDialogList(string dialogFileName, List<string[]> dialogs)
     {
-        if (nodeType != EposNodeType.Node)
+        if (this.nodeData.m_nodeType != EposNodeType.Node)
             return;
         this.dialogs = new string[dialogs.Count];
         for(int i=0; i<dialogs.Count; i++)
@@ -338,21 +257,21 @@ public class EposNode{
     }
 }
 
-
+// Class containing node data. used both on editor and runtime.
 public class EposNodeData
 {
-	private Guid m_uuid;
-	private string m_wwiseEvent;
+	public Guid m_uuid;
+	public string m_wwiseEvent;
 
-	private bool m_isQueued;
+	public bool m_isQueued;
 
-	private List<Guid> m_inNodes;
-	private List<Guid> m_outNodes;
+    public List<Guid> m_inNodes;
+    public List<Guid> m_outNodes;
 
-	private EposNodeType m_nodeType;
+    public EposNodeType m_nodeType;
 
-	private string[] m_dialogs;
-	private int m_dialogIndex;
+    public string[] m_dialogs;
+    public int m_dialogIndex;
 
 	public EposNodeData(Guid uuid, EposNodeType nodeType, int dialogIndex = 0, string wwiseEvent = "", bool isQueued = false, List<Guid> in_nodes = null, List<Guid> out_nodes = null)
 	{
@@ -368,20 +287,11 @@ public class EposNodeData
 		this.m_wwiseEvent = wwiseEvent;
 	}
 
-	public Guid GetUUID()
-	{
-		return this.m_uuid;
-	}
-	public EposNodeType GetNodeType()
-	{
-		return this.m_nodeType;
-	}
-
 	//---------------------- Wwise Events ---------------------------------
 
 	public void Start()
 	{
-		Debug.Log("Receiving Input on node " + m_uuid);
+		//Debug.Log("Receiving Input on node " + m_uuid);
 		if (EposNodeType.Begin == m_nodeType)
 			this.m_wwiseEvent = "Play_Ping_Out";
 		else if (EposNodeType.End == m_nodeType)
@@ -395,7 +305,7 @@ public class EposNodeData
 	}
 	public void End()
 	{
-		Debug.Log("Sending Output from node " + m_uuid);
+		//Debug.Log("Sending Output from node " + m_uuid);
 
 		foreach (Guid nextNode in m_outNodes)
 		{
@@ -427,7 +337,7 @@ public class EposNodeData
 		}
 		if (in_type == AkCallbackType.AK_EndOfEvent)
 		{
-			Debug.Log("[WWISE] reached end of event : " + m_wwiseEvent);
+			//Debug.Log("[WWISE] reached end of event : " + m_wwiseEvent);
 			End();
 		}
 	}
