@@ -2,19 +2,19 @@
 <EposNodeContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <DialogScript>Resources/01_StoryData/Test_Dialog.tsv</DialogScript>
   <EposNodes>
-    <EposNode uuid="fe3d1aba-3042-4b6c-9ac3-610a8d271601" title="BEGIN" nodeType="Begin" posX="129" posY="300" dispatchOnEnd="false" dialogIndex="0" wwiseEvent="">
+    <EposNode uuid="fe3d1aba-3042-4b6c-9ac3-610a8d271601" title="BEGIN" nodeType="Begin" posX="193" posY="194" dispatchOnEnd="false" dialogIndex="0" wwiseEvent="">
       <ConnectedNodesInput />
       <ConnectedNodesOutput>
         <Node_Out>81e3e531-e18a-4314-98ae-3c0cfd5945a7</Node_Out>
       </ConnectedNodesOutput>
     </EposNode>
-    <EposNode uuid="c1cd14cd-1be5-4e09-bd20-73eba2dc3661" title="END" nodeType="End" posX="756" posY="301" dispatchOnEnd="false" dialogIndex="0" wwiseEvent="">
+    <EposNode uuid="c1cd14cd-1be5-4e09-bd20-73eba2dc3661" title="END" nodeType="End" posX="820" posY="195" dispatchOnEnd="false" dialogIndex="0" wwiseEvent="">
       <ConnectedNodesInput>
         <Node_In>3dbb9dc2-34c5-4e45-9af3-bab192bbd92e</Node_In>
       </ConnectedNodesInput>
       <ConnectedNodesOutput />
     </EposNode>
-    <EposNode uuid="81e3e531-e18a-4314-98ae-3c0cfd5945a7" title="Dialog Node" nodeType="Node" posX="226" posY="272" dispatchOnEnd="true" dialogIndex="0" wwiseEvent="Play_VO_Test_Dialog_Pretre_0">
+    <EposNode uuid="81e3e531-e18a-4314-98ae-3c0cfd5945a7" title="Dialog Node" nodeType="Node" posX="290" posY="166" dispatchOnEnd="true" dialogIndex="0" wwiseEvent="Play_VO_Test_Dialog_Pretre_0">
       <ConnectedNodesInput>
         <Node_In>fe3d1aba-3042-4b6c-9ac3-610a8d271601</Node_In>
       </ConnectedNodesInput>
@@ -22,7 +22,7 @@
         <Node_Out>3dbb9dc2-34c5-4e45-9af3-bab192bbd92e</Node_Out>
       </ConnectedNodesOutput>
     </EposNode>
-    <EposNode uuid="3dbb9dc2-34c5-4e45-9af3-bab192bbd92e" title="Dialog Node" nodeType="Node" posX="491" posY="276" dispatchOnEnd="true" dialogIndex="1" wwiseEvent="Play_VO_Test_Dialog_Pretre_1">
+    <EposNode uuid="3dbb9dc2-34c5-4e45-9af3-bab192bbd92e" title="Dialog Node" nodeType="Node" posX="555" posY="170" dispatchOnEnd="true" dialogIndex="1" wwiseEvent="Play_VO_Test_Dialog_Pretre_1">
       <ConnectedNodesInput>
         <Node_In>81e3e531-e18a-4314-98ae-3c0cfd5945a7</Node_In>
       </ConnectedNodesInput>
@@ -30,5 +30,6 @@
         <Node_Out>c1cd14cd-1be5-4e09-bd20-73eba2dc3661</Node_Out>
       </ConnectedNodesOutput>
     </EposNode>
+    <EposNode uuid="5628cbab-a654-4b39-997a-a027f7313005" title="Dialog Node" nodeType="Node" posX="164" posY="387" dispatchOnEnd="false" dialogIndex="0" wwiseEvent="Play_VO_Test_Dialog_Pretre_0" />
   </EposNodes>
 </EposNodeContainer>
