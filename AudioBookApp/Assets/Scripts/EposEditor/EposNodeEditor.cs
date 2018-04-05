@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Text;
+using System.Xml;
 using UnityEngine;
 using UnityEditor;
 
@@ -111,7 +112,9 @@ public class EposNodeEditor : EditorWindow {
 
     private void DrawInterface()
     {
-
+		int toolBarInt;
+		string[] toolStrings = new string[]{"tool1", "tool2", "tool3"};
+		GUILayout.Toolbar (0, toolStrings);
         GUI.depth = 100;
         if (GUILayout.Button("Save", GUILayout.Width(50)))
         {
@@ -573,12 +576,25 @@ public class EposData
     public List<string[]> m_dialogs;
     public string m_dialogFileName;
 
+	public List<string> m_eventsList;
+
 	public EposData()
 	{
         m_nodes = new List<EposNode>();
         m_nodesData = new List<EposNodeData>();
 		m_dialogs = new List<string[]> ();
+		GetWwiseEvents ();
+	}
 
+	public void GetWwiseEvents()
+	{
+		XmlDocument document = new XmlDocument ();
+		document.Load(Application.dataPath+"/../../WwiseProject/GeneratedSoundBanks/Windows/SoundbanksInfo.xml");
+		XmlNode root = document.DocumentElement;
+		XmlNodeList list = document.GetElementsByTagName ("Event");
+		foreach (XmlNode xn in list) {
+			Debug.Log (xn.Attributes["Name"].Value);
+		}
 	}
 	public void LoadNodeTree()
 	{
