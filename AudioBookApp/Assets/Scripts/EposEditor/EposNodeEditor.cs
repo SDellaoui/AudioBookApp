@@ -112,9 +112,11 @@ public class EposNodeEditor : EditorWindow {
 
     private void DrawInterface()
     {
+        /*
 		int toolBarInt;
 		string[] toolStrings = new string[]{"tool1", "tool2", "tool3"};
 		GUILayout.Toolbar (0, toolStrings);
+        */
         GUI.depth = 100;
         if (GUILayout.Button("Save", GUILayout.Width(50)))
         {
@@ -283,18 +285,27 @@ public class EposNodeEditor : EditorWindow {
     private void ProcessContextMenu(Vector2 mousePosition)
     {
         GenericMenu genericMenu = new GenericMenu();
-        genericMenu.AddItem(new GUIContent("Add node"), false, () => OnClickAddNode(mousePosition));
+        genericMenu.AddItem(new GUIContent("Add node"), false, () => OnClickAddNode(mousePosition, EposNodeType.Node));
+        genericMenu.AddItem(new GUIContent("Add OR node"), false, () => OnClickAddNode(mousePosition, EposNodeType.Conditionnal_OR));
         genericMenu.ShowAsContext();
     }
 
-    private void OnClickAddNode(Vector2 mousePosition)
+    private void OnClickAddNode(Vector2 mousePosition, EposNodeType nodeType)
     {
         if (this.m_eposData.m_nodes == null)
         {
             this.m_eposData.m_nodes = new List<EposNode>();
         }
-        EposNode newNode = new EposNode(Guid.NewGuid(), mousePosition, EposNodeType.Node, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode, null,null);
-        this.m_eposData.m_nodes.Add(newNode);
+        if (nodeType == EposNodeType.Node)
+        {
+            EposNode newNode = new EposNode(Guid.NewGuid(), mousePosition, EposNodeType.Node, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode, null, null);
+            this.m_eposData.m_nodes.Add(newNode);
+        }
+        else
+        {
+            EposNodeConditionnal newNode = new EposNodeConditionnal(Guid.NewGuid(), mousePosition, EposNodeType.Conditionnal_OR, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode, null, null);
+            this.m_eposData.m_nodes.Add(newNode);
+        }
     }
 
     private void OnClickInPoint(EposConnectionPoint inPoint)
@@ -576,7 +587,7 @@ public class EposData
     public List<string[]> m_dialogs;
     public string m_dialogFileName;
 
-	public List<string> m_eventsList;
+	public List<string[]> m_eventsList;
 
 	public EposData()
 	{
@@ -592,10 +603,16 @@ public class EposData
 		document.Load(Application.dataPath+"/../../WwiseProject/GeneratedSoundBanks/Windows/SoundbanksInfo.xml");
 		XmlNode root = document.DocumentElement;
 		XmlNodeList list = document.GetElementsByTagName ("Event");
+        this.m_eventsList = new List<string[]>();
 		foreach (XmlNode xn in list) {
-			Debug.Log (xn.Attributes["Name"].Value);
+            string[] wwiseEvt = new string[] {xn.Attributes["Id"].Value,xn.Attributes["Name"].Value };
+            this.m_eventsList.Add(wwiseEvt);
 		}
 	}
+    public void Coucou(string coucou, string tuveuxvoirmabite)
+    {
+        Debug.Log(coucou+" -> "+tuveuxvoirmabite);
+    }
 	public void LoadNodeTree()
 	{
 		this.m_nodePath = Path.Combine (Application.dataPath, "test_nodetree.xml");
@@ -613,7 +630,7 @@ public class EposData
                     m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType, xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued, xmlNode.in_nodes, xmlNode.out_nodes));
 				break;
 			case EposNodeType.Node:
-                    m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType, xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued, xmlNode.in_nodes, xmlNode.out_nodes));                
+                    m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType, xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued, xmlNode.in_nodes, xmlNode.out_nodes, Coucou));                
 				break;
 			default:
 				break;

@@ -5,8 +5,10 @@ using UnityEngine;
 
 public enum EposNodeType {
     Begin,
+    End,
     Node,
-    End
+    Conditionnal_OR,
+    Conditionnal_AND
 };
 
 public class EposNode{
@@ -111,6 +113,11 @@ public class EposNode{
                     GUILayout.EndArea();
                 }
                 this.nodeData.m_isQueued = EditorGUI.ToggleLeft(new Rect(dialogArea.x, dialogArea.y + 20, 15, 15), " Dispatch on end", this.nodeData.m_isQueued, GUIStyle.none);
+                break;
+            case EposNodeType.Conditionnal_OR:
+                rectWidth = 200;
+                rectHeight = 200;
+                title = "OR";
                 break;
             default:
                 break;
@@ -273,7 +280,9 @@ public class EposNodeData
     public string[] m_dialogs;
     public int m_dialogIndex;
 
-	public EposNodeData(Guid uuid, EposNodeType nodeType, int dialogIndex = 0, string wwiseEvent = "", bool isQueued = false, List<Guid> in_nodes = null, List<Guid> out_nodes = null)
+    public Action<string,string> Coucou;
+
+	public EposNodeData(Guid uuid, EposNodeType nodeType, int dialogIndex = 0, string wwiseEvent = "", bool isQueued = false, List<Guid> in_nodes = null, List<Guid> out_nodes = null, Action<string,string> Coucou = null)
 	{
 		this.m_uuid = uuid;
 		this.m_nodeType = nodeType;
@@ -285,6 +294,8 @@ public class EposNodeData
 		this.m_dialogs = new string[0];
 		this.m_dialogIndex = dialogIndex;
 		this.m_wwiseEvent = wwiseEvent;
+
+        this.Coucou = Coucou;
 	}
 
 	//---------------------- Wwise Events ---------------------------------
@@ -320,6 +331,8 @@ public class EposNodeData
 
 	public void PlaySound()
 	{
+        if(Coucou != null)
+            Coucou("Si tu lis ça c'est que t'es un gros débile","prout");
 		if (m_wwiseEvent == "" || m_nodeType != EposNodeType.Node)
 			return;
 		if (m_isQueued)

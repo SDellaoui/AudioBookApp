@@ -30,8 +30,13 @@ public class EposEventManager : MonoBehaviour {
 			Destroy (this.gameObject);
 	}
 
-	// Use this for initialization
-	void Start () {
+    void OnApplicationQuit()
+    {
+        AkSoundEngine.StopAll(listener);
+    }
+
+    // Use this for initialization
+    void Start () {
          
 	}
     public void InitEventManager()
