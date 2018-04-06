@@ -27,6 +27,8 @@ public class EposNode{
     public EposConnectionPoint inPoint;
     public EposConnectionPoint outPoint;
 
+	public List<EposConnectionPoint> in_Points;
+
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
     public GUIStyle selectedNodeStyle;
@@ -109,16 +111,18 @@ public class EposNode{
                     dialogNodeLoad.y = wwiseTextFieldRect.y + 50;
                     GUILayout.BeginArea(dialogArea);
                     this.nodeData.m_dialogIndex = EditorGUILayout.Popup("", this.nodeData.m_dialogIndex,dialogs, EditorStyles.popup);
-                    this.nodeData.m_wwiseEvent = "Play_"+ dialogs[this.nodeData.m_dialogIndex];
+					if(dialogs.Length > 0)
+                    	this.nodeData.m_wwiseEvent = "Play_"+ dialogs[this.nodeData.m_dialogIndex];
                     GUILayout.EndArea();
                 }
                 this.nodeData.m_isQueued = EditorGUI.ToggleLeft(new Rect(dialogArea.x, dialogArea.y + 20, 15, 15), " Dispatch on end", this.nodeData.m_isQueued, GUIStyle.none);
                 break;
-            case EposNodeType.Conditionnal_OR:
-                rectWidth = 200;
-                rectHeight = 200;
-                title = "OR";
-                break;
+			case EposNodeType.Conditionnal_OR:
+				foreach (EposConnectionPoint pt in in_Points) {
+					pt.Draw ();
+					pt.rect.y = pt.node.rect.y + pt.rect.y;// + (this.rect.height * 0.5f) - pt.rect.height * 0.5f;
+				}
+				break;
             default:
                 break;
         }
