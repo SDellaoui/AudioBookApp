@@ -120,8 +120,8 @@ public class EposNode{
 			case EposNodeType.Conditionnal_OR:
 				foreach (EposConnectionPoint pt in in_Points) {
 					pt.Draw ();
-					pt.rect.y = pt.node.rect.y + pt.rect.y;// + (this.rect.height * 0.5f) - pt.rect.height * 0.5f;
 				}
+                outPoint.Draw();
 				break;
             default:
                 break;
@@ -284,6 +284,10 @@ public class EposNodeData
     public string[] m_dialogs;
     public int m_dialogIndex;
 
+    public int m_nInputs;
+    public int m_nOutputs;
+    public int m_nInputsReceived;
+
     public Action<string,string> Coucou;
 
 	public EposNodeData(Guid uuid, EposNodeType nodeType, int dialogIndex = 0, string wwiseEvent = "", bool isQueued = false, List<Guid> in_nodes = null, List<Guid> out_nodes = null, Action<string,string> Coucou = null)
@@ -300,18 +304,32 @@ public class EposNodeData
 		this.m_wwiseEvent = wwiseEvent;
 
         this.Coucou = Coucou;
+
+        this.m_nInputsReceived = 0;
 	}
 
 	//---------------------- Wwise Events ---------------------------------
 
 	public void Start()
 	{
+        m_nInputsReceived++;
 		//Debug.Log("Receiving Input on node " + m_uuid);
 		if (EposNodeType.Begin == m_nodeType)
 			this.m_wwiseEvent = "Play_Ping_Out";
 		else if (EposNodeType.End == m_nodeType)
 			this.m_wwiseEvent = "Play_Ping_In";
-		EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
+        else if(EposNodeType.Conditionnal_AND == m_nodeType)
+        {
+            if(m_nInputsReceived == m_nInputs)
+                EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
+        }
+        else if(EposNodeType.Conditionnal_OR == m_nodeType)
+        {
+            if(m_nInputsReceived == 1)
+                EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
+        }
+        else if(EposNodeType.Node == m_nodeType)
+            EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
 
 		if (!m_isQueued && m_nodeType != EposNodeType.End)
 		{

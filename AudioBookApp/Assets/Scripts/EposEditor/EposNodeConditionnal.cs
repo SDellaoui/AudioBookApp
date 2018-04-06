@@ -10,26 +10,16 @@ public class EposNodeConditionnal : EposNode
     {
         //this.nodeData = new EposNodeData(uuid, _nodeType, 0, wwiseEvent, isQueued, in_nodes, out_nodes);
 		in_Points = new List<EposConnectionPoint> ();
+        this.nodeData.m_nInputs = 2;
         switch (_nodeType)
         {
 			case EposNodeType.Conditionnal_OR:
-				Rect inRect = new Rect();
-				//inPoint = new EposConnectionPoint (this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
 	            for(int i=0; i<2; i++)
 	            {
-	                EposConnectionPoint pt = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
-					if (i == 0) {
-						inRect = pt.rect;
-					} else {
-						inRect = new Rect (inRect.x, inRect.y + inRect.height + 5, inRect.width, inRect.height);pt.rect = inRect;
-						pt.rect = inRect;
-						
-					}
-					Debug.Log (pt.rect);
+	                EposConnectionPoint pt = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint, this.nodeData.m_nInputs, i);
 					in_Points.Add (pt);
 	            }
-	            //inPoint = new EposConnectionPoint(this, ConnectionPointType.In, inPointStyle, OnClickInPoint);
-	            //outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, outPointStyle, OnClickOutPoint);
+	            outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, outPointStyle, OnClickOutPoint);
 	            break;
 	        default:
 	            break;
