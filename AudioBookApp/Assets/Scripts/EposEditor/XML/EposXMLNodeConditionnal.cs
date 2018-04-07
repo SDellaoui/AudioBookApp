@@ -21,7 +21,7 @@ public class EposXMLNodeConditionnal
     public float posY;
 
     [XmlArray("Inputs"), XmlArrayItem("Input")]
-    public EposXMLNodeInput[] nodesIn;
+    public List<EposXMLNodeInput> nodesIn;
 
     [XmlArray("ConnectedNodesOutput"), XmlArrayItem("Node_Out")]
     public List<Guid> out_nodes = new List<Guid>();

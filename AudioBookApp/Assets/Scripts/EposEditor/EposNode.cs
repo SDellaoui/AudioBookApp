@@ -28,6 +28,7 @@ public class EposNode{
     public EposConnectionPoint outPoint;
 
 	public List<EposConnectionPoint> in_Points;
+	public List<EposConnectionPoint> out_Points;
 
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
@@ -198,6 +199,29 @@ public class EposNode{
                 break;
         }
     }
+	public void AddConnectedNode(short in_out, int in_outPinIndex, Guid nodeUUID)
+	{
+		switch (in_out)
+		{
+		case 0:
+			
+			if(this.nodeData.m_inputsPins[in_outPinIndex] == null)
+			{
+				this.nodeData.m_inputsPins[in_outPinIndex] = new List<Guid>();
+			}
+			this.nodeData.m_inputsPins[in_outPinIndex].Add(nodeUUID);
+			break;
+		case 1:
+			if (this.nodeData.m_outNodes == null)
+			{
+				this.nodeData.m_outNodes = new List<Guid>();
+			}
+			this.nodeData.m_outNodes.Add(nodeUUID);
+			break;
+		default:
+			break;
+		}
+	}
     public void RemoveConnectedNode(short in_out,Guid nodeUUID)
     {
         switch(in_out)
@@ -227,6 +251,50 @@ public class EposNode{
                 break;
         }
     }
+	public void RemoveConnectedNode(short in_out,int in_outPinIndex,Guid nodeUUID)
+	{
+		bool exit = false; 
+		switch(in_out)
+		{
+			case 0:
+				
+				for(int i=0; i< this.nodeData.m_inputsPins.Count; i++)
+				{
+					for(int j=0; j< this.nodeData.m_inputsPins[i].Count; j++)
+					{
+						Debug.Log(this.nodeData.m_inputsPins[i][j]);
+						if (this.nodeData.m_inputsPins[i][j] == nodeUUID)
+						{
+							this.nodeData.m_inputsPins[i].RemoveAt(j);
+							exit=true; 
+							break;
+						}
+					}
+					if(exit)
+						break;
+				}
+				break;
+			case 1:
+				for(int i=0; i< this.nodeData.m_outputsPins.Count; i++)
+				{
+					for(int j=0; j< this.nodeData.m_outputsPins[i].Count; j++)
+					{
+						Debug.Log(this.nodeData.m_outputsPins[i][j]);
+						if (this.nodeData.m_outputsPins[i][j] == nodeUUID)
+						{
+							this.nodeData.m_outputsPins[i].RemoveAt(j);
+							exit=true; 
+							break;
+						}
+					}
+					if(exit)
+						break;
+				}
+				break;
+			default:
+				break;
+		}
+	}
 
     private void ProcessContextMenu()
     {
@@ -276,6 +344,9 @@ public class EposNodeData
 
 	public bool m_isQueued;
 
+	public List<List<Guid>> m_inputsPins;
+	public List<List<Guid>> m_outputsPins;
+
     public List<Guid> m_inNodes;
     public List<Guid> m_outNodes;
 
@@ -298,6 +369,9 @@ public class EposNodeData
 		this.m_isQueued = isQueued;
 		this.m_inNodes = in_nodes;
 		this.m_outNodes = out_nodes;
+
+		//this.m_inputsPins = new List<List<Guid>>();
+		//this.m_outputsPins = new List<List<Guid>>();
 
 		this.m_dialogs = new string[0];
 		this.m_dialogIndex = dialogIndex;

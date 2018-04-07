@@ -29,6 +29,10 @@ public class EposXMLNode
     [XmlAttribute("wwiseEvent")]
     public string wwiseEvent;
 
+	[XmlArray("Inputs"), XmlArrayItem("Input")]
+	public List<EposXMLNodeInput> nodesIn;
+
+
     [XmlArray("ConnectedNodesInput"), XmlArrayItem("Node_In")]
     public List<Guid> in_nodes = new List<Guid>();
 
