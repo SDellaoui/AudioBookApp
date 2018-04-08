@@ -288,6 +288,7 @@ public class EposNodeData
                 break;
             case EposNodeType.Conditionnal_OR:
             case EposNodeType.Conditionnal_AND:
+                this.m_nInputs = 2;
                 for (int i = 0; i < this.m_nInputs; i++)
                 {
                     inPoint = (this._OnClickInPoint == null) ? new EposConnectionPoint(this, ConnectionPointType.In, this.m_nInputs,i) : new EposConnectionPoint(this, ConnectionPointType.In, this._OnClickInPoint, this.m_nInputs,i);
@@ -303,14 +304,13 @@ public class EposNodeData
 
 	public void Start()
 	{
-        Debug.Log("Start node " + m_uuid);
+        //Debug.Log("Start node " + m_uuid);
         m_nInputsReceived++;
         if (EposNodeType.Begin == m_nodeType || EposNodeType.End == m_nodeType || EposNodeType.Conditionnal_OR == m_nodeType)
             End();
-        else if (EposNodeType.Conditionnal_AND == m_nodeType)
-        {
-            if (m_nInputsReceived == m_nInputs)
-                End();
+        else if (EposNodeType.Conditionnal_AND == m_nodeType && m_nInputsReceived == m_nInputs)
+        { 
+            End();
         }
         else if (EposNodeType.Node == m_nodeType)
         {
@@ -326,7 +326,7 @@ public class EposNodeData
 	{
         if (dispatched)
             return;
-        Debug.Log("Nb Inputs received "+m_nInputsReceived+" for node "+m_nodeType.ToString());
+        //Debug.Log("Nb Inputs received "+m_nInputsReceived+" for node "+m_nodeType.ToString());
         List<EposNodeData> nextNodes = EposNodeReader.Instance.GetNodeTree().GetNextNodes(this);
         
         foreach(EposNodeData nextN in nextNodes)

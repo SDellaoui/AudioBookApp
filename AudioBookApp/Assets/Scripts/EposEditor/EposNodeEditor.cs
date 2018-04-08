@@ -622,7 +622,7 @@ public class EposData
                 m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType));
 				break;
 			case EposNodeType.Node:
-                    m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType,xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued));                
+                m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType,xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued));                
 				break;
 			default:
 				break;

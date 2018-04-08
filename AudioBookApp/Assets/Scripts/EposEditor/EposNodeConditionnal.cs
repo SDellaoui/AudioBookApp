@@ -9,22 +9,6 @@ public class EposNodeConditionnal : EposNode
 	public EposNodeConditionnal(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, string wwiseEvent = "", bool isQueued = false, Action<EposNode> OnClickRemoveNode = null) : base(uuid, position, _nodeType, nodeStyle, selectedStyle, OnClickInPoint, OnClickOutPoint, wwiseEvent, isQueued, OnClickRemoveNode)
     {
         this.nodeData = new EposNodeData(uuid, _nodeType, 0, wwiseEvent, isQueued, OnClickInPoint, OnClickOutPoint);
-        this.nodeData.m_nInputs = 2;
-        this.nodeData.SetConnectionPoints();
-        /*
-        switch (_nodeType)
-        {
-			case EposNodeType.Conditionnal_OR:
-			for(int i=0; i<this.nodeData.m_nInputs; i++)
-	            {
-	                EposConnectionPoint pt = new EposConnectionPoint(this.nodeData, ConnectionPointType.In, OnClickInPoint, this.nodeData.m_nInputs, i);
-					this.nodeData.in_Points.Add (pt);
-	            }
-	            this.nodeData.out_Points.Add(new EposConnectionPoint(this.nodeData, ConnectionPointType.Out, OnClickOutPoint));
-	            break;
-	        default:
-	            break;
-        }*/
         
 		rectWidth = 100;
         rectHeight = 100;
