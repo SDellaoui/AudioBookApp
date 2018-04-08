@@ -12,13 +12,11 @@ public class EposNodeEditor : EditorWindow {
 
     private EposData m_eposData;
 
-    private List<EposConnection> connections;
+    //private List<EposConnection> connections;
 
     private GUIStyle beginEndStyle;
     private GUIStyle nodeStyle;
     private GUIStyle selectedNodeStyle;
-    private GUIStyle inPointStyle;
-    private GUIStyle outPointStyle;
 
     private EposConnectionPoint selectedInPoint;
     private EposConnectionPoint selectedOutPoint;
@@ -50,17 +48,6 @@ public class EposNodeEditor : EditorWindow {
         selectedNodeStyle = new GUIStyle();
         selectedNodeStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1 on.png") as Texture2D;
         selectedNodeStyle.border = new RectOffset(12, 12, 12, 12);
-
-        inPointStyle = new GUIStyle();
-        inPointStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn left.png") as Texture2D;
-        inPointStyle.active.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn left on.png") as Texture2D;
-        inPointStyle.border = new RectOffset(4, 4, 12, 12);
-
-        outPointStyle = new GUIStyle();
-        outPointStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn right.png") as Texture2D;
-        outPointStyle.active.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn right on.png") as Texture2D;
-        outPointStyle.border = new RectOffset(4, 4, 12, 12);
-
 
         m_eposData = new EposData();
     }
@@ -124,6 +111,7 @@ public class EposNodeEditor : EditorWindow {
         }
         if (GUILayout.Button("Load", GUILayout.Width(50)))
         {
+            this.m_eposData = new EposData();
             LoadNodeTree();
         }
         if (GUILayout.Button("Reset", GUILayout.Width(50)))
@@ -175,19 +163,19 @@ public class EposNodeEditor : EditorWindow {
         }
         if(this.m_eposData.m_nodes.Count == 0)
         {
-            this.m_eposData.m_nodes.Add(new EposNode(Guid.NewGuid(), new Vector2(60, 60), EposNodeType.Begin, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint));
-            this.m_eposData.m_nodes.Add(new EposNode(Guid.NewGuid(), new Vector2(this.position.width - 60, this.position.height - 60), EposNodeType.End, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint));
+            this.m_eposData.m_nodes.Add(new EposNode(Guid.NewGuid(), new Vector2(60, 60), EposNodeType.Begin, beginEndStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint));
+            this.m_eposData.m_nodes.Add(new EposNode(Guid.NewGuid(), new Vector2(this.position.width - 60, this.position.height - 60), EposNodeType.End, beginEndStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint));
         }
         
     }
 
     private void DrawConnections()
     {
-        if (connections != null)
+        if (this.m_eposData.m_connections != null)
         {
-            for (int i = 0; i < connections.Count; i++)
+            for (int i = 0; i < this.m_eposData.m_connections.Count; i++)
             {
-                connections[i].Draw();
+                this.m_eposData.m_connections[i].Draw();
             }
         }
     }
@@ -297,12 +285,12 @@ public class EposNodeEditor : EditorWindow {
         }
         if (nodeType == EposNodeType.Node)
         {
-            EposNode newNode = new EposNode(Guid.NewGuid(), mousePosition, EposNodeType.Node, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode, null, null);
+            EposNode newNode = new EposNode(Guid.NewGuid(), mousePosition, EposNodeType.Node, nodeStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode);
             this.m_eposData.m_nodes.Add(newNode);
         }
         else
         {
-            EposNodeConditionnal newNode = new EposNodeConditionnal(Guid.NewGuid(), mousePosition, EposNodeType.Conditionnal_OR, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode, null, null);
+            EposNodeConditionnal newNode = new EposNodeConditionnal(Guid.NewGuid(), mousePosition, EposNodeType.Conditionnal_OR, nodeStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode);
             this.m_eposData.m_nodes.Add(newNode);
         }
     }
@@ -314,7 +302,7 @@ public class EposNodeEditor : EditorWindow {
 
         if (selectedOutPoint != null)
         {
-            if ((selectedOutPoint.node != selectedInPoint.node))
+            if ((selectedOutPoint.nodeData != selectedInPoint.nodeData))
             {
                 CreateConnection();
             }
@@ -330,7 +318,7 @@ public class EposNodeEditor : EditorWindow {
         {
             //Debug.Log(selectedInPoint.node);
             //Debug.Log(selectedOutPoint.node);
-            if ((selectedOutPoint.node != selectedInPoint.node))
+            if ((selectedOutPoint.nodeData != selectedInPoint.nodeData))
             {
                 CreateConnection();
             }
@@ -343,46 +331,41 @@ public class EposNodeEditor : EditorWindow {
         bool inNodeFound = false;
         bool outNodeFound = false;
 
-		EposNodeData nodeIn = connection.inPoint.node.nodeData;
-		EposNodeData nodeOut = connection.outPoint.node.nodeData;
+		EposNodeData nodeIn = connection.inPoint.nodeData;
+		EposNodeData nodeOut = connection.outPoint.nodeData;
 
         for (int i=0; i< this.m_eposData.m_nodes.Count; i++)
         {
 			EposNodeType nodeType = this.m_eposData.m_nodes[i].nodeData.m_nodeType;
             if(this.m_eposData.m_nodes[i].nodeData.m_uuid == nodeIn.m_uuid)
             {
-				if(nodeType == EposNodeType.Conditionnal_OR)
-					this.m_eposData.m_nodes[i].RemoveConnectedNode(0,connection.outPoint.ptIndex, nodeOut.m_uuid);
-				else
-                	this.m_eposData.m_nodes[i].RemoveConnectedNode(0, nodeOut.m_uuid);
+				//this.m_eposData.m_nodes[i].RemoveConnectedNode(0,connection.outPoint.ptIndex, nodeOut.m_uuid);
                 inNodeFound = true;
             }
             if (this.m_eposData.m_nodes[i].nodeData.m_uuid == nodeOut.m_uuid)
             {
-				if(nodeType == EposNodeType.Conditionnal_OR)
-					this.m_eposData.m_nodes[i].RemoveConnectedNode(1,connection.inPoint.ptIndex, nodeIn.m_uuid);
-				else
-                	this.m_eposData.m_nodes[i].RemoveConnectedNode(1, nodeIn.m_uuid);
+				//this.m_eposData.m_nodes[i].RemoveConnectedNode(1,connection.inPoint.ptIndex, nodeIn.m_uuid);
                 outNodeFound = true;
             }
             if (inNodeFound && outNodeFound)
+            {
+                this.m_eposData.m_connections.Remove(connection);
                 break;
+            }
         }
-        connections.Remove(connection);
+        
     }
 
     private void CreateConnection()
     {
-        if (connections == null)
+        if (this.m_eposData.m_connections == null)
         {
-            connections = new List<EposConnection>();
+            this.m_eposData.m_connections = new List<EposConnection>();
         }
         //Debug.Log("Create connection between : in_"+ selectedInPoint.GetNodeConnected().title+" and  out "+ selectedOutPoint.GetNodeConnected().title);
 
-		EposNodeData selectedInNode = selectedInPoint.GetNodeConnected().nodeData;
-		EposNodeData selectedOutNode = selectedOutPoint.GetNodeConnected().nodeData;
-		//EposNode selectedInNode = selectedInPoint.GetNodeConnected();
-        //EposNode selectedOutNode = selectedOutPoint.GetNodeConnected();
+		EposNodeData selectedInNode = selectedInPoint.GetNodeConnected();
+		EposNodeData selectedOutNode = selectedOutPoint.GetNodeConnected();
 
         bool inNodeFound = false;
         bool outNodeFound = false;
@@ -390,24 +373,23 @@ public class EposNodeEditor : EditorWindow {
         {
             if(this.m_eposData.m_nodes[i].nodeData.m_uuid == selectedInNode.m_uuid)
             {
-				if(this.m_eposData.m_nodes[i].nodeData.m_nodeType == EposNodeType.Conditionnal_OR)
-					this.m_eposData.m_nodes[i].AddConnectedNode(0,selectedInPoint.ptIndex, selectedOutNode.m_uuid);
-				else
-                	this.m_eposData.m_nodes[i].AddConnectedNode(0, selectedOutNode.m_uuid);
+				//this.m_eposData.m_nodes[i].AddConnectedNode(0,selectedInPoint.ptIndex, selectedOutNode.m_uuid);
                 inNodeFound = true;
             }
             else if (this.m_eposData.m_nodes[i].nodeData.m_uuid == selectedOutNode.m_uuid)
             {
-				if(this.m_eposData.m_nodes[i].nodeData.m_nodeType == EposNodeType.Conditionnal_OR)
-					this.m_eposData.m_nodes[i].AddConnectedNode(1,selectedOutPoint.ptIndex, selectedOutNode.m_uuid);
-				else
-                	this.m_eposData.m_nodes[i].AddConnectedNode(1, selectedInNode.m_uuid);
+                //this.m_eposData.m_nodes[i].AddConnectedNode(1,selectedOutPoint.ptIndex, selectedOutNode.m_uuid);
                 outNodeFound = true;
             }
             if (inNodeFound && outNodeFound)
+            {
+                if (!this.m_eposData.FindExistingConnection(selectedInPoint, selectedOutPoint, this.m_eposData.m_connections))
+                {
+                    this.m_eposData.m_connections.Add(new EposConnection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
+                }
                 break;
+            }
         }
-        connections.Add(new EposConnection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
     }
 
     private void ClearConnectionSelection()
@@ -416,57 +398,40 @@ public class EposNodeEditor : EditorWindow {
         selectedOutPoint = null;
     }
 
-    private void OnClickRemoveNode(EposNode node)
+    public void OnClickRemoveNode(EposNode node)
     {
-        if (connections != null)
+        if (this.m_eposData.m_connections != null)
         {
             List<EposConnection> connectionsToRemove = new List<EposConnection>();
 
-            for (int i = 0; i < connections.Count; i++)
+            for (int i = 0; i < this.m_eposData.m_connections.Count; i++)
             {
-                if (connections[i].inPoint == node.inPoint || connections[i].outPoint == node.outPoint)
+                //if (this.m_eposData.m_connections[i].inPoint == node.inPoint || this.m_eposData.m_connections[i].outPoint == node.outPoint)
+                if(node.nodeData.in_Points.Contains(this.m_eposData.m_connections[i].inPoint) || node.nodeData.out_Points.Contains(this.m_eposData.m_connections[i].outPoint))
                 {
-                    connectionsToRemove.Add(connections[i]);
+                    connectionsToRemove.Add(this.m_eposData.m_connections[i]);
                 }
             }
 
             for (int i = 0; i < connectionsToRemove.Count; i++)
             {
-                connections.Remove(connectionsToRemove[i]);
+                this.m_eposData.m_connections.Remove(connectionsToRemove[i]);
             }
 
             connectionsToRemove = null;
         }
         //remove node from other nodes
-        for(int i=0; i< this.m_eposData.m_nodes.Count; i++)
-        {
-            if (node.nodeData.m_uuid == this.m_eposData.m_nodes[i].nodeData.m_uuid)
-                continue;
-            for (int j=0; j< this.m_eposData.m_nodes[i].nodeData.m_inNodes.Count; j++)
-            {
-                if(node.nodeData.m_uuid == this.m_eposData.m_nodes[i].nodeData.m_inNodes[j])
-                {
-                    this.m_eposData.m_nodes[i].nodeData.m_inNodes.RemoveAt(j);
-                }
-            }
-            for (int j = 0; j < this.m_eposData.m_nodes[i].nodeData.m_outNodes.Count; j++)
-            {
-                if (node.nodeData.m_uuid == this.m_eposData.m_nodes[i].nodeData.m_outNodes[j])
-                {
-                    this.m_eposData.m_nodes[i].nodeData.m_outNodes.RemoveAt(j);
-                }
-            }
-        }
+        //EposNodeData nodeData = node.nodeData;
         this.m_eposData.m_nodes.Remove(node);
+        this.m_eposData.m_nodesData.Remove(node.nodeData);
         // remove node connection entry
     }
-
     //------------ Reset Window ------------------
 
     private void ResetWindow()
     {
         this.m_eposData = new EposData();
-        connections = null;
+        //this.m_eposData.m_connections = null;
 
         GUI.changed = true;
     }
@@ -480,6 +445,27 @@ public class EposNodeEditor : EditorWindow {
 
         nodeXMLContainer.pathToDialogScript = this.m_eposData.m_dialogScriptPath;
 
+
+        
+        foreach(EposConnection connect in this.m_eposData.m_connections)
+        {
+            EposXMLConnection connection_IN = new EposXMLConnection
+            {
+                uuid = connect.inPoint.nodeData.m_uuid,
+                pinIndex = connect.inPoint.ptIndex
+            };
+            EposXMLConnection connection_OUT = new EposXMLConnection
+            {
+                uuid = connect.outPoint.nodeData.m_uuid,
+                pinIndex = connect.outPoint.ptIndex
+            };
+            EposXMLConnections connections = new EposXMLConnections
+            {
+                node_in = connection_IN,
+                node_out = connection_OUT
+            };
+            nodeXMLContainer.eposXmlConnections.Add(connections);
+        }
 
         if (this.m_eposData.m_nodes != null)
         {
@@ -495,37 +481,23 @@ public class EposNodeEditor : EditorWindow {
 		                    uuid = node.nodeData.m_uuid,
 		                    title = node.title,
 		                    nodeType = node.nodeData.m_nodeType,
-		                    posX = node.rect.position.x,
-		                    posY = node.rect.position.y,
+		                    posX = node.nodeData.rect.position.x,
+		                    posY = node.nodeData.rect.position.y,
 		                    wwiseEvent = node.nodeData.m_wwiseEvent,
 		                    isQueued = node.nodeData.m_isQueued,
-		                    in_nodes = node.nodeData.m_inNodes,
-		                    out_nodes = node.nodeData.m_outNodes,
 		                    dialogIndex = node.nodeData.m_dialogIndex
 		                };
 		                nodeXMLContainer.eposXMLNodes.Add(XMLNode);
 						break;
 					case EposNodeType.Conditionnal_AND:
 					case EposNodeType.Conditionnal_OR:
-						List<EposXMLNodeInput> XMLNodeInputs = new List<EposXMLNodeInput>();
-						int i=0;
-						foreach(List<Guid> listInUUID in node.nodeData.m_inputsPins)
-						{
-							XMLNodeInputs.Add(new EposXMLNodeInput{
-								inputIndex = i,
-								in_nodes = listInUUID
-							});
-							i++;
-						}
 						EposXMLNode XMLNodeConditional = new EposXMLNode
 						{
 							uuid = node.nodeData.m_uuid,
 							title = node.title,
 							nodeType = node.nodeData.m_nodeType,
-							posX = node.rect.position.x,
-							posY = node.rect.position.y,
-							nodesIn = XMLNodeInputs,
-							out_nodes = node.nodeData.m_outNodes
+							posX = node.nodeData.rect.position.x,
+							posY = node.nodeData.rect.position.y,
 
 						};
 						nodeXMLContainer.eposXMLNodes.Add(XMLNodeConditional);
@@ -533,7 +505,6 @@ public class EposNodeEditor : EditorWindow {
 				}
             }
         }
-
         //Save xml file
         nodeXMLContainer.Save(path);
     }
@@ -541,82 +512,41 @@ public class EposNodeEditor : EditorWindow {
     private void LoadNodeTree()
     {
         this.m_eposData.m_nodes = new List<EposNode>();
-        connections = new List<EposConnection>();
+        this.m_eposData.m_connections = new List<EposConnection>();
         EposXmlNodeContainer nodeXmlContainer = EposXmlNodeContainer.Load(Path.Combine(Application.dataPath, "test_nodetree.xml"));
         this.m_eposData.m_dialogScriptPath = nodeXmlContainer.pathToDialogScript;
         this.m_eposData.ReadDialogFile(Path.Combine(Application.dataPath, this.m_eposData.m_dialogScriptPath));
+        
         foreach(EposXMLNode xmlNode in nodeXmlContainer.eposXMLNodes)
         {
             switch(xmlNode.nodeType)
             {
                 case EposNodeType.Begin:
                 case EposNodeType.End:
-                    this.m_eposData.m_nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, beginEndStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,"",false,null,xmlNode.in_nodes,xmlNode.out_nodes));
-                    
+                    this.m_eposData.m_nodes.Add(new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, beginEndStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint,"",false,null));
                     break;
                 case EposNodeType.Node:
-                    EposNode newNode = new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,xmlNode.wwiseEvent,xmlNode.isQueued, OnClickRemoveNode, xmlNode.in_nodes, xmlNode.out_nodes);
+                    EposNode newNode = new EposNode(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY), xmlNode.nodeType, nodeStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint,xmlNode.wwiseEvent,xmlNode.isQueued, OnClickRemoveNode);
                     newNode.SetDialogIndex(xmlNode.dialogIndex);
                     this.m_eposData.m_nodes.Add(newNode);
                     break;
-				case EposNodeType.Conditionnal_OR:
+                    
+                case EposNodeType.Conditionnal_OR:
 					List<List<Guid>> inNodes = new List<List<Guid>>();
 					foreach(EposXMLNodeInput input in xmlNode.nodesIn)
 						inNodes.Add(input.in_nodes);
-					EposNodeConditionnal nc = new EposNodeConditionnal(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY),xmlNode.nodeType, nodeStyle, selectedNodeStyle, inPointStyle, outPointStyle, OnClickInPoint, OnClickOutPoint,"",false,OnClickRemoveNode, inNodes,xmlNode.out_nodes);
-					this.m_eposData.m_nodes.Add(nc);    
+					EposNodeConditionnal nc = new EposNodeConditionnal(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY),xmlNode.nodeType, nodeStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint,"",false,OnClickRemoveNode);
+					this.m_eposData.m_nodes.Add(nc);
+                    break;
 				default:
                     break;
             }
         }
-        LoadNodesConnections();
-    }
-
-	//TODO Manage Multiple inputs connections for conditional nodes
-    private void LoadNodesConnections()
-    {
-        connections = new List<EposConnection>();
-        for(int i=0; i< this.m_eposData.m_nodes.Count; i++)
+        foreach (EposNode node in this.m_eposData.m_nodes)
         {
-			EposNodeData node = this.m_eposData.m_nodes[i].nodeData;
-
-            foreach(Guid uuid in this.m_eposData.m_nodes[i].nodeData.m_inNodes)
-            {
-                for(int j=0; j< this.m_eposData.m_nodes.Count; j++)
-                {
-                    if (i == j)
-                        continue;
-                    if (this.m_eposData.m_nodes[j].nodeData.m_uuid == uuid)
-                    {
-                        if (!FindExistingConnection(this.m_eposData.m_nodes[i].inPoint, this.m_eposData.m_nodes[j].outPoint, connections))
-                            connections.Add(new EposConnection(this.m_eposData.m_nodes[i].inPoint, this.m_eposData.m_nodes[j].outPoint, OnClickRemoveConnection));
-                    }
-                }
-            }
-            foreach (Guid uuid in this.m_eposData.m_nodes[i].nodeData.m_outNodes)
-            {
-                for (int j = 0; j < this.m_eposData.m_nodes.Count; j++)
-                {
-                    if (i == j)
-                        continue;
-                    if (this.m_eposData.m_nodes[j].nodeData.m_uuid == uuid)
-                    {
-                        if(!FindExistingConnection(this.m_eposData.m_nodes[j].inPoint, this.m_eposData.m_nodes[i].outPoint,connections))
-                            connections.Add(new EposConnection(this.m_eposData.m_nodes[j].inPoint, this.m_eposData.m_nodes[i].outPoint, OnClickRemoveConnection));
-                    }
-                }
-            }
+            this.m_eposData.m_nodesData.Add(node.nodeData);
         }
-    }
-
-    private bool FindExistingConnection(EposConnectionPoint inPoint, EposConnectionPoint outPoint, List<EposConnection> _connections)
-    {
-        foreach(EposConnection connection in _connections)
-        {
-            if (connection.inPoint == inPoint && connection.outPoint == outPoint)
-                return true;
-        }
-        return false;
+        this.m_eposData.LoadConnections(nodeXmlContainer.eposXmlConnections, OnClickRemoveConnection);
     }
     public void LoadFile()
     {
@@ -640,6 +570,7 @@ public class EposData
 {
     public List<EposNode> m_nodes;
     public List<EposNodeData> m_nodesData;
+    public List<EposConnection> m_connections;
 
     public string m_nodePath;
     public string m_dialogScriptPath;
@@ -653,6 +584,7 @@ public class EposData
 	{
         m_nodes = new List<EposNode>();
         m_nodesData = new List<EposNodeData>();
+        m_connections = new List<EposConnection>();
 		m_dialogs = new List<string[]> ();
 		GetWwiseEvents ();
 	}
@@ -669,10 +601,6 @@ public class EposData
             this.m_eventsList.Add(wwiseEvt);
 		}
 	}
-    public void Coucou(string coucou, string tuveuxvoirmabite)
-    {
-        Debug.Log(coucou+" -> "+tuveuxvoirmabite);
-    }
 	public void LoadNodeTree()
 	{
 		this.m_nodePath = Path.Combine (Application.dataPath, "test_nodetree.xml");
@@ -687,17 +615,66 @@ public class EposData
 			{
 			case EposNodeType.Begin:
 			case EposNodeType.End:
-                    m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType, xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued, xmlNode.in_nodes, xmlNode.out_nodes));
+                    m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType,xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued));
 				break;
 			case EposNodeType.Node:
-                    m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType, xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued, xmlNode.in_nodes, xmlNode.out_nodes, Coucou));                
+                    m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType,xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued));                
 				break;
 			default:
 				break;
 			}
 		}
+        LoadConnections(nodeXmlContainer.eposXmlConnections);
 	}
-	public void ReadDialogFile(string path)
+    public void LoadConnections(List<EposXMLConnections> xmlConnections, Action<EposConnection> OnClickRemoveConnection = null)
+    {
+        this.m_connections = new List<EposConnection>();
+        foreach (EposXMLConnections connection in xmlConnections)
+        {
+            EposXMLConnection node_in = connection.node_in;
+            EposXMLConnection node_out = connection.node_out;
+
+            int nodeIn_Index = 0;
+            int nodeOut_Index = 0;
+            bool foundIn = false;
+            bool foundOut = false;
+
+            for (int i = 0; i < this.m_nodesData.Count; i++)
+            {
+                EposNodeData node = this.m_nodesData[i];
+                if (node.m_uuid == node_in.uuid)
+                {
+                    nodeIn_Index = i;
+                    foundIn = true;
+                }
+                else if (node.m_uuid == node_out.uuid)
+                {
+                    nodeOut_Index = i;
+                    foundOut = true;
+                }
+                if (foundIn && foundOut)
+                {
+                    EposConnectionPoint inPoint = this.m_nodesData[nodeIn_Index].in_Points[node_in.pinIndex];
+                    EposConnectionPoint outPoint = this.m_nodesData[nodeOut_Index].out_Points[node_out.pinIndex];
+                    if (!FindExistingConnection(inPoint, outPoint, this.m_connections))
+                    {
+                        this.m_connections.Add(new EposConnection(inPoint, outPoint, OnClickRemoveConnection));
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    public bool FindExistingConnection(EposConnectionPoint inPoint, EposConnectionPoint outPoint, List<EposConnection> _connections)
+    {
+        foreach (EposConnection connection in _connections)
+        {
+            if (connection.inPoint == inPoint && connection.outPoint == outPoint)
+                return true;
+        }
+        return false;
+    }
+    public void ReadDialogFile(string path)
 	{
         if (this.m_dialogs == null || this.m_dialogs.Count > 0)
             this.m_dialogs = new List<string[]>();
@@ -735,4 +712,18 @@ public class EposData
 	{
 		return this.m_nodesData;
 	}
+
+    public List<EposNodeData> GetNextNodes(EposNodeData currentNode)
+    {
+        List<EposNodeData> nodes = new List<EposNodeData>();
+
+        foreach (EposConnection co in this.m_connections)
+        {
+            if (co.outPoint.nodeData.m_uuid == currentNode.m_uuid)
+            {
+                nodes.Add(co.inPoint.nodeData);
+            }
+        }
+        return nodes;
+    }
 }

@@ -62,8 +62,7 @@ public class EposNodeReader : MonoBehaviour {
     {
         return _nodeTree.ReadDialogLine(lineIndex);
     }
-    public void BeginTree() { 
-
+    public void BeginTree() {
         foreach(EposNodeData node in _nodes)
         {
 			if(node.m_nodeType == EposNodeType.Begin)
@@ -90,6 +89,10 @@ public class EposNodeReader : MonoBehaviour {
             }
         }
         return null;
+    }
+    public EposData GetNodeTree()
+    {
+        return this._nodeTree;
     }
     public List<EposNodeData> GetNodes()
     {
