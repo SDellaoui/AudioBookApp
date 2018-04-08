@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\EposEditor\XML\EposXMLNode.cs" />
      <Compile Include="Assets\Scripts\EposEditor\XML\EposXMLNodeConditionnal.cs" />
      <Compile Include="Assets\Scripts\EposEditor\XML\EposXMLNodeContainer.cs" />
+     <Compile Include="Assets\Scripts\EposEditor\XML\EposXMLNodeDialog.cs" />
      <Compile Include="Assets\Scripts\Pages\PageCanvas.cs" />
      <Compile Include="Assets\Scripts\Pages\PageScript.cs" />
      <Compile Include="Assets\Wwise\Deployment\API\Generated\Common\_ArrayPoolDefault.cs" />

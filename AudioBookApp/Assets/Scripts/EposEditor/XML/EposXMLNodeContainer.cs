@@ -12,6 +12,9 @@ public class EposXmlNodeContainer
     [XmlArray("EposNodes"), XmlArrayItem("EposNode")]
     public List<EposXMLNode> eposXMLNodes = new List<EposXMLNode>();
 
+    [XmlArray("EposNodesDialogs"), XmlArrayItem("EposNodeDialog")]
+    public List<EposXMLNodeDialog> eposXMLNodeDialogs = new List<EposXMLNodeDialog>();
+
     [XmlArray("Connections"), XmlArrayItem("Connection")]
     public List<EposXMLConnections> eposXmlConnections = new List<EposXMLConnections>();
 

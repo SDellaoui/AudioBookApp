@@ -22,22 +22,20 @@ public class EposNode{
     public bool isDragged;
     public bool isSelected;
 
-    public EposConnectionPoint inPoint;
-    public EposConnectionPoint outPoint;
-
-	
-
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
     public GUIStyle selectedNodeStyle;
+
+    public Texture2D defaultBackground;
+    public Texture2D selectedBackground;
 
     public Action<EposNode> OnRemoveNode;
 
     public string[] dialogs;
 
-    public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, GUIStyle nodeStyle, GUIStyle selectedStyle, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, string wwiseEvent = "", bool isQueued = false, Action<EposNode> OnClickRemoveNode = null)
+    public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, Action<EposNode> OnClickRemoveNode = null)
     {
-        this.nodeData = new EposNodeData(uuid, _nodeType, 0, wwiseEvent, isQueued, OnClickInPoint, OnClickOutPoint);
+        this.nodeData = new EposNodeData(uuid, _nodeType, OnClickInPoint, OnClickOutPoint);
 
         switch (_nodeType)
         {
@@ -61,11 +59,26 @@ public class EposNode{
 
         this.nodeData.rect = new Rect(position.x, position.y, this.rectWidth, this.rectHeight);
 
-        style = nodeStyle;
-        defaultNodeStyle = nodeStyle;
-        selectedNodeStyle = selectedStyle;
-
+        InitNodeStyles();
         OnRemoveNode = OnClickRemoveNode;
+    }
+
+    public void InitNodeStyles()
+    {
+        this.style = new GUIStyle();
+        this.defaultBackground = EditorGUIUtility.Load("builtin skins/darkskin/images/node1.png") as Texture2D;
+        this.selectedBackground = EditorGUIUtility.Load("builtin skins/darkskin/images/node1 on.png") as Texture2D;
+        this.style.normal.background = this.defaultBackground;
+        switch(this.nodeData.m_nodeType)
+        {
+            case EposNodeType.Begin:
+            case EposNodeType.End:
+                this.style.border = new RectOffset(25, 25, 25, 25);
+                break;
+            default:
+                this.style.border = new RectOffset(12, 12, 12, 12);
+                break;
+        }
     }
 
     public void Drag(Vector2 delta)
@@ -75,27 +88,26 @@ public class EposNode{
 
     public void Draw()
     {
+        //Manage backgrounds
+        this.style.normal.background = (isSelected)?this.selectedBackground:this.defaultBackground;
+
 
         GUI.depth = 0;
         GUI.Box(this.nodeData.rect, "", style);
         GUI.skin.label.alignment = TextAnchor.UpperCenter;
         Rect label = new Rect(this.nodeData.rect.x, this.nodeData.rect.y-14, rectWidth, rectHeight);
         GUI.Label(label, title);
+        foreach (EposConnectionPoint pt in this.nodeData.in_Points)
+        {
+            pt.Draw();
+        }
+        foreach (EposConnectionPoint pt in this.nodeData.out_Points)
+        {
+            pt.Draw();
+        }
         switch (this.nodeData.m_nodeType)
         {
-            case EposNodeType.Begin:
-                //outPoint.Draw();
-                this.nodeData.out_Points[0].Draw();
-                break;
-            case EposNodeType.End:
-                //inPoint.Draw();
-                this.nodeData.in_Points[0].Draw();
-                break;
             case EposNodeType.Node:
-                //inPoint.Draw();
-                //outPoint.Draw();
-                this.nodeData.in_Points[0].Draw();
-                this.nodeData.out_Points[0].Draw();
 
                 GUI.depth = 2;
                 Rect dialogTitle = new Rect(this.nodeData.rect.x + 14, this.nodeData.rect.y + 15, this.nodeData.rect.width - 27, 20);
@@ -116,16 +128,6 @@ public class EposNode{
                 }
                 this.nodeData.m_isQueued = EditorGUI.ToggleLeft(new Rect(dialogArea.x, dialogArea.y + 20, 15, 15), " Dispatch on end", this.nodeData.m_isQueued, GUIStyle.none);
                 break;
-			case EposNodeType.Conditionnal_OR:
-            case EposNodeType.Conditionnal_AND:
-				foreach (EposConnectionPoint pt in this.nodeData.in_Points) {
-					pt.Draw ();
-				}
-                foreach (EposConnectionPoint pt in this.nodeData.out_Points)
-                {
-                    pt.Draw();
-                }
-				break;
             default:
                 break;
         }
@@ -141,15 +143,15 @@ public class EposNode{
                     if (this.nodeData.rect.Contains(e.mousePosition))
                     {
                         isDragged = true;
-                        GUI.changed = true;
                         isSelected = true;
-                        style = selectedNodeStyle;
+                        GUI.changed = true;
+                        //style = selectedNodeStyle;
                     }
                     else
                     {
-                        GUI.changed = true;
                         isSelected = false;
-                        style = defaultNodeStyle;
+                        GUI.changed = true;
+                        //style = defaultNodeStyle;
                     }
                 }
                 if (e.button == 1 && isSelected && this.nodeData.rect.Contains(e.mousePosition))
@@ -246,12 +248,10 @@ public class EposNodeData
     
     
 
-	public EposNodeData(Guid uuid, EposNodeType nodeType, int dialogIndex = 0, string wwiseEvent = "", bool isQueued = false, Action<EposConnectionPoint> OnClickInPoint = null, Action<EposConnectionPoint> OnClickOutPoint = null)
+	public EposNodeData(Guid uuid, EposNodeType nodeType, Action<EposConnectionPoint> OnClickInPoint = null, Action<EposConnectionPoint> OnClickOutPoint = null)
 	{
 		this.m_uuid = uuid;
 		this.m_nodeType = nodeType;
-		this.m_wwiseEvent = wwiseEvent;
-		this.m_isQueued = isQueued;
         
         this._OnClickInPoint = OnClickInPoint;
         this._OnClickOutPoint = OnClickOutPoint;
@@ -259,9 +259,8 @@ public class EposNodeData
         this.m_nInputs = this.m_nOutputs = 1;
 
         this.m_dialogs = new string[0];
-		this.m_dialogIndex = dialogIndex;
-		this.m_wwiseEvent = wwiseEvent;
-
+        this.m_wwiseEvent = "";
+        this.m_isQueued = false;
         this.m_nInputsReceived = 0;
 
         SetConnectionPoints();

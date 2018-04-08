@@ -19,23 +19,4 @@ public class EposXMLNode
 
     [XmlAttribute("posY")]
     public float posY;
-
-    [XmlAttribute("dispatchOnEnd")]
-    public bool isQueued;
-
-    [XmlAttribute("dialogIndex")]
-    public int dialogIndex;
-
-    [XmlAttribute("wwiseEvent")]
-    public string wwiseEvent;
-
-	[XmlArray("Inputs"), XmlArrayItem("Input")]
-	public List<EposXMLNodeInput> nodesIn;
-
-
-    [XmlArray("ConnectedNodesInput"), XmlArrayItem("Node_In")]
-    public List<Guid> in_nodes = new List<Guid>();
-
-    [XmlArray("ConnectedNodesOutput"), XmlArrayItem("Node_Out")]
-    public List<Guid> out_nodes = new List<Guid>();
 }

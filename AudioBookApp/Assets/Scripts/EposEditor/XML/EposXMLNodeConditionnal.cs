@@ -19,19 +19,4 @@ public class EposXMLNodeConditionnal
 
     [XmlAttribute("posY")]
     public float posY;
-
-    [XmlArray("Inputs"), XmlArrayItem("Input")]
-    public List<EposXMLNodeInput> nodesIn;
-
-    [XmlArray("ConnectedNodesOutput"), XmlArrayItem("Node_Out")]
-    public List<Guid> out_nodes = new List<Guid>();
-}
-
-public class EposXMLNodeInput
-{
-    [XmlAttribute("index")]
-    public int inputIndex;
-
-    [XmlArray("ConnectedNodesInput"), XmlArrayItem("Node_In")]
-    public List<Guid> in_nodes = new List<Guid>();
 }
