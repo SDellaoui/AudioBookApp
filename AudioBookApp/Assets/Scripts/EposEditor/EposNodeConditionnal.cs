@@ -28,7 +28,8 @@ public class EposNodeConditionnal : EposNode
         
 		rectWidth = 100;
         rectHeight = 100;
-        title = "OR";
+        
+        title = (_nodeType == EposNodeType.Conditionnal_OR)? "OR": "AND";
         OnRemoveNode = OnClickRemoveNode;
         this.nodeData.rect = new Rect(position.x, position.y, this.rectWidth, this.rectHeight);
 

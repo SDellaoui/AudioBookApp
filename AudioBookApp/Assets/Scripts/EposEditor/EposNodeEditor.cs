@@ -273,7 +273,8 @@ public class EposNodeEditor : EditorWindow {
     {
         GenericMenu genericMenu = new GenericMenu();
         genericMenu.AddItem(new GUIContent("Add node"), false, () => OnClickAddNode(mousePosition, EposNodeType.Node));
-        genericMenu.AddItem(new GUIContent("Add OR node"), false, () => OnClickAddNode(mousePosition, EposNodeType.Conditionnal_OR));
+        genericMenu.AddItem(new GUIContent("Add 'OR' node"), false, () => OnClickAddNode(mousePosition, EposNodeType.Conditionnal_OR));
+        genericMenu.AddItem(new GUIContent("Add 'AND' node"), false, () => OnClickAddNode(mousePosition, EposNodeType.Conditionnal_AND));
         genericMenu.ShowAsContext();
     }
 
@@ -290,7 +291,7 @@ public class EposNodeEditor : EditorWindow {
         }
         else
         {
-            EposNodeConditionnal newNode = new EposNodeConditionnal(Guid.NewGuid(), mousePosition, EposNodeType.Conditionnal_OR, nodeStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode);
+            EposNodeConditionnal newNode = new EposNodeConditionnal(Guid.NewGuid(), mousePosition, nodeType, nodeStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint, "", false, OnClickRemoveNode);
             this.m_eposData.m_nodes.Add(newNode);
         }
     }
@@ -532,7 +533,8 @@ public class EposNodeEditor : EditorWindow {
                     break;
                     
                 case EposNodeType.Conditionnal_OR:
-					List<List<Guid>> inNodes = new List<List<Guid>>();
+                case EposNodeType.Conditionnal_AND:
+                    List<List<Guid>> inNodes = new List<List<Guid>>();
 					foreach(EposXMLNodeInput input in xmlNode.nodesIn)
 						inNodes.Add(input.in_nodes);
 					EposNodeConditionnal nc = new EposNodeConditionnal(xmlNode.uuid, new Vector2(xmlNode.posX, xmlNode.posY),xmlNode.nodeType, nodeStyle, selectedNodeStyle, OnClickInPoint, OnClickOutPoint,"",false,OnClickRemoveNode);
@@ -615,7 +617,9 @@ public class EposData
 			{
 			case EposNodeType.Begin:
 			case EposNodeType.End:
-                    m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType,xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued));
+            case EposNodeType.Conditionnal_OR:
+            case EposNodeType.Conditionnal_AND:
+                m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType));
 				break;
 			case EposNodeType.Node:
                     m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType,xmlNode.dialogIndex, xmlNode.wwiseEvent, xmlNode.isQueued));                

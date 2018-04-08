@@ -117,6 +117,7 @@ public class EposNode{
                 this.nodeData.m_isQueued = EditorGUI.ToggleLeft(new Rect(dialogArea.x, dialogArea.y + 20, 15, 15), " Dispatch on end", this.nodeData.m_isQueued, GUIStyle.none);
                 break;
 			case EposNodeType.Conditionnal_OR:
+            case EposNodeType.Conditionnal_AND:
 				foreach (EposConnectionPoint pt in this.nodeData.in_Points) {
 					pt.Draw ();
 				}
@@ -220,6 +221,9 @@ public class EposNode{
 // Class containing node data. used both on editor and runtime.
 public class EposNodeData
 {
+    private bool dispatched = false;
+    private int m_nInputsReceived;
+
     public Rect rect;
     public Guid m_uuid;
 	public string m_wwiseEvent;
@@ -239,7 +243,8 @@ public class EposNodeData
 
     public int m_nInputs;
     public int m_nOutputs;
-    public int m_nInputsReceived;
+    
+    
 
 	public EposNodeData(Guid uuid, EposNodeType nodeType, int dialogIndex = 0, string wwiseEvent = "", bool isQueued = false, Action<EposConnectionPoint> OnClickInPoint = null, Action<EposConnectionPoint> OnClickOutPoint = null)
 	{
@@ -247,8 +252,6 @@ public class EposNodeData
 		this.m_nodeType = nodeType;
 		this.m_wwiseEvent = wwiseEvent;
 		this.m_isQueued = isQueued;
-        //this.m_inNodes = in_nodes;
-        //this.m_outNodes = out_nodes;
         
         this._OnClickInPoint = OnClickInPoint;
         this._OnClickOutPoint = OnClickOutPoint;
@@ -284,6 +287,7 @@ public class EposNodeData
                 this.out_Points.Add(outPoint);
                 break;
             case EposNodeType.Conditionnal_OR:
+            case EposNodeType.Conditionnal_AND:
                 for (int i = 0; i < this.m_nInputs; i++)
                 {
                     inPoint = (this._OnClickInPoint == null) ? new EposConnectionPoint(this, ConnectionPointType.In, this.m_nInputs,i) : new EposConnectionPoint(this, ConnectionPointType.In, this._OnClickInPoint, this.m_nInputs,i);
@@ -299,34 +303,37 @@ public class EposNodeData
 
 	public void Start()
 	{
+        Debug.Log("Start node " + m_uuid);
         m_nInputsReceived++;
-		if(EposNodeType.Conditionnal_AND == m_nodeType)
+        if (EposNodeType.Begin == m_nodeType || EposNodeType.End == m_nodeType || EposNodeType.Conditionnal_OR == m_nodeType)
+            End();
+        else if (EposNodeType.Conditionnal_AND == m_nodeType)
         {
-            if(m_nInputsReceived == m_nInputs)
-                EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
+            if (m_nInputsReceived == m_nInputs)
+                End();
         }
-        else if(EposNodeType.Conditionnal_OR == m_nodeType)
+        else if (EposNodeType.Node == m_nodeType)
         {
-            if(m_nInputsReceived == 1)
-                EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
-        }
-        else if(EposNodeType.Node == m_nodeType)
             EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
 
-		if (!m_isQueued && m_nodeType != EposNodeType.End)
-		{
-			End();
-		}
+            if (!m_isQueued)
+            {
+                End();
+            }
+        }
 	}
 	public void End()
 	{
-        if(m_nodeType == EposNodeType.Conditionnal_OR)
-            Debug.Log("Nb Inputs received "+m_nInputsReceived);
+        if (dispatched)
+            return;
+        Debug.Log("Nb Inputs received "+m_nInputsReceived+" for node "+m_nodeType.ToString());
         List<EposNodeData> nextNodes = EposNodeReader.Instance.GetNodeTree().GetNextNodes(this);
+        
         foreach(EposNodeData nextN in nextNodes)
         {
             nextN.Start();
         }
+        dispatched = true;
 		EposEventManager.Instance.StopEventCoroutine(this);
 	}
 
@@ -349,7 +356,6 @@ public class EposNodeData
         }
 		if (in_type == AkCallbackType.AK_EndOfEvent)
 		{
-			//Debug.Log("[WWISE] reached end of event : " + m_wwiseEvent);
 			End();
 		}
 	}
