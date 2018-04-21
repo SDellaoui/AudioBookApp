@@ -2,22 +2,18 @@
 <EposNodeContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <DialogScript>Resources/01_StoryData/Test_Dialog.tsv</DialogScript>
   <EposNodes>
-    <EposNode uuid="c5458b07-1027-49a1-a5ca-99272da1b9a9" title="BEGIN" nodeType="Begin" posX="104" posY="130" />
-    <EposNode uuid="9cf687e4-27f4-43d1-b601-ff8ff9541981" title="END" nodeType="End" posX="987" posY="227" />
-    <EposNode uuid="c292361a-fb8a-45f9-a3fb-ea6b9128a2c9" title="OR" nodeType="Conditionnal_OR" posX="517" posY="198" />
+    <EposNode uuid="c5458b07-1027-49a1-a5ca-99272da1b9a9" title="BEGIN" nodeType="Begin" posX="121" posY="187" />
+    <EposNode uuid="9cf687e4-27f4-43d1-b601-ff8ff9541981" title="END" nodeType="End" posX="1004" posY="284" />
+    <EposNode uuid="c292361a-fb8a-45f9-a3fb-ea6b9128a2c9" title="OR" nodeType="Conditionnal_OR" posX="540" posY="238" />
   </EposNodes>
   <EposNodesDialogs>
-    <EposNodeDialog uuid="ced4072c-0a62-4948-b3dd-39ae14db4fd7" title="Dialog Node" nodeType="Node" posX="233" posY="107" dispatchOnEnd="true" dialogIndex="0" wwiseEvent="Play_VO_Test_Dialog_Pretre_0" />
-    <EposNodeDialog uuid="4e456c85-f848-41b1-b03f-c50dc27dc2d8" title="Dialog Node" nodeType="Node" posX="682" posY="199" dispatchOnEnd="true" dialogIndex="1" wwiseEvent="Play_VO_Test_Dialog_Pretre_1" />
+    <EposNodeDialog uuid="ced4072c-0a62-4948-b3dd-39ae14db4fd7" title="Dialog Node" nodeType="Node" posX="250" posY="164" dispatchOnEnd="true" dialogIndex="0" wwiseEvent="Play_VO_Test_Dialog_Pretre_0" />
+    <EposNodeDialog uuid="4e456c85-f848-41b1-b03f-c50dc27dc2d8" title="Dialog Node" nodeType="Node" posX="699" posY="256" dispatchOnEnd="true" dialogIndex="1" wwiseEvent="Play_VO_Test_Dialog_Pretre_1" />
   </EposNodesDialogs>
   <Connections>
     <Connection>
       <Node_OUT uuid="c5458b07-1027-49a1-a5ca-99272da1b9a9" pinIndex="0" />
       <Node_IN uuid="ced4072c-0a62-4948-b3dd-39ae14db4fd7" pinIndex="0" />
-    </Connection>
-    <Connection>
-      <Node_OUT uuid="ced4072c-0a62-4948-b3dd-39ae14db4fd7" pinIndex="0" />
-      <Node_IN uuid="c292361a-fb8a-45f9-a3fb-ea6b9128a2c9" pinIndex="0" />
     </Connection>
     <Connection>
       <Node_OUT uuid="c292361a-fb8a-45f9-a3fb-ea6b9128a2c9" pinIndex="0" />
@@ -26,6 +22,10 @@
     <Connection>
       <Node_OUT uuid="4e456c85-f848-41b1-b03f-c50dc27dc2d8" pinIndex="0" />
       <Node_IN uuid="9cf687e4-27f4-43d1-b601-ff8ff9541981" pinIndex="0" />
+    </Connection>
+    <Connection>
+      <Node_OUT uuid="ced4072c-0a62-4948-b3dd-39ae14db4fd7" pinIndex="0" />
+      <Node_IN uuid="c292361a-fb8a-45f9-a3fb-ea6b9128a2c9" pinIndex="0" />
     </Connection>
   </Connections>
 </EposNodeContainer>

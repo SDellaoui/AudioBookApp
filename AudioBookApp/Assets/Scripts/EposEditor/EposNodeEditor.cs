@@ -312,7 +312,7 @@ public class EposNodeEditor : EditorWindow {
 
         for (int i=0; i< this.m_eposData.m_nodes.Count; i++)
         {
-			EposNodeType nodeType = this.m_eposData.m_nodes[i].nodeData.m_nodeType;
+			//EposNodeType nodeType = this.m_eposData.m_nodes[i].nodeData.m_nodeType;
             if(this.m_eposData.m_nodes[i].nodeData.m_uuid == nodeIn.m_uuid)
             {
                 inNodeFound = true;
@@ -558,15 +558,19 @@ public class EposData
 
 	public void GetWwiseEvents()
 	{
+        /*
 		XmlDocument document = new XmlDocument ();
 		document.Load(Application.dataPath+"/../../WwiseProject/GeneratedSoundBanks/Windows/SoundbanksInfo.xml");
 		XmlNode root = document.DocumentElement;
 		XmlNodeList list = document.GetElementsByTagName ("Event");
+        */
         this.m_eventsList = new List<string[]>();
+        /*
 		foreach (XmlNode xn in list) {
             string[] wwiseEvt = new string[] {xn.Attributes["Id"].Value,xn.Attributes["Name"].Value };
             this.m_eventsList.Add(wwiseEvt);
 		}
+        */
 	}
 	public void LoadNodeTree()
 	{

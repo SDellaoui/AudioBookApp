@@ -336,26 +336,16 @@ public class EposNodeData
 		EposEventManager.Instance.StopEventCoroutine(this);
 	}
 
-	public void PlaySound()
+	public float PlaySound()
 	{
-		if (m_wwiseEvent == "" || m_nodeType != EposNodeType.Node)
-			return;
-		if (m_isQueued)
-			AkSoundEngine.PostEvent(m_wwiseEvent, EposEventManager.Instance.listener, (uint)0x0009, WwiseCallback, this);
-		else
-			AkSoundEngine.PostEvent(m_wwiseEvent, EposEventManager.Instance.listener);
-		
-	}
+        if (m_wwiseEvent == "" || m_nodeType != EposNodeType.Node)
+			return 0f;
 
-	void WwiseCallback(object in_cookie, AkCallbackType in_type, object in_info)
-	{
-		if(in_type == AkCallbackType.AK_Duration)
-		{
-            EposEventManager.Instance.dialogCanvas.GetComponent<ContentController>().DisplayNewCharacterDialog(EposNodeReader.Instance.GetDialogLine(m_dialogIndex));
-        }
-		if (in_type == AkCallbackType.AK_EndOfEvent)
-		{
-			End();
-		}
+        Debug.Log("Test playing audioclip");
+        AudioSource dialogSource = EposEventManager.Instance.gameObject.transform.Find("Sound/DialogNode").GetComponent<AudioSource>();
+        dialogSource.clip = Resources.Load<AudioClip>("02_Sounds/Test/script_test_bloc_01");
+        dialogSource.Play();
+
+        return dialogSource.clip.length;
 	}
 }

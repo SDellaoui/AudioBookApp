@@ -8,7 +8,7 @@ public class PageScript : MonoBehaviour {
 	// Use this for initialization
 	void Awake()
 	{
-		GameObject mainCanvas = GameObject.Find ("ContentCanvas");
+		//GameObject mainCanvas = GameObject.Find ("ContentCanvas");
 		//GameObject scrollview = Instantiate(Resources.Load ("00_Prefabs/ScrollView", typeof(GameObject)) as GameObject);
 		//scrollview.transform.parent = mainCanvas.transform;
 	}

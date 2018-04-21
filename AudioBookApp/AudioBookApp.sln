@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioBookApp", "Assembly-CSharp.csproj", "{AF76326D-B2F9-8BA8-0855-CEFF67BF14C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioBookApp", "Assembly-CSharp-Editor.csproj", "{6BAE6540-E886-31B6-8AA6-D62CBD99B7D2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,10 +13,6 @@ Global
 		{AF76326D-B2F9-8BA8-0855-CEFF67BF14C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF76326D-B2F9-8BA8-0855-CEFF67BF14C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF76326D-B2F9-8BA8-0855-CEFF67BF14C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6BAE6540-E886-31B6-8AA6-D62CBD99B7D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BAE6540-E886-31B6-8AA6-D62CBD99B7D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BAE6540-E886-31B6-8AA6-D62CBD99B7D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BAE6540-E886-31B6-8AA6-D62CBD99B7D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

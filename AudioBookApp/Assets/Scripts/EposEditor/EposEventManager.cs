@@ -32,7 +32,7 @@ public class EposEventManager : MonoBehaviour {
 
     void OnApplicationQuit()
     {
-        AkSoundEngine.StopAll(listener);
+        //AkSoundEngine.StopAll(listener);
     }
 
     // Use this for initialization
@@ -68,8 +68,9 @@ public class EposEventManager : MonoBehaviour {
     }
 	IEnumerator PostEventCoroutine(EposNodeData node, string eventName)
     {
-        node.PlaySound();
-        yield return null;
+        float duration = node.PlaySound();
+        yield return new WaitForSeconds(duration);
+        node.End();
     }
     public void StopEventCoroutine(EposNodeData _node)
     {
