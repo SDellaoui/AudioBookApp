@@ -36,7 +36,6 @@ public class EposNode{
     public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, Action<EposNode> OnClickRemoveNode = null)
     {
         this.nodeData = new EposNodeData(uuid, _nodeType, OnClickInPoint, OnClickOutPoint);
-
         switch (_nodeType)
         {
             case EposNodeType.Begin:
@@ -49,7 +48,7 @@ public class EposNode{
                 break;
             case EposNodeType.Node:
                 rectWidth = 200;
-                rectHeight = 100;
+                rectHeight = 120;
                 title = "Dialog Node";
                 OnRemoveNode = OnClickRemoveNode;
                 break;
@@ -61,6 +60,8 @@ public class EposNode{
 
         InitNodeStyles();
         OnRemoveNode = OnClickRemoveNode;
+
+
     }
 
     public void InitNodeStyles()
@@ -126,7 +127,13 @@ public class EposNode{
                     	this.nodeData.m_wwiseEvent = "Play_"+ dialogs[this.nodeData.m_dialogIndex];
                     GUILayout.EndArea();
                 }
-                this.nodeData.m_isQueued = EditorGUI.ToggleLeft(new Rect(dialogArea.x, dialogArea.y + 20, 15, 15), " Dispatch on end", this.nodeData.m_isQueued, GUIStyle.none);
+                //Add dialog area audioclip
+                Rect dialogClip = dialogArea;
+                dialogClip.y += 25;
+                GUILayout.BeginArea(dialogClip);
+                this.nodeData.m_audioClip = (AudioClip)EditorGUILayout.ObjectField(this.nodeData.m_audioClip, typeof(AudioClip), true);
+                GUILayout.EndArea();
+                this.nodeData.m_isQueued = EditorGUI.ToggleLeft(new Rect(dialogClip.x, dialogClip.y + 20, 15, 15), " Dispatch on end", this.nodeData.m_isQueued, GUIStyle.none);
                 break;
             default:
                 break;
@@ -229,6 +236,7 @@ public class EposNodeData
     public Rect rect;
     public Guid m_uuid;
 	public string m_wwiseEvent;
+    public AudioClip m_audioClip;
 
 	public bool m_isQueued;
 
@@ -260,6 +268,7 @@ public class EposNodeData
 
         this.m_dialogs = new string[0];
         this.m_wwiseEvent = "";
+        this.m_audioClip = new AudioClip();
         this.m_isQueued = false;
         this.m_nInputsReceived = 0;
 
@@ -314,7 +323,7 @@ public class EposNodeData
         else if (EposNodeType.Node == m_nodeType)
         {
             EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
-
+            Debug.Log("Coucou");
             if (!m_isQueued)
             {
                 End();
@@ -338,12 +347,12 @@ public class EposNodeData
 
 	public float PlaySound()
 	{
-        if (m_wwiseEvent == "" || m_nodeType != EposNodeType.Node)
+        if (m_nodeType != EposNodeType.Node)
 			return 0f;
 
         Debug.Log("Test playing audioclip");
         AudioSource dialogSource = EposEventManager.Instance.gameObject.transform.Find("Sound/DialogNode").GetComponent<AudioSource>();
-        dialogSource.clip = Resources.Load<AudioClip>("02_Sounds/Test/script_test_bloc_01");
+        dialogSource.clip = this.m_audioClip;
         dialogSource.Play();
 
         return dialogSource.clip.length;

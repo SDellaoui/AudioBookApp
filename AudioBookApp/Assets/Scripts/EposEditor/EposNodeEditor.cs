@@ -462,7 +462,7 @@ public class EposNodeEditor : EditorWindow {
                             nodeType = node.nodeData.m_nodeType,
                             posX = node.nodeData.rect.position.x,
                             posY = node.nodeData.rect.position.y,
-                            wwiseEvent = node.nodeData.m_wwiseEvent,
+                            wwiseEvent = node.nodeData.m_audioClip.name,//node.nodeData.m_wwiseEvent,
                             isQueued = node.nodeData.m_isQueued,
                             dialogIndex = node.nodeData.m_dialogIndex
                         };
@@ -504,7 +504,8 @@ public class EposNodeEditor : EditorWindow {
         foreach (EposXMLNodeDialog xmlNodeDialog in nodeXmlContainer.eposXMLNodeDialogs)
         {
             EposNode newNode = new EposNode(xmlNodeDialog.uuid, new Vector2(xmlNodeDialog.posX, xmlNodeDialog.posY), xmlNodeDialog.nodeType, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
-            newNode.nodeData.m_wwiseEvent = xmlNodeDialog.wwiseEvent;
+            //newNode.nodeData.m_audioClip.name = xmlNodeDialog.wwiseEvent;
+            newNode.nodeData.m_audioClip = Resources.Load<AudioClip>("02_Sounds/Test/" + xmlNodeDialog.wwiseEvent);
             newNode.nodeData.m_isQueued = xmlNodeDialog.isQueued;
             newNode.SetDialogIndex(xmlNodeDialog.dialogIndex);
             this.m_eposData.m_nodes.Add(newNode);
@@ -599,9 +600,9 @@ public class EposData
             EposNodeData newNode = new EposNodeData(xmlNode.uuid, xmlNode.nodeType)
             {
                 m_dialogIndex = xmlNode.dialogIndex,
-                m_wwiseEvent = xmlNode.wwiseEvent,
                 m_isQueued = xmlNode.isQueued
             };
+            newNode.m_audioClip = Resources.Load<AudioClip>("02_Sounds/Test/" + xmlNode.wwiseEvent);
             m_nodesData.Add(newNode);
         }
         LoadConnections(nodeXmlContainer.eposXmlConnections);
