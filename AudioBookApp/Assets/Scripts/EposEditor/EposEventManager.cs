@@ -68,6 +68,8 @@ public class EposEventManager : MonoBehaviour {
     }
 	IEnumerator PostEventCoroutine(EposNodeData node, string eventName)
     {
+        dialogCanvas.GetComponent<ContentController>().DisplayNewCharacterDialog(EposNodeReader.Instance.GetDialogLine(node.m_dialogIndex));
+
         float duration = node.PlaySound();
         yield return new WaitForSeconds(duration);
         node.End();
