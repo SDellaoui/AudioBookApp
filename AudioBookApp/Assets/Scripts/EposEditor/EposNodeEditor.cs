@@ -6,8 +6,12 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using UnityEngine;
+using UnityEngine.Networking;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
+#if UNITY_EDITOR
 public class EposNodeEditor : EditorWindow {
 
     private EposData m_eposData;
@@ -113,7 +117,7 @@ public class EposNodeEditor : EditorWindow {
 					relativepath = relativepath.Substring (1, relativepath.Length - 1);
 				}
                 this.m_eposData.m_dialogScriptPath = relativepath;
-                this.m_eposData.ReadDialogFile(path);
+                this.m_eposData.ReadDialogFile();
             }
         }
         GUILayout.EndArea();
@@ -481,7 +485,7 @@ public class EposNodeEditor : EditorWindow {
         this.m_eposData.m_connections = new List<EposConnection>();
         EposXmlNodeContainer nodeXmlContainer = EposXmlNodeContainer.Load(Path.Combine(Application.dataPath, "test_nodetree.xml"));
         this.m_eposData.m_dialogScriptPath = nodeXmlContainer.pathToDialogScript;
-        this.m_eposData.ReadDialogFile(Path.Combine(Application.dataPath, this.m_eposData.m_dialogScriptPath));
+        this.m_eposData.ReadDialogFile();
         
         foreach(EposXMLNode xmlNode in nodeXmlContainer.eposXMLNodes)
         {
@@ -501,11 +505,13 @@ public class EposNodeEditor : EditorWindow {
             }
             
         }
+        
         foreach (EposXMLNodeDialog xmlNodeDialog in nodeXmlContainer.eposXMLNodeDialogs)
         {
             EposNode newNode = new EposNode(xmlNodeDialog.uuid, new Vector2(xmlNodeDialog.posX, xmlNodeDialog.posY), xmlNodeDialog.nodeType, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
-            //newNode.nodeData.m_audioClip.name = xmlNodeDialog.wwiseEvent;
-            newNode.nodeData.m_audioClip = Resources.Load<AudioClip>("02_Sounds/Test/" + xmlNodeDialog.wwiseEvent);
+
+            this.m_eposData.GetAudioClip(newNode.nodeData,xmlNodeDialog.wwiseEvent);
+            newNode.nodeData.m_audioClipName = xmlNodeDialog.wwiseEvent;
             newNode.nodeData.m_isQueued = xmlNodeDialog.isQueued;
             newNode.SetDialogIndex(xmlNodeDialog.dialogIndex);
             this.m_eposData.m_nodes.Add(newNode);
@@ -531,7 +537,7 @@ public class EposNodeEditor : EditorWindow {
         return this.m_eposData.m_dialogs[index][1];
     }
 }
-
+#endif
 
 // Class containing node editor data. used both on editor and runtime.
 public class EposData
@@ -539,6 +545,8 @@ public class EposData
     public List<EposNode> m_nodes;
     public List<EposNodeData> m_nodesData;
     public List<EposConnection> m_connections;
+
+    public EposXmlNodeContainer m_nodeXmlContainer;
 
     public string m_nodePath;
     public string m_dialogScriptPath;
@@ -553,60 +561,66 @@ public class EposData
         m_nodes = new List<EposNode>();
         m_nodesData = new List<EposNodeData>();
         m_connections = new List<EposConnection>();
+        m_nodeXmlContainer = new EposXmlNodeContainer();
 		m_dialogs = new List<string[]> ();
 		GetWwiseEvents ();
 	}
 
 	public void GetWwiseEvents()
 	{
-        /*
-		XmlDocument document = new XmlDocument ();
-		document.Load(Application.dataPath+"/../../WwiseProject/GeneratedSoundBanks/Windows/SoundbanksInfo.xml");
-		XmlNode root = document.DocumentElement;
-		XmlNodeList list = document.GetElementsByTagName ("Event");
-        */
         this.m_eventsList = new List<string[]>();
-        /*
-		foreach (XmlNode xn in list) {
-            string[] wwiseEvt = new string[] {xn.Attributes["Id"].Value,xn.Attributes["Name"].Value };
-            this.m_eventsList.Add(wwiseEvt);
-		}
-        */
 	}
 	public void LoadNodeTree()
 	{
-		this.m_nodePath = Path.Combine (Application.dataPath, "test_nodetree.xml");
-
-		EposXmlNodeContainer nodeXmlContainer = EposXmlNodeContainer.Load(this.m_nodePath);
-		m_dialogScriptPath = nodeXmlContainer.pathToDialogScript;
-		ReadDialogFile (m_dialogScriptPath);
-
-		foreach(EposXMLNode xmlNode in nodeXmlContainer.eposXMLNodes)
-		{
-			switch(xmlNode.nodeType)
-			{
-			case EposNodeType.Begin:
-			case EposNodeType.End:
-            case EposNodeType.Conditionnal_OR:
-            case EposNodeType.Conditionnal_AND:
-                m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType));
-				break;
-			default:
-				break;
-			}
-		}
-        foreach (EposXMLNodeDialog xmlNode in nodeXmlContainer.eposXMLNodeDialogs)
+        this.m_nodePath = Path.Combine (Application.dataPath, "test_nodetree.xml");
+		this.m_nodeXmlContainer = EposXmlNodeContainer.Load(this.m_nodePath);
+        this.m_dialogScriptPath = this.m_nodeXmlContainer.pathToDialogScript;
+        ReadDialogFile();
+        PopulateNodeTree();
+    }
+    
+    public void PopulateNodeTree()
+    {
+        int xmlNodeIndex = 0;
+        Debug.Log(m_nodeXmlContainer);
+        foreach (EposXMLNode xmlNode in m_nodeXmlContainer.eposXMLNodes)
+        {
+            switch (xmlNode.nodeType)
+            {
+                case EposNodeType.Begin:
+                case EposNodeType.End:
+                case EposNodeType.Conditionnal_OR:
+                case EposNodeType.Conditionnal_AND:
+                    m_nodesData.Add(new EposNodeData(xmlNode.uuid, xmlNode.nodeType));
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+        foreach (EposXMLNodeDialog xmlNode in m_nodeXmlContainer.eposXMLNodeDialogs)
         {
             EposNodeData newNode = new EposNodeData(xmlNode.uuid, xmlNode.nodeType)
             {
                 m_dialogIndex = xmlNode.dialogIndex,
                 m_isQueued = xmlNode.isQueued
             };
-            newNode.m_audioClip = Resources.Load<AudioClip>("02_Sounds/Test/" + xmlNode.wwiseEvent);
+            newNode.m_audioClipName = xmlNode.wwiseEvent;
+            //this.GetAudioClip(newNode, newNode.m_audioClipName);
+            //newNode.m_audioClip = GetAudioClip(xmlNode.wwiseEvent);
             m_nodesData.Add(newNode);
+            xmlNodeIndex++;
         }
-        LoadConnections(nodeXmlContainer.eposXmlConnections);
-	}
+        LoadConnections(m_nodeXmlContainer.eposXmlConnections);
+    }
+    public void LoadAudioClips()
+    {
+        foreach(EposNodeData nodeData in this.m_nodesData)
+        {
+            this.GetAudioClip(nodeData, nodeData.m_audioClipName);
+        }
+    }
+
     public void LoadConnections(List<EposXMLConnections> xmlConnections, Action<EposConnection> OnClickRemoveConnection = null)
     {
         this.m_connections = new List<EposConnection>();
@@ -655,40 +669,48 @@ public class EposData
         }
         return false;
     }
-    public void ReadDialogFile(string path)
+    public void ReadDialogFile()
 	{
         if (this.m_dialogs == null || this.m_dialogs.Count > 0)
             this.m_dialogs = new List<string[]>();
-		m_dialogFileName = Path.GetFileNameWithoutExtension(path);
-		StreamReader theReader = new StreamReader(Path.Combine(Application.dataPath,path), Encoding.UTF8);
-		string line;
-		int index = 0;
-		using (theReader)
-		{
-			do
-			{
-				line = theReader.ReadLine();
-				if (index == 0)
-				{
-					index++;
-					continue;
-				}
-				if (line != null)
-				{
-					string[] split = line.Split('\t');
-					this.m_dialogs.Add(split);
-
-					index++;
-				}
-			}
-			while (line != null);
-			theReader.Close();
-		}
+		this.m_dialogFileName = Path.GetFileNameWithoutExtension(this.m_dialogScriptPath);
+		StreamReader theReader = new StreamReader(Path.Combine(Application.dataPath,this.m_dialogScriptPath), Encoding.UTF8);
+        this.m_dialogs = PopulateDialogFile(theReader);
 	}
-	public string ReadDialogLine(int index)
+    public List<string[]> PopulateDialogFile(StreamReader reader)
+    {
+        List<string[]> dialogs = new List<string[]>();
+        string line;
+        int index = 0;
+        using (reader)
+        {
+            do
+            {
+                line = reader.ReadLine();
+                if (index == 0)
+                {
+                    index++;
+                    continue;
+                }
+                if (line != null)
+                {
+                    string[] split = line.Split('\t');
+                    dialogs.Add(split);
+
+                    index++;
+                }
+            }
+            while (line != null);
+            reader.Close();
+        }
+        return dialogs;
+    }
+    public string ReadDialogLine(int index)
 	{
 		return this.m_dialogs[index][1];
 	}
+
+
 	public List<EposNodeData> GetNodes()
 	{
 		return this.m_nodesData;
@@ -702,9 +724,20 @@ public class EposData
         {
             if (co.outPoint.nodeData.m_uuid == currentNode.m_uuid)
             {
+                this.GetAudioClip(co.inPoint.nodeData, co.inPoint.nodeData.m_audioClipName);
                 nodes.Add(co.inPoint.nodeData);
             }
         }
         return nodes;
+    }
+
+    public void GetAudioClip(EposNodeData nodeData,string audioclipname)
+    {
+#if UNITY_EDITOR
+        nodeData.m_audioClip = Resources.Load<AudioClip>("02_Sounds/Test/" + audioclipname);
+#else
+        EposNodeReader.Instance.LoadAudioClip(nodeData,audioclipname);
+#endif
+
     }
 }

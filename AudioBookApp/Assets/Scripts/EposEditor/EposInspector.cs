@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+#if UNITY_EDITOR
 public class EposInspector : EposNodeEditor
 {
     public Rect rect;
@@ -12,3 +16,4 @@ public class EposInspector : EposNodeEditor
         Debug.Log("Selected Item");
     }
 }
+#endif

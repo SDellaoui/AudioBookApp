@@ -1,6 +1,8 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public enum ConnectionPointType { In, Out }
 
@@ -19,6 +21,7 @@ public class EposConnectionPoint
     public int nPoints;
     public int ptIndex;
 
+    #if UNITY_EDITOR
     public EposConnectionPoint(EposNodeData nodeData, ConnectionPointType type, Action<EposConnectionPoint> OnClickConnectionPoint, int nPoints = 1, int ptIndex = 0)
     {
         this.nodeData = nodeData;
@@ -41,6 +44,7 @@ public class EposConnectionPoint
         }
         this.style.border = new RectOffset(4, 4, 12, 12);
     }
+    #endif
     public EposConnectionPoint(EposNodeData nodeData, ConnectionPointType type, int nPoints = 1, int ptIndex = 0)
     {
         this.nodeData = nodeData;
@@ -49,6 +53,7 @@ public class EposConnectionPoint
         this.ptIndex = ptIndex;
     }
 
+    #if UNITY_EDITOR
     public void Draw()
     {
         if (nPoints > 1)
@@ -105,6 +110,7 @@ public class EposConnectionPoint
             }
         }
     }
+    #endif
     public EposNodeData GetNodeConnected()
     {
         return nodeData;

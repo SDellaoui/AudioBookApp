@@ -1,17 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public enum EposPopupType
 {
     Rename
 };
 
-
+#if UNITY_EDITOR
 public class EposPopup : EditorWindow {
-
-    
 
 	string _newTitle;
 	Vector2 displayPosition;
@@ -61,5 +61,4 @@ public class EposPopup : EditorWindow {
     }
 
 }
-
-//https://docs.unity3d.com/ScriptReference/PopupWindow.html
+#endif

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public enum EposNodeType {
     Begin,
@@ -33,6 +35,7 @@ public class EposNode{
 
     public string[] dialogs;
 
+    #if UNITY_EDITOR
     public EposNode(Guid uuid, Vector2 position, EposNodeType _nodeType, Action<EposConnectionPoint> OnClickInPoint, Action<EposConnectionPoint> OnClickOutPoint, Action<EposNode> OnClickRemoveNode = null)
     {
         this.nodeData = new EposNodeData(uuid, _nodeType, OnClickInPoint, OnClickOutPoint);
@@ -124,7 +127,7 @@ public class EposNode{
                     GUILayout.BeginArea(dialogArea);
                     this.nodeData.m_dialogIndex = EditorGUILayout.Popup("", this.nodeData.m_dialogIndex,dialogs, EditorStyles.popup);
 					if(dialogs.Length > 0)
-                    	this.nodeData.m_wwiseEvent = "Play_"+ dialogs[this.nodeData.m_dialogIndex];
+                    	this.nodeData.m_audioClipName = "Play_"+ dialogs[this.nodeData.m_dialogIndex];
                     GUILayout.EndArea();
                 }
                 //Add dialog area audioclip
@@ -225,7 +228,10 @@ public class EposNode{
             this.dialogs[i] = "VO_"+dialogFileName+"_"+dialogs[i][0] + "_" + i;
         }
     }
+    #endif
 }
+
+
 
 // Class containing node data. used both on editor and runtime.
 public class EposNodeData
@@ -235,7 +241,7 @@ public class EposNodeData
 
     public Rect rect;
     public Guid m_uuid;
-	public string m_wwiseEvent;
+	public string m_audioClipName;
     public AudioClip m_audioClip;
 
 	public bool m_isQueued;
@@ -267,20 +273,26 @@ public class EposNodeData
         this.m_nInputs = this.m_nOutputs = 1;
 
         this.m_dialogs = new string[0];
-        this.m_wwiseEvent = "";
+
+        this.m_audioClipName = "";
         this.m_audioClip = new AudioClip();
+
         this.m_isQueued = false;
         this.m_nInputsReceived = 0;
-
+        
         SetConnectionPoints();
-	}
+    }
     public void SetConnectionPoints()
     {
         this.in_Points = new List<EposConnectionPoint>();
         this.out_Points = new List<EposConnectionPoint>();
-
+#if UNITY_EDITOR
         EposConnectionPoint inPoint = (this._OnClickInPoint == null) ? new EposConnectionPoint(this, ConnectionPointType.In,this.m_nInputs) : new EposConnectionPoint(this, ConnectionPointType.In, this._OnClickInPoint, this.m_nInputs);
         EposConnectionPoint outPoint = (this._OnClickOutPoint == null) ? new EposConnectionPoint(this, ConnectionPointType.Out, this.m_nOutputs) : new EposConnectionPoint(this, ConnectionPointType.Out, this._OnClickOutPoint, this.m_nOutputs);
+#else
+        EposConnectionPoint inPoint = new EposConnectionPoint(this, ConnectionPointType.In,this.m_nInputs);
+        EposConnectionPoint outPoint = new EposConnectionPoint(this, ConnectionPointType.Out, this.m_nOutputs);
+#endif
 
         switch (this.m_nodeType)
         {
@@ -299,7 +311,11 @@ public class EposNodeData
                 this.m_nInputs = 2;
                 for (int i = 0; i < this.m_nInputs; i++)
                 {
+#if UNITY_EDITOR
                     inPoint = (this._OnClickInPoint == null) ? new EposConnectionPoint(this, ConnectionPointType.In, this.m_nInputs,i) : new EposConnectionPoint(this, ConnectionPointType.In, this._OnClickInPoint, this.m_nInputs,i);
+#else
+                    inPoint = new EposConnectionPoint(this, ConnectionPointType.In, this.m_nInputs,i);
+#endif
                     this.in_Points.Add(inPoint);
                 }
                 this.out_Points.Add(outPoint);
@@ -308,9 +324,9 @@ public class EposNodeData
                 break;
         }
     }
-	//---------------------- Wwise Events ---------------------------------
+    //---------------------- Wwise Events ---------------------------------
 
-	public void Start()
+    public void Start()
 	{
         //Debug.Log("Start node " + m_uuid);
         m_nInputsReceived++;
@@ -322,7 +338,7 @@ public class EposNodeData
         }
         else if (EposNodeType.Node == m_nodeType)
         {
-            EposEventManager.Instance.PostEvent(m_uuid, m_wwiseEvent);
+            EposEventManager.Instance.PostEvent(m_uuid, m_audioClipName);
             Debug.Log("Coucou");
             if (!m_isQueued)
             {

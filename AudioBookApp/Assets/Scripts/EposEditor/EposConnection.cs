@@ -1,6 +1,8 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class EposConnection
 {
@@ -14,7 +16,7 @@ public class EposConnection
         this.outPoint = outPoint;
         this.OnClickRemoveConnection = OnClickRemoveConnection;
     }
-
+    #if UNITY_EDITOR
     public void Draw()
     {
         Handles.DrawBezier(
@@ -35,4 +37,5 @@ public class EposConnection
             }
         }
     }
+    #endif
 }

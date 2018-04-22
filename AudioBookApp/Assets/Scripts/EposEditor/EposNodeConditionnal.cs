@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
+#if UNITY_EDITOR
 public class EposNodeConditionnal : EposNode
 {
     
@@ -18,3 +21,4 @@ public class EposNodeConditionnal : EposNode
         this.nodeData.rect = new Rect(position.x, position.y, this.rectWidth, this.rectHeight);
     }
 }
+#endif
