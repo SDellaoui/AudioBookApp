@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 840987dfec6946c4ba588a39a9fee9f1
-timeCreated: 1522754035
+guid: a5075da2824a030449be26212400bc44
+timeCreated: 1524475387
 licenseType: Free
-DefaultImporter:
+TextScriptImporter:
   externalObjects: {}
   userData: 
   assetBundleName: episodes/test

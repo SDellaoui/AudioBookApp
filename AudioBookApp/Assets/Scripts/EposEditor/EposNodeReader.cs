@@ -8,10 +8,10 @@ using UnityEngine.Networking;
 using System.Net;
 
 public class EposNodeReader : MonoBehaviour {
-#if !UNITY_EDITOR
+
     int nbDialogs, audioClipsLoaded = 0;
     private bool isNodeTreeFileLoaded, isDialogFileLoaded, isAudioReadyToPlay, isNodeTreeReady = false;
-#endif
+
     private static EposNodeReader _instance;
 
     private string storyDataPath;
@@ -42,26 +42,93 @@ public class EposNodeReader : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		_nodeTree = new EposData ();
+        StartCoroutine(GetNodeTreeFromServer("http://127.0.0.1/AudioBookApp/test_nodetree.xml"));
+        /*
 #if UNITY_EDITOR
         _nodeTree.LoadNodeTree ();
         _nodes = _nodeTree.GetNodes();
         EposEventManager.Instance.InitEventManager();
 #else
-        StartCoroutine(GetNodeTreeFromServer("http://localhost/AudioBookApp/test_nodetree.xml"));
-        StartCoroutine(GetDialogFileFromServer("http://localhost/AudioBookApp/Test_Dialog.tsv"));
+        StartCoroutine(GetNodeTreeFromServer("http://127.0.0.1/AudioBookApp/test_nodetree.xml"));
+        
 #endif
+*/
     }
-	
-	// Update is called once per frame
-	void Update () {
-#if !UNITY_EDITOR
+
+    // Update is called once per frame
+    void Update () {
         if(isNodeTreeFileLoaded && isDialogFileLoaded && isAudioReadyToPlay && !isNodeTreeReady)
         {
             _nodes = _nodeTree.GetNodes();
             EposEventManager.Instance.InitEventManager();
             isNodeTreeReady = true;
         }
-#endif
+    }
+
+    IEnumerator GetAudioClip(string clipname)
+    {
+        UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip("http://127.0.0.1/AudioBookApp/" + clipname + ".mp3", AudioType.MPEG);
+        yield return www.SendWebRequest();
+        /*
+        while (!www.isDone)
+        {
+            Debug.Log(www.downloadProgress);
+            
+        }
+        yield return null;
+        */
+        Debug.Log("Play");
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            AudioSource Source = gameObject.AddComponent<AudioSource>();
+            Source.spatialBlend = 0;
+            AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+            Source.clip = clip;
+            Source.Play();
+        }
+        //yield return StartCoroutine(ShowDownloadProgress(www));
+        /*
+        yield return www.SendWebRequest();
+        /*
+        Debug.Log("Play");
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            AudioSource Source = gameObject.AddComponent<AudioSource>();
+            Source.spatialBlend = 0;
+            AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+            Source.clip = clip;
+            Source.Play();
+        }
+        */
+    }
+    IEnumerator ShowDownloadProgress(UnityWebRequest www)
+    {
+        while(!www.isDone)
+        {
+            Debug.Log(www.downloadProgress);
+            yield return null;
+        }
+        Debug.Log("Play");
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            AudioSource Source = gameObject.AddComponent<AudioSource>();
+            Source.spatialBlend = 0;
+            AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+            Source.clip = clip;
+            Source.Play();
+        }
     }
 
     public string GetDialogLine(int lineIndex)
@@ -104,7 +171,7 @@ public class EposNodeReader : MonoBehaviour {
     {
         return _nodes;
     }
-#if !UNITY_EDITOR
+
     //--------------- Load Node Tree Data ------------------
     IEnumerator GetNodeTreeFromServer(string url)
     {
@@ -121,6 +188,8 @@ public class EposNodeReader : MonoBehaviour {
             _nodeTree.PopulateNodeTree();
 
             isNodeTreeFileLoaded = true;
+            isAudioReadyToPlay = true;
+            StartCoroutine(GetDialogFileFromServer("http://127.0.0.1/AudioBookApp/Test_Dialog.tsv"));
         }
     }
     //--------------- Load Dialog File Data ------------------
@@ -140,7 +209,6 @@ public class EposNodeReader : MonoBehaviour {
             StreamReader theReader = new StreamReader(WebRequest.Create(url).GetResponse().GetResponseStream(), Encoding.UTF8);
             _nodeTree.m_dialogs = _nodeTree.PopulateDialogFile(theReader);
             this.nbDialogs = _nodeTree.m_dialogs.Count;
-            _nodeTree.LoadAudioClips();
             isDialogFileLoaded = true;
         }
     }
@@ -152,7 +220,7 @@ public class EposNodeReader : MonoBehaviour {
     }
     IEnumerator GetAudioClip(EposNodeData nodeData, string clipname)
     {
-        UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip("http://localhost/AudioBookApp/" + clipname + ".ogg", AudioType.OGGVORBIS);
+        UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip("http://127.0.0.1/AudioBookApp/" + clipname + ".wav", AudioType.WAV);
         yield return www.SendWebRequest();
         if (www.isNetworkError || www.isHttpError)
         {
@@ -162,9 +230,9 @@ public class EposNodeReader : MonoBehaviour {
         {
             nodeData.m_audioClip = DownloadHandlerAudioClip.GetContent(www);
             this.audioClipsLoaded++;
+            Debug.Log("Nombre de dialogues "+nbDialogs+" Audioclips chargés : "+this.audioClipsLoaded);
             if(this.audioClipsLoaded == nbDialogs)
                 isAudioReadyToPlay = true;
         }
     }
-#endif
 }

@@ -510,8 +510,9 @@ public class EposNodeEditor : EditorWindow {
         {
             EposNode newNode = new EposNode(xmlNodeDialog.uuid, new Vector2(xmlNodeDialog.posX, xmlNodeDialog.posY), xmlNodeDialog.nodeType, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
 
-            this.m_eposData.GetAudioClip(newNode.nodeData,xmlNodeDialog.wwiseEvent);
+            
             newNode.nodeData.m_audioClipName = xmlNodeDialog.wwiseEvent;
+            newNode.nodeData.m_audioClip = this.m_eposData.GetAudioClip(xmlNodeDialog.wwiseEvent);
             newNode.nodeData.m_isQueued = xmlNodeDialog.isQueued;
             newNode.SetDialogIndex(xmlNodeDialog.dialogIndex);
             this.m_eposData.m_nodes.Add(newNode);
@@ -607,12 +608,13 @@ public class EposData
             };
             newNode.m_audioClipName = xmlNode.wwiseEvent;
             //this.GetAudioClip(newNode, newNode.m_audioClipName);
-            //newNode.m_audioClip = GetAudioClip(xmlNode.wwiseEvent);
+            newNode.m_audioClip = GetAudioClip(xmlNode.wwiseEvent);
             m_nodesData.Add(newNode);
             xmlNodeIndex++;
         }
         LoadConnections(m_nodeXmlContainer.eposXmlConnections);
     }
+    /*
     public void LoadAudioClips()
     {
         foreach(EposNodeData nodeData in this.m_nodesData)
@@ -620,7 +622,7 @@ public class EposData
             this.GetAudioClip(nodeData, nodeData.m_audioClipName);
         }
     }
-
+    */
     public void LoadConnections(List<EposXMLConnections> xmlConnections, Action<EposConnection> OnClickRemoveConnection = null)
     {
         this.m_connections = new List<EposConnection>();
@@ -724,20 +726,17 @@ public class EposData
         {
             if (co.outPoint.nodeData.m_uuid == currentNode.m_uuid)
             {
-                this.GetAudioClip(co.inPoint.nodeData, co.inPoint.nodeData.m_audioClipName);
                 nodes.Add(co.inPoint.nodeData);
             }
         }
         return nodes;
     }
 
-    public void GetAudioClip(EposNodeData nodeData,string audioclipname)
+    public AudioClip GetAudioClip(string audioclipname)
     {
-#if UNITY_EDITOR
-        nodeData.m_audioClip = Resources.Load<AudioClip>("02_Sounds/Test/" + audioclipname);
-#else
-        EposNodeReader.Instance.LoadAudioClip(nodeData,audioclipname);
-#endif
+        
+        return Resources.Load<AudioClip>("02_Sounds/Test/" + audioclipname);
+        //EposNodeReader.Instance.LoadAudioClip(nodeData,audioclipname);
 
     }
 }

@@ -1,0 +1,20 @@
+ManifestFileVersion: 0
+CRC: 4121264761
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: daf3bb8e30707b277e6731e49b302774
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a31e1505e189a9885bcbe2bbbab40e9b
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/03_NodeTrees/test_nodetree.xml
+- Assets/Resources/02_Sounds/Test/script_test_bloc_01.mp3
+- Assets/Resources/02_Sounds/Test/script_test_bloc_02.mp3
+Dependencies: []
